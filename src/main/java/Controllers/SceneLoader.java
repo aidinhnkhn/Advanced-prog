@@ -12,7 +12,6 @@ import org.apache.log4j.PropertyConfigurator;
 import site.edu.Main;
 
 import java.io.IOException;
-import java.util.Objects;
 
 public class SceneLoader {
     private static SceneLoader sceneLoader;
@@ -34,7 +33,7 @@ public class SceneLoader {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
-//            PropertyConfigurator.configure(System.getProperty("user.dir")+"/src/main/resources/log4j2.xml");
+//            PropertyConfigurator.configure("C:/Users/aidin/Desktop/sharifedu/src/main/resources/site/edu/log4j2.xml");
 //            log.info(address+" opened successfully!");
         } catch (IllegalStateException e){
             e.printStackTrace();

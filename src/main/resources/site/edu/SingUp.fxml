@@ -2,29 +2,31 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: CORNFLOWERBLUE;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.SingUp">
    <children>
-      <VBox layoutX="200.0" layoutY="50.0" prefHeight="300.0" prefWidth="200.0" spacing="10.0">
+      <VBox layoutX="14.0" layoutY="14.0" prefHeight="300.0" prefWidth="200.0" spacing="10.0">
          <children>
             <Label text="Naya too Sharif" textFill="RED">
                <font>
                   <Font size="27.0" />
                </font>
             </Label>
-            <TextField promptText="username" />
-            <PasswordField promptText="password" />
-            <PasswordField promptText="Confirm-passwrod" />
-            <ChoiceBox prefHeight="25.0" prefWidth="194.0" />
-            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="199.0" text="SingUp" />
+            <TextField fx:id="usernameField" promptText="username" />
+            <PasswordField fx:id="passField" promptText="password" />
+            <PasswordField fx:id="confirmPassField" promptText="Confirm-passwrod" />
+            <TextField fx:id="melicode" promptText="melicode" />
+            <TextField fx:id="phoneNumber" promptText="phone number" />
+            <TextField fx:id="email" promptText="email" />
+            <Button fx:id="signUpButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="199.0" text="SingUp" />
          </children>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -32,6 +34,30 @@
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
+      </VBox>
+      <VBox layoutX="214.0" layoutY="67.0" prefHeight="267.0" prefWidth="200.0" spacing="10.0">
+         <children>
+            <ComboBox fx:id="choiceBox" prefHeight="25.0" prefWidth="194.0" promptText="Proffesion" />
+            <ComboBox fx:id="department" prefHeight="25.0" prefWidth="193.0" promptText="department" />
+            <ComboBox fx:id="degree" onMouseClicked="#degreeSetItems" prefHeight="25.0" prefWidth="190.0" promptText="degree" />
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </VBox>
+      <VBox alignment="TOP_CENTER" layoutX="426.0" layoutY="14.0" prefHeight="351.0" prefWidth="160.0" spacing="10.0">
+         <children>
+            <ImageView fx:id="imageView" fitHeight="200.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" />
+            <Button fx:id="loadImage" mnemonicParsing="false" onAction="#pickImage" prefHeight="25.0" prefWidth="109.0" text="Load Image" />
+            <Label fx:id="fileSelected" prefHeight="100.0" prefWidth="128.0" text="Nothing is selected" textFill="RED">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
       </VBox>
    </children>
 </AnchorPane>
