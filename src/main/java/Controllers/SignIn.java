@@ -8,6 +8,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
+import java.io.IOException;
+
 public class SignIn {
     @FXML
     TextField usernameField;
@@ -24,7 +26,7 @@ public class SignIn {
             passField.requestFocus();
     }
 
-    public void singUpAction(ActionEvent actionEvent) {
-
+    public void singUpAction(ActionEvent actionEvent) throws IOException {
+        SceneLoader.getInstance().changeScene("SingUp.fxml",actionEvent);
     }
 }
