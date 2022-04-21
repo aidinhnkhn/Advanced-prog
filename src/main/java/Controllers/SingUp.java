@@ -69,6 +69,5 @@ public class SingUp implements Initializable {
             fileSelected.setText("Image file selection failed!");
             fileSelected.setStyle("-fx-text-fill: red");
         }
-
     }
 }

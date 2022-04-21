@@ -37,7 +37,7 @@
       </VBox>
       <VBox layoutX="214.0" layoutY="67.0" prefHeight="267.0" prefWidth="200.0" spacing="10.0">
          <children>
-            <ComboBox fx:id="choiceBox" prefHeight="25.0" prefWidth="194.0" promptText="Proffesion" />
+            <ComboBox fx:id="choiceBox" prefHeight="25.0" prefWidth="194.0" promptText="Profession" />
             <ComboBox fx:id="department" prefHeight="25.0" prefWidth="193.0" promptText="department" />
             <ComboBox fx:id="degree" onMouseClicked="#degreeSetItems" prefHeight="25.0" prefWidth="190.0" promptText="degree" />
          </children>
@@ -49,7 +49,7 @@
          <children>
             <ImageView fx:id="imageView" fitHeight="200.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" />
             <Button fx:id="loadImage" mnemonicParsing="false" onAction="#pickImage" prefHeight="25.0" prefWidth="109.0" text="Load Image" />
-            <Label fx:id="fileSelected" prefHeight="100.0" prefWidth="128.0" text="Nothing is selected" textFill="RED">
+            <Label fx:id="fileSelected" prefHeight="100.0" prefWidth="128.0" text="Nothing is selected" textAlignment="JUSTIFY" textFill="RED">
                <font>
                   <Font size="15.0" />
                </font>
