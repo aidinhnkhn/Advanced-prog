@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Course {
-    private String id,name;
+    private String id, name;
     private String professorId;
     private ArrayList<String> studentId;
     private int unit;
@@ -14,10 +14,11 @@ public class Course {
         this.professorId = professorId;
         this.studentId = studentId;
         this.unit = unit;
-        this.id=createId();
+        this.id = createId();
     }
-    private String createId(){
-        StringBuilder idBuilder=new StringBuilder();
+
+    private String createId() {
+        StringBuilder idBuilder = new StringBuilder();
         LocalDateTime localDate = LocalDateTime.now();
         idBuilder.append(localDate.getYear());
         idBuilder.append(localDate.getMonthValue());

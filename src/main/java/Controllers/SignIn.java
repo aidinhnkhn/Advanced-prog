@@ -22,11 +22,11 @@ public class SignIn {
 
 
     public void nextField(KeyEvent keyEvent) {
-        if (keyEvent.getCode()== KeyCode.TAB)
+        if (keyEvent.getCode() == KeyCode.TAB)
             passField.requestFocus();
     }
 
     public void singUpAction(ActionEvent actionEvent) throws IOException {
-        SceneLoader.getInstance().changeScene("SingUp.fxml",actionEvent);
+        SceneLoader.getInstance().changeScene("SingUp.fxml", actionEvent);
     }
 }

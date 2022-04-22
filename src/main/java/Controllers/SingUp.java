@@ -73,7 +73,15 @@ public class SingUp implements Initializable {
     }
 
     public void register(ActionEvent actionEvent) {
-        SignUpLogic.getInstance().SignUp(usernameField.getText(), passField.getText(), confirmPassField.getText(),melicode.getText(),
+        boolean successful=SignUpLogic.getInstance().SignUp(usernameField.getText(), passField.getText(), confirmPassField.getText(),melicode.getText(),
                 phoneNumber.getText(),email.getText(),choiceBox.getValue(),department.getValue(),degree.getValue(),imageView.getImage());
+        Alert alert=new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText("Sign up status");
+        alert.setTitle("Sign up");
+        if(successful)
+            alert.setContentText("successful!");
+        else
+            alert.setContentText("unsuccessful! please fill each form correctly");
+        alert.show();
     }
 }

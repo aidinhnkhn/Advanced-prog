@@ -6,25 +6,28 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
+//import org.apache.log4j.LogManager;
+//import org.apache.log4j.Logger;
+//import org.apache.log4j.PropertyConfigurator;
 import site.edu.Main;
 
 import java.io.IOException;
 
 public class SceneLoader {
     private static SceneLoader sceneLoader;
-    private static Logger log=LogManager.getLogger(SceneLoader.class);
-    private SceneLoader(){
+
+    //    private static Logger log=LogManager.getLogger(SceneLoader.class);
+    private SceneLoader() {
 
     }
-    public static SceneLoader getInstance(){
-        if (sceneLoader==null){
-            sceneLoader=new SceneLoader();
+
+    public static SceneLoader getInstance() {
+        if (sceneLoader == null) {
+            sceneLoader = new SceneLoader();
         }
         return sceneLoader;
     }
+
     public void changeScene(String address, ActionEvent actionEvent) throws IOException {
         try {
             FXMLLoader loader = new FXMLLoader(Main.class.getResource(address));
@@ -35,7 +38,7 @@ public class SceneLoader {
             stage.show();
 //            PropertyConfigurator.configure("C:/Users/aidin/Desktop/sharifedu/src/main/resources/site/edu/log4j2.xml");
 //            log.info(address+" opened successfully!");
-        } catch (IllegalStateException e){
+        } catch (IllegalStateException e) {
             e.printStackTrace();
             System.out.println("FIle NOT found");
         }

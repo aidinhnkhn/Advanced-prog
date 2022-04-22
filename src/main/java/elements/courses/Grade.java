@@ -5,11 +5,12 @@ public class Grade {
     private double grade;
     private boolean W;
     private boolean finished;
-    public Grade(String courseId,double grade) {
+
+    public Grade(String courseId, double grade) {
         this.courseId = courseId;
-        this.grade=grade;
-        this.W=false;
-        this.finished=false;
+        this.grade = grade;
+        this.W = false;
+        this.finished = false;
     }
 
     public boolean isFinished() {
@@ -39,8 +40,9 @@ public class Grade {
     public void setGrade(double grade) {
         this.grade = grade;
     }
-    public String showGrade(){
-        if (this.W) return"W";
+
+    public String showGrade() {
+        if (this.W) return "W";
         if (!finished) return "N/A";
         else return Double.toString(this.grade);
     }
