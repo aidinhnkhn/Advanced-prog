@@ -28,7 +28,7 @@ public class SceneLoader {
         return sceneLoader;
     }
 
-    public void changeScene(String address, ActionEvent actionEvent) throws IOException {
+    public void changeScene(String address, ActionEvent actionEvent) {
         try {
             FXMLLoader loader = new FXMLLoader(Main.class.getResource(address));
             Parent root = loader.load();
@@ -38,7 +38,7 @@ public class SceneLoader {
             stage.show();
 //            PropertyConfigurator.configure("C:/Users/aidin/Desktop/sharifedu/src/main/resources/site/edu/log4j2.xml");
 //            log.info(address+" opened successfully!");
-        } catch (IllegalStateException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             System.out.println("FIle NOT found");
         }

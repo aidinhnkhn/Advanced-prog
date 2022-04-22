@@ -78,8 +78,10 @@ public class SingUp implements Initializable {
         Alert alert=new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Sign up status");
         alert.setTitle("Sign up");
-        if(successful)
+        if(successful) {
             alert.setContentText("successful!");
+            SceneLoader.getInstance().changeScene("SignIn.fxml",actionEvent);
+        }
         else
             alert.setContentText("unsuccessful! please fill each form correctly");
         alert.show();

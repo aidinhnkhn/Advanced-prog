@@ -33,16 +33,14 @@ public class SignUpLogic {
         if (!allChecked(username, password, confirmPass, melicode, phoneNumber
                 , email, profession, department, degree, image)) return false;
         //TODO save the user file:
-        Student student;
-        Professor professor;
         String sha256hex = Hashing.sha256()
                 .hashString(password, StandardCharsets.UTF_8)
                 .toString();
         if (profession.equals("Student"))
-            student = createStudent(username, sha256hex, melicode, phoneNumber, email, department, degree, image);
+            createStudent(username, sha256hex, melicode, phoneNumber, email, department, degree, image);
 
         else
-            professor = createProfessor(username, sha256hex, profession, melicode, phoneNumber, email, department, degree, image);
+            createProfessor(username, sha256hex, profession, melicode, phoneNumber, email, department, degree, image);
 
         return true;
     }
@@ -57,19 +55,17 @@ public class SignUpLogic {
         }
     }
 
-    private Student createStudent(String username, String password, String melicode, String phoneNumber,
-                                  String email, String department, String degree, Image image) {
+    private void createStudent(String username, String password, String melicode, String phoneNumber,
+                               String email, String department, String degree, Image image) {
         Student student = new Student(username, password, Role.Student, melicode, phoneNumber, email, degree, department, "nothing");
         saveImage(image, student.getId());
         Saver.getInstance().saveStudent(student);
-        return student;
     }
 
-    private Professor createProfessor(String username, String password, String profession, String melicode, String phoneNumber, String email, String department, String degree, Image image) {
+    private void createProfessor(String username, String password, String profession, String melicode, String phoneNumber, String email, String department, String degree, Image image) {
         Professor professor = new Professor(username, password, GetRole(profession), melicode, phoneNumber, email, degree, department, "nothing");
         saveImage(image, professor.getId());
         Saver.getInstance().saveProfessor(professor);
-        return professor;
     }
 
     private Role GetRole(String profession) {

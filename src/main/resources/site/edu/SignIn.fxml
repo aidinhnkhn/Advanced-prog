@@ -4,19 +4,23 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: CORNFLOWERBLUE;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.SignIn">
    <children>
-      <Label layoutX="185.0" layoutY="58.0" text="Chera oomadi too Sharif" textAlignment="CENTER">
+      <Label layoutX="72.0" layoutY="88.0" text="Chera oomadi too Sharif" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <TextField fx:id="usernameField" layoutX="226.0" layoutY="137.0" onKeyPressed="#nextField" promptText="username" />
-      <PasswordField fx:id="passField" layoutX="226.0" layoutY="188.0" promptText="password" />
-      <Button fx:id="SignInButton" layoutX="323.0" layoutY="233.0" mnemonicParsing="false" text="Sing in" />
-      <Button fx:id="SignUPButton" layoutX="226.0" layoutY="233.0" mnemonicParsing="false" onAction="#singUpAction" text="SingUp" />
+      <TextField fx:id="usernameField" layoutX="112.0" layoutY="151.0" onKeyPressed="#nextField" promptText="Your Id" />
+      <PasswordField fx:id="passField" layoutX="112.0" layoutY="201.0" promptText="password" />
+      <Button fx:id="SignInButton" layoutX="208.0" layoutY="254.0" mnemonicParsing="false" onAction="#enter" text="Sign in" />
+      <Button fx:id="SignUPButton" layoutX="112.0" layoutY="254.0" mnemonicParsing="false" onAction="#singUpAction" text="SingUp" />
+      <ImageView fx:id="imageView" fitHeight="150.0" fitWidth="200.0" layoutX="342.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true" />
+      <TextField fx:id="captcha" layoutX="342.0" layoutY="214.0" promptText="captcha" />
+      <Button fx:id="refreshButton" layoutX="501.0" layoutY="214.0" mnemonicParsing="false" onAction="#refresh" text="refresh" />
    </children>
 </AnchorPane>
