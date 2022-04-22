@@ -1,7 +1,8 @@
 package elements.people;
 
 import javafx.scene.image.Image;
-
+import java.time.*;
+import java.time.DayOfWeek;
 import java.time.Year;
 
 public class User {
@@ -9,8 +10,7 @@ public class User {
     protected String password;
     protected String id,melicode,phoneNumber,email,degree,departmentId;
     protected Role role;
-    private static int id_cnt=0;
-    public User(String username, String password,Role role,String melicode,String phoneNumber,String email,String degree,String departmentId) {
+    public User(String username, String password,Role role,String melicode,String phoneNumber,String email,String degree,String departmentId,String id) {
         this.username = username;
         this.password = password;
         this.role=role;
@@ -19,19 +19,26 @@ public class User {
         this.email=email;
         this.degree=degree;
         this.departmentId=departmentId;
-        this.id=this.createId();
+        if (id.equals("nothing"))
+            this.id=this.createId();
+        else
+            this.id=id;
     }
     private String createId(){
         StringBuilder idBuilder=new StringBuilder();
-        Year year=Year.now();
+        LocalDateTime localDate = LocalDateTime.now();
         idBuilder.append(getRoleid());
-        idBuilder.append(year.toString());
-        idBuilder.append(id_cnt++);
+        idBuilder.append(localDate.getYear()%100);
+        idBuilder.append(localDate.getMonthValue());
+        idBuilder.append(localDate.getDayOfMonth());
+        idBuilder.append(localDate.getHour());
+        idBuilder.append(localDate.getMinute());
+        idBuilder.append(localDate.getSecond());
         return idBuilder.toString();
     }
     private String getRoleid(){
-        if (this.role==Role.Student) return "1";
-        else return "2";
+        if (this.role==Role.Student) return "s";
+        else return "p";
     }
 
     public String getUsername() {

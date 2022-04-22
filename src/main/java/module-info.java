@@ -7,6 +7,7 @@ module site.edu {
     requires validatorfx;
     requires org.kordamp.bootstrapfx.core;
     requires log4j;
+    requires javafx.swing;
 
     opens site.edu to javafx.fxml;
     exports site.edu;

@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
+import logic.SignUpLogic;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -69,5 +70,10 @@ public class SingUp implements Initializable {
             fileSelected.setText("Image file selection failed!");
             fileSelected.setStyle("-fx-text-fill: red");
         }
+    }
+
+    public void register(ActionEvent actionEvent) {
+        SignUpLogic.getInstance().SignUp(usernameField.getText(), passField.getText(), confirmPassField.getText(),melicode.getText(),
+                phoneNumber.getText(),email.getText(),choiceBox.getValue(),department.getValue(),degree.getValue(),imageView.getImage());
     }
 }

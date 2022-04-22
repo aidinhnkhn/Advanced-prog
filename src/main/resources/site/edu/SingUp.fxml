@@ -26,7 +26,7 @@
             <TextField fx:id="melicode" promptText="melicode" />
             <TextField fx:id="phoneNumber" promptText="phone number" />
             <TextField fx:id="email" promptText="email" />
-            <Button fx:id="signUpButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="199.0" text="SingUp" />
+            <Button fx:id="signUpButton" mnemonicParsing="false" onAction="#register" prefHeight="25.0" prefWidth="199.0" text="SingUp" />
          </children>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
