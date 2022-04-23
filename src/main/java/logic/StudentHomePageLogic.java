@@ -22,6 +22,7 @@ public class StudentHomePageLogic {
     }
     public void exit(Node node){
         Saver.getInstance().saveStudent((Student)(LogicalAgent.getInstance().getUser()));
+        Saver.getInstance().saveChanges();
         Stage stage=(Stage) (node.getScene().getWindow());
         stage.close();
     }

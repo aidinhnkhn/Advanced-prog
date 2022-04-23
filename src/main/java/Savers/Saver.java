@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import elements.people.Professor;
 import elements.people.Student;
+import elements.university.Department;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -55,5 +56,25 @@ public class Saver {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void saveDepartment(Department department){
+        File file = new File(System.getProperty("user.dir") +
+                "\\src\\main\\resources\\eData\\departments\\"+department.getName()+".txt");
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        Gson gson = gsonBuilder.create();
+        String departmentJson=gson.toJson(department);
+        try {
+            FileWriter writer = new FileWriter(file, false);
+            writer.write(departmentJson);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void saveChanges(){
+        for (Department department:Department.getDepartments())
+            Saver.getInstance().saveDepartment(department);
     }
 }

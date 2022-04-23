@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import elements.people.Professor;
 import elements.people.Student;
+import elements.university.Department;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,6 +26,7 @@ public class Loader {
     }
 
     public void initializeEdu() {
+        Department.setDepartments(Loader.getInstance().loadDepartments());
         Student.setStudents(Loader.getInstance().loadStudents());
         Professor.setProfessors(Loader.getInstance().loadProfessors());
     }
@@ -79,6 +81,34 @@ public class Loader {
         ArrayList<Professor> professors = new ArrayList<>();
         for (File file : studentDirectory.listFiles())
             professors.add(loadProfessor(file));
+
         return professors;
     }
+
+    public Department loadDepartment(File file){
+        try {
+            Scanner scanner = new Scanner(file);
+            String userJson = "";
+            while (scanner.hasNext())
+                userJson += scanner.nextLine();
+            GsonBuilder gsonBuilder = new GsonBuilder();
+            gsonBuilder.setPrettyPrinting();
+            Gson gson = gsonBuilder.create();
+            Department department = gson.fromJson(userJson, Department.class);
+            return department;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public ArrayList<Department> loadDepartments(){
+        File studentDirectory = new File(System.getProperty("user.dir")
+                + "\\src\\main\\resources\\eData\\departments");
+        ArrayList<Department> departments=new ArrayList<>();
+        for (File file : studentDirectory.listFiles())
+            departments.add(loadDepartment(file));
+        return departments;
+    }
+
+
 }

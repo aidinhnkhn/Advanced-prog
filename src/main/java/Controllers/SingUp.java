@@ -1,5 +1,6 @@
 package Controllers;
 
+import elements.people.Student;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -8,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
+import logic.LogicalAgent;
 import logic.SignUpLogic;
 
 import java.io.File;
@@ -25,7 +27,7 @@ public class SingUp implements Initializable {
     @FXML
     ComboBox<String> choiceBox, department, degree;
     @FXML
-    Button signUpButton, loadImage;
+    Button signUpButton, loadImage,homePage;
     @FXML
     ImageView imageView;
     @FXML
@@ -80,10 +82,17 @@ public class SingUp implements Initializable {
         alert.setTitle("Sign up");
         if(successful) {
             alert.setContentText("successful!");
-            SceneLoader.getInstance().changeScene("SignIn.fxml",actionEvent);
+            //SceneLoader.getInstance().changeScene("SignIn.fxml",actionEvent);
         }
         else
             alert.setContentText("unsuccessful! please fill each form correctly");
         alert.show();
+    }
+
+    public void goBack(ActionEvent actionEvent) {
+        if (LogicalAgent.getInstance().getUser() instanceof Student)
+            SceneLoader.getInstance().changeScene("StudentHomePage.fxml",actionEvent);
+        else
+            SceneLoader.getInstance().changeScene("ProfessorHomePage.fxml",actionEvent);
     }
 }

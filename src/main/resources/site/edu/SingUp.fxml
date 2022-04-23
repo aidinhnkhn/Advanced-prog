@@ -41,14 +41,15 @@
             <ComboBox fx:id="choiceBox" prefHeight="25.0" prefWidth="194.0" promptText="Profession" />
             <ComboBox fx:id="department" prefHeight="25.0" prefWidth="193.0" promptText="department" />
             <ComboBox fx:id="degree" onMouseClicked="#degreeSetItems" prefHeight="25.0" prefWidth="190.0" promptText="degree" />
+            <Button fx:id="homePage" mnemonicParsing="false" onAction="#goBack" prefHeight="25.0" prefWidth="195.0" text="Back to HomePage" />
          </children>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
       </VBox>
-      <VBox alignment="TOP_CENTER" layoutX="426.0" layoutY="14.0" prefHeight="351.0" prefWidth="160.0" spacing="10.0">
+      <VBox alignment="TOP_CENTER" layoutX="426.0" layoutY="14.0" prefHeight="351.0" prefWidth="370.0" spacing="10.0">
          <children>
-            <ImageView fx:id="imageView" fitHeight="200.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageView" fitHeight="200.0" fitWidth="298.0" pickOnBounds="true" preserveRatio="true" />
             <Button fx:id="loadImage" mnemonicParsing="false" onAction="#pickImage" prefHeight="25.0" prefWidth="109.0" text="Load Image" />
             <Label fx:id="fileSelected" prefHeight="100.0" prefWidth="128.0" text="Nothing is selected" textAlignment="JUSTIFY" textFill="RED">
                <font>

@@ -32,7 +32,7 @@ public class ProfessorHomePage implements Initializable {
     @FXML
     Label dateTime, lastEnter, email, name;
     @FXML
-    MenuItem educationalStatus;
+    MenuItem educationalStatus,signUp;
 
     public void initialize(URL location, ResourceBundle resources) {
         initClock();
@@ -76,5 +76,9 @@ public class ProfessorHomePage implements Initializable {
 
     public void exit(ActionEvent actionEvent) {
         ProfessorHomePageLogic.getInstance().exit(dateTime);
+    }
+
+    public void signUp(ActionEvent actionEvent) {
+        SceneLoader.getInstance().ChangeSceneByNode("SingUp.fxml",dateTime);
     }
 }

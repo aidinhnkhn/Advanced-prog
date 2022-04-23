@@ -16,9 +16,8 @@
          </font>
       </Label>
       <TextField fx:id="usernameField" layoutX="112.0" layoutY="151.0" onKeyPressed="#nextField" promptText="Your Id" />
-      <PasswordField fx:id="passField" layoutX="112.0" layoutY="201.0" promptText="password" />
-      <Button fx:id="SignInButton" layoutX="208.0" layoutY="254.0" mnemonicParsing="false" onAction="#enter" text="Sign in" />
-      <Button fx:id="SignUPButton" layoutX="112.0" layoutY="254.0" mnemonicParsing="false" onAction="#singUpAction" text="SingUp" />
+      <PasswordField fx:id="passField" layoutX="112.0" layoutY="189.0" promptText="password" />
+      <Button fx:id="SignInButton" layoutX="112.0" layoutY="227.0" mnemonicParsing="false" onAction="#enter" prefHeight="25.0" prefWidth="149.0" text="Sign in" />
       <ImageView fx:id="imageView" fitHeight="150.0" fitWidth="200.0" layoutX="342.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true" />
       <TextField fx:id="captcha" layoutX="342.0" layoutY="214.0" promptText="captcha" />
       <Button fx:id="refreshButton" layoutX="501.0" layoutY="214.0" mnemonicParsing="false" onAction="#refresh" text="refresh" />

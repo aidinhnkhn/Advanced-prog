@@ -1,9 +1,11 @@
 package elements.people;
 
+import elements.university.Department;
+
 import java.util.ArrayList;
 
 public class Professor extends User{
-    private boolean headDepartment,educationalAssistant;
+    private boolean headDepartment,educationalAssistant,supervisor;
     private static ArrayList<Professor> professors=new ArrayList<>();
     private ArrayList<String> coursesId;
     public Professor(String username, String password, Role role, String melicode, String phoneNumber, String email, String degree,String departmentId,String id) {
@@ -11,6 +13,16 @@ public class Professor extends User{
         setEducationalAssistant();
         setHeadDepartment();
         professors.add(this);
+        Department.getDepartment(this.departmentId).getProfessors().add(this.id);
+        supervisor=true;
+    }
+
+    public boolean isSupervisor() {
+        return supervisor;
+    }
+
+    public void setSupervisor(boolean supervisor) {
+        this.supervisor = supervisor;
     }
 
     public void setHeadDepartment(boolean headDepartment) {

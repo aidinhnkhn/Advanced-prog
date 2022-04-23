@@ -18,6 +18,9 @@ public class Department {
         this.name = name;
         this.headDepartmentId = headDepartmentId;
         this.educationalAssistantId = educationalAssistantId;
+        students=new ArrayList<>();
+        professors=new ArrayList<>();
+        courses=new ArrayList<>();
     }
 
     public String getName() {
@@ -45,10 +48,27 @@ public class Department {
         return educationalAssistantId;
     }
 
-    public static Department getDepartmentByName(String name){
+    public static void setDepartments(ArrayList<Department> departments) {
+        Department.departments = departments;
+    }
+
+    public void setHeadDepartmentId(String headDepartmentId) {
+        this.headDepartmentId = headDepartmentId;
+    }
+
+    public void setEducationalAssistantId(String educationalAssistantId) {
+        this.educationalAssistantId = educationalAssistantId;
+    }
+
+    public ArrayList<String> getCourses() {
+        return courses;
+    }
+
+    public static Department getDepartment(String name){
         for (Department department:Department.getDepartments())
             if (department.getName().equals(name))
                 return department;
         return null;
     }
+
 }

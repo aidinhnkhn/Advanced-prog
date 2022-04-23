@@ -35,6 +35,7 @@
                <items>
                   <MenuItem mnemonicParsing="false" text="Courses List" />
                   <MenuItem mnemonicParsing="false" text="Professors List" />
+                  <MenuItem fx:id="signUp" mnemonicParsing="false" onAction="#signUp" text="Add a member" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="educational services">

@@ -17,6 +17,7 @@ public class ProfessorHomePageLogic {
     }
     public void exit(Node node){
         Saver.getInstance().saveProfessor((Professor) (LogicalAgent.getInstance().getUser()));
+        Saver.getInstance().saveChanges();
         Stage stage=(Stage) (node.getScene().getWindow());
         stage.close();
     }

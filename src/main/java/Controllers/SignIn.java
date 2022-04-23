@@ -2,6 +2,7 @@ package Controllers;
 
 import Savers.Loader;
 import elements.people.Student;
+import elements.university.Department;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -76,6 +77,7 @@ public class SignIn implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         refresh(new ActionEvent());
         Loader.getInstance().initializeEdu();
+
     }
 
     public void enter(ActionEvent actionEvent) {

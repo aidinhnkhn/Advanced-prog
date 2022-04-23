@@ -16,4 +16,5 @@ module site.edu {
     opens Controllers to javafx.fxml;
     opens elements.people to com.google.gson;
     opens elements.courses to com.google.gson;
+    opens elements.university to com.google.gson;
 }

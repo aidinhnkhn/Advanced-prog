@@ -1,6 +1,7 @@
 package elements.people;
 
 import elements.courses.Grade;
+import elements.university.Department;
 
 import java.util.ArrayList;
 
@@ -21,6 +22,7 @@ public class Student extends User {
         this.supervisorId=supervisorId;
         this.enrollHour="8:00";
         this.enrollPermission=true;
+        Department.getDepartment(this.departmentId).getStudents().add(this.id);
     }
 
     public String getEnrollHour() {

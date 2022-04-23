@@ -39,6 +39,11 @@ public class User {
         idBuilder.append(localDate.getSecond());
         return idBuilder.toString();
     }
+
+    public String getDepartmentId() {
+        return departmentId;
+    }
+
     private String getRoleid(){
         if (this.role==Role.Student) return "s";
         else return "p";
