@@ -30,7 +30,7 @@ public class Professor extends User{
     public static ArrayList<Professor> getProfessors() {
         return professors;
     }
-    public Professor getProfessor(String professorId){
+    public static Professor getProfessor(String professorId){
         for (Professor professor: Professor.getProfessors())
             if (professor.getId().equals(professorId))
                 return professor;

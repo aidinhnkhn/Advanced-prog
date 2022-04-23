@@ -80,11 +80,16 @@ public class SignIn implements Initializable {
         Alert alert=new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Sign in status");
         alert.setTitle("Sign in");
-        if(successful)
+        if(successful) {
             alert.setContentText("successful!");
+            goToHomePage(actionEvent);
+        }
         else
             alert.setContentText("unsuccessful! please fill each form correctly");
         alert.show();
         refresh(new ActionEvent());
+    }
+    private void goToHomePage(ActionEvent actionEvent){
+
     }
 }

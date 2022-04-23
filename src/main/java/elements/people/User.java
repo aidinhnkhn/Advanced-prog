@@ -10,6 +10,7 @@ public class User {
     protected String password;
     protected String id,melicode,phoneNumber,email,degree,departmentId;
     protected Role role;
+    protected LocalDateTime lastEnter;
     public User(String username, String password,Role role,String melicode,String phoneNumber,String email,String degree,String departmentId,String id) {
         this.username = username;
         this.password = password;
@@ -23,6 +24,7 @@ public class User {
             this.id=this.createId();
         else
             this.id=id;
+        lastEnter=LocalDateTime.now();
     }
     private String createId(){
         StringBuilder idBuilder=new StringBuilder();
@@ -63,6 +65,14 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+
+    public LocalDateTime getLastEnter() {
+        return lastEnter;
+    }
+
+    public void setLastEnter(LocalDateTime lastEnter) {
+        this.lastEnter = lastEnter;
     }
 
     public String getDegree() {

@@ -1,10 +1,12 @@
 package logic;
 
 import com.google.common.hash.Hashing;
+import elements.people.Professor;
 import elements.people.Student;
 import javafx.scene.image.Image;
 
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 
 public class SignInLogic {
     private static SignInLogic signInLogic;
@@ -22,8 +24,10 @@ public class SignInLogic {
 
     public boolean signIn(String id, String password, String captcha, String image) {
         if (!checkCaptcha(captcha,image)) return false;
-        if (!checkStudent(id,password)) return false;
-        return true;
+        if (id.charAt(0)=='s')
+            return checkStudent(id, password);
+        else
+            return checkProfessor(id,password);
     }
 
     public boolean checkCaptcha(String captcha, String image) {
@@ -35,6 +39,24 @@ public class SignInLogic {
         String sha256hex = Hashing.sha256()
                 .hashString(password, StandardCharsets.UTF_8)
                 .toString();
-        return sha256hex.equals(student.getPassword());
+        if (sha256hex.equals(student.getPassword())){
+            LogicalAgent.getInstance().setUser(student);
+            student.setLastEnter(LocalDateTime.now());
+            return true;
+        }
+        return false;
+    }
+    public boolean checkProfessor(String id,String password){
+        Professor professor=Professor.getProfessor(id);
+        if (professor==null) return false;
+        String sha256hex = Hashing.sha256()
+                .hashString(password, StandardCharsets.UTF_8)
+                .toString();
+        if (sha256hex.equals(professor.getPassword())){
+            LogicalAgent.getInstance().setUser(professor);
+            professor.setLastEnter(LocalDateTime.now());
+            return true;
+        }
+        return false;
     }
 }

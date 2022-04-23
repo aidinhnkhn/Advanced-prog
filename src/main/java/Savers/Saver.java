@@ -8,6 +8,7 @@ import elements.people.Student;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 public class Saver {
     private static Saver saveStudent;
@@ -26,6 +27,7 @@ public class Saver {
         File file = new File(System.getProperty("user.dir") +
                 "\\src\\main\\resources\\eData\\users\\students\\" + student.getId() + ".txt");
         GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
         gsonBuilder.setPrettyPrinting();
         Gson gson = gsonBuilder.create();
         String userJson = gson.toJson(student);
@@ -42,6 +44,7 @@ public class Saver {
         File file = new File(System.getProperty("user.dir") +
                 "\\src\\main\\resources\\eData\\users\\students\\" + professor.getId() + ".txt");
         GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
         gsonBuilder.setPrettyPrinting();
         Gson gson = gsonBuilder.create();
         String userJson = gson.toJson(professor);
