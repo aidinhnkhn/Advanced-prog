@@ -42,7 +42,7 @@ public class Saver {
 
     public void saveProfessor(Professor professor) {
         File file = new File(System.getProperty("user.dir") +
-                "\\src\\main\\resources\\eData\\users\\students\\" + professor.getId() + ".txt");
+                "\\src\\main\\resources\\eData\\users\\professors\\" + professor.getId() + ".txt");
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
         gsonBuilder.setPrettyPrinting();

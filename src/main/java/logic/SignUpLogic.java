@@ -29,22 +29,28 @@ public class SignUpLogic {
 
     public boolean SignUp(String username, String password, String confirmPass,
                           String melicode, String phoneNumber, String email, String profession,
-                          String department, String degree, Image image) {
+                          String department, String degree, Image image,String supervisorId) {
         if (!allChecked(username, password, confirmPass, melicode, phoneNumber
                 , email, profession, department, degree, image)) return false;
+        if (profession.equals("Student") && checkSupervisor(supervisorId)) return false;
+        System.out.println(checkSupervisor(supervisorId));
         //TODO save the user file:
         String sha256hex = Hashing.sha256()
                 .hashString(password, StandardCharsets.UTF_8)
                 .toString();
         if (profession.equals("Student"))
-            createStudent(username, sha256hex, melicode, phoneNumber, email, department, degree, image);
+            createStudent(username, sha256hex, melicode, phoneNumber, email, department, degree, image,supervisorId);
 
         else
             createProfessor(username, sha256hex, profession, melicode, phoneNumber, email, department, degree, image);
 
         return true;
     }
-
+    private boolean checkSupervisor(String id){
+        Professor professor=Professor.getProfessor(id);
+        //System.out.println(professor.getId());
+        return (professor==null);
+    }
     public void saveImage(Image image, String name) {
         File file = new File(System.getProperty("user.dir") +
                 "\\src\\main\\resources\\eData\\users\\pictures\\" + name + ".png");
@@ -56,8 +62,8 @@ public class SignUpLogic {
     }
 
     private void createStudent(String username, String password, String melicode, String phoneNumber,
-                               String email, String department, String degree, Image image) {
-        Student student = new Student(username, password, Role.Student, melicode, phoneNumber, email, degree, department, "nothing");
+                               String email, String department, String degree, Image image,String supervisorId) {
+        Student student = new Student(username, password, Role.Student, melicode, phoneNumber, email, degree, department, "nothing",supervisorId);
         saveImage(image, student.getId());
         Saver.getInstance().saveStudent(student);
     }

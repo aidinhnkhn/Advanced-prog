@@ -20,6 +20,7 @@ public class Course {
     private String createId() {
         StringBuilder idBuilder = new StringBuilder();
         LocalDateTime localDate = LocalDateTime.now();
+        idBuilder.append("C");
         idBuilder.append(localDate.getYear());
         idBuilder.append(localDate.getMonthValue());
         idBuilder.append(localDate.getDayOfMonth());

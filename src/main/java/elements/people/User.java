@@ -4,6 +4,7 @@ import javafx.scene.image.Image;
 import java.time.*;
 import java.time.DayOfWeek;
 import java.time.Year;
+import java.time.format.DateTimeFormatter;
 
 public class User {
     protected String username;
@@ -89,5 +90,10 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getDateString(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return formatter.format(lastEnter);
     }
 }

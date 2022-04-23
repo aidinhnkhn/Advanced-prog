@@ -12,6 +12,27 @@ public class Professor extends User{
         setHeadDepartment();
         professors.add(this);
     }
+
+    public void setHeadDepartment(boolean headDepartment) {
+        this.headDepartment = headDepartment;
+    }
+
+    public void setEducationalAssistant(boolean educationalAssistant) {
+        this.educationalAssistant = educationalAssistant;
+    }
+
+    public static void setProfessors(ArrayList<Professor> professors) {
+        Professor.professors = professors;
+    }
+
+    public ArrayList<String> getCoursesId() {
+        return coursesId;
+    }
+
+    public void setCoursesId(ArrayList<String> coursesId) {
+        this.coursesId = coursesId;
+    }
+
     public void setHeadDepartment(){
         headDepartment = role == Role.HeadDepartment;
     }

@@ -43,4 +43,19 @@ public class SceneLoader {
             System.out.println("FIle NOT found");
         }
     }
+    public void ChangeSceneByNode(String address,Node node){
+        try {
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource(address));
+            Parent root = loader.load();
+            Stage stage = (Stage) (node.getScene().getWindow());
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+//            PropertyConfigurator.configure("C:/Users/aidin/Desktop/sharifedu/src/main/resources/site/edu/log4j2.xml");
+//            log.info(address+" opened successfully!");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("FIle NOT found");
+        }
+    }
 }

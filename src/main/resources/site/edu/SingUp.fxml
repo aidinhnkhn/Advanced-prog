@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: CORNFLOWERBLUE;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.SingUp">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: CORNFLOWERBLUE;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.SingUp">
    <children>
       <VBox layoutX="14.0" layoutY="14.0" prefHeight="300.0" prefWidth="200.0" spacing="10.0">
          <children>
@@ -23,6 +23,7 @@
             <TextField fx:id="usernameField" promptText="username" />
             <PasswordField fx:id="passField" promptText="password" />
             <PasswordField fx:id="confirmPassField" promptText="Confirm-passwrod" />
+            <TextField fx:id="supervisorId" promptText="supervisorId" />
             <TextField fx:id="melicode" promptText="melicode" />
             <TextField fx:id="phoneNumber" promptText="phone number" />
             <TextField fx:id="email" promptText="email" />

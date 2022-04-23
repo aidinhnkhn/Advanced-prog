@@ -17,7 +17,7 @@ import java.util.ResourceBundle;
 
 public class SingUp implements Initializable {
     @FXML
-    TextField usernameField, melicode, phoneNumber, email;
+    TextField usernameField, melicode, phoneNumber, email,supervisorId;
     @FXML
     PasswordField passField;
     @FXML
@@ -74,7 +74,7 @@ public class SingUp implements Initializable {
 
     public void register(ActionEvent actionEvent) {
         boolean successful=SignUpLogic.getInstance().SignUp(usernameField.getText(), passField.getText(), confirmPassField.getText(),melicode.getText(),
-                phoneNumber.getText(),email.getText(),choiceBox.getValue(),department.getValue(),degree.getValue(),imageView.getImage());
+                phoneNumber.getText(),email.getText(),choiceBox.getValue(),department.getValue(),degree.getValue(),imageView.getImage(),supervisorId.getText());
         Alert alert=new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Sign up status");
         alert.setTitle("Sign up");

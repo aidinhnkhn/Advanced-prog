@@ -1,5 +1,7 @@
 package Controllers;
 
+import Savers.Loader;
+import elements.people.Student;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -11,6 +13,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import logic.LogicalAgent;
 import logic.SignInLogic;
 
 
@@ -72,6 +75,7 @@ public class SignIn implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         refresh(new ActionEvent());
+        Loader.getInstance().initializeEdu();
     }
 
     public void enter(ActionEvent actionEvent) {
@@ -90,6 +94,9 @@ public class SignIn implements Initializable {
         refresh(new ActionEvent());
     }
     private void goToHomePage(ActionEvent actionEvent){
-
+        if (LogicalAgent.getInstance().getUser() instanceof Student)
+            SceneLoader.getInstance().changeScene("StudentHomePage.fxml",actionEvent);
+        else
+            SceneLoader.getInstance().changeScene("ProfessorHomePage.fxml",actionEvent);
     }
 }
