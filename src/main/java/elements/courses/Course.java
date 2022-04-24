@@ -1,8 +1,11 @@
 package elements.courses;
 
+import Savers.Saver;
+import elements.people.Professor;
 import elements.university.Department;
 import javafx.scene.control.ComboBox;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -11,15 +14,22 @@ public class Course {
     private String professorId,departmentId;
     private ArrayList<String> studentId=new ArrayList<>();
     private int unit;
+    private ArrayList<String> days= new ArrayList<>();
+    private int hour;
+    private int length;
     private static ArrayList<Course> Courses=new ArrayList<>();
-    public Course(String name, String professorId, String departmentId, int unit) {
+    public Course(String name, String professorId, String departmentId, int unit,ArrayList<String> days,int hour,int length) {
         this.name = name;
         this.professorId = professorId;
         this.departmentId=departmentId;
         this.unit = unit;
         this.id = createId();
+        this.days=days;
+        this.hour=hour;
+        this.length=length;
         Courses.add(this);
         Department.getDepartment(departmentId).getCourses().add(this.id);
+        Professor.getProfessor(professorId).getCoursesId().add(this.id);
     }
 
     private String createId() {
@@ -33,6 +43,22 @@ public class Course {
         idBuilder.append(localDate.getMinute());
         idBuilder.append(localDate.getSecond());
         return idBuilder.toString();
+    }
+
+    public void setDepartmentId(String departmentId) {
+        this.departmentId = departmentId;
+    }
+
+    public void setDays(ArrayList<String> days) {
+        this.days = days;
+    }
+
+    public void setHour(int hour) {
+        this.hour = hour;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
     }
 
     public String getId() {
@@ -56,7 +82,25 @@ public class Course {
     }
 
     public void setProfessorId(String professorId) {
+        Professor.getProfessor(this.professorId).getCoursesId().remove(this.id);
         this.professorId = professorId;
+        Professor.getProfessor(this.professorId).getCoursesId().add(this.id);
+    }
+
+    public String getDepartmentId() {
+        return departmentId;
+    }
+
+    public ArrayList<String> getDays() {
+        return days;
+    }
+
+    public int getHour() {
+        return hour;
+    }
+
+    public int getLength() {
+        return length;
     }
 
     public ArrayList<String> getStudentId() {
@@ -87,5 +131,11 @@ public class Course {
             if (course.id.equals(id))
                 return course;
         return null;
+    }
+    public static void deleteCourse(String id){
+        Course.getCourses().remove(Course.getCourse(id));
+        File file = new File(System.getProperty("user.dir") +
+                "\\src\\main\\resources\\eData\\course\\"+id+".txt");
+        file.delete();
     }
 }

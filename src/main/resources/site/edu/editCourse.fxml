@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckMenuItem?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitMenuButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: CORNFLOWERBLUE;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.EditCourse">
+   <children>
+      <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="216.0" spacing="10.0">
+         <children>
+            <Label text="Add or edit a course">
+               <font>
+                  <Font name="Comic Sans MS" size="16.0" />
+               </font>
+            </Label>
+            <TextField fx:id="courseId" promptText="Course Id (fill it in case of editing)" />
+            <TextField fx:id="name" maxWidth="-Infinity" prefHeight="25.0" prefWidth="237.0" promptText="name" />
+            <TextField fx:id="professorId" promptText="professor Id" />
+            <TextField fx:id="departmentId" promptText="department Id" />
+            <TextField fx:id="unit" promptText="unit" />
+            <TextField fx:id="length" promptText=" length (in hour)" />
+            <TextField fx:id="hour" promptText="enter hour IE : 13 , 12, 8" />
+            <SplitMenuButton mnemonicParsing="false" prefHeight="25.0" prefWidth="205.0" text="select days">
+               <items>
+                  <CheckMenuItem fx:id="Monday" mnemonicParsing="false" text="Monday" />
+                  <CheckMenuItem fx:id="Tuesday" mnemonicParsing="false" text="Tuesday" />
+                  <CheckMenuItem fx:id="Wednesday" mnemonicParsing="false" text="Wednesday" />
+                  <CheckMenuItem fx:id="Thursday" mnemonicParsing="false" text="Thursday" />
+                  <CheckMenuItem fx:id="Friday" mnemonicParsing="false" text="Friday" />
+               </items>
+            </SplitMenuButton>
+            <Button fx:id="addCourse" mnemonicParsing="false" onAction="#createCourse" prefHeight="25.0" prefWidth="220.0" text="add Course" />
+            <Button fx:id="editButton" mnemonicParsing="false" onAction="#editCourse" prefHeight="25.0" prefWidth="204.0" text="edit" />
+            <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteCourse" prefHeight="25.0" prefWidth="229.0" text="delete" />
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </VBox>
+      <Button fx:id="homePageButton" layoutX="767.0" layoutY="561.0" mnemonicParsing="false" onAction="#goBack" prefHeight="25.0" prefWidth="119.0" text="Back to HomePage" />
+   </children>
+</AnchorPane>

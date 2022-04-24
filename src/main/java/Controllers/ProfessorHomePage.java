@@ -20,6 +20,7 @@ import logic.ProfessorHomePageLogic;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -32,7 +33,7 @@ public class ProfessorHomePage implements Initializable {
     @FXML
     Label dateTime, lastEnter, email, name;
     @FXML
-    MenuItem educationalStatus,signUp;
+    MenuItem educationalStatus,signUp,editCourse,editProfessor;
 
     public void initialize(URL location, ResourceBundle resources) {
         initClock();
@@ -41,8 +42,13 @@ public class ProfessorHomePage implements Initializable {
         Saver.getInstance().saveProfessor((Professor) (LogicalAgent.getInstance().getUser()));
     }
     public void setVisibility(Professor professor){
-        if (professor.isEducationalAssistant())
+        if (professor.isEducationalAssistant()) {
             educationalStatus.setVisible(true);
+            signUp.setVisible(true);
+            editCourse.setVisible(true);
+        }
+        if (professor.isHeadDepartment())
+            editProfessor.setVisible(true);
     }
     private void initClock() {
 
@@ -69,7 +75,8 @@ public class ProfessorHomePage implements Initializable {
                     "\\src\\main\\resources\\eData\\users\\pictures\\" + filename);
             Image image = new Image(stream);
             imageView.setImage(image);
-        } catch (FileNotFoundException e) {
+            stream.close();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -80,5 +87,9 @@ public class ProfessorHomePage implements Initializable {
 
     public void signUp(ActionEvent actionEvent) {
         SceneLoader.getInstance().ChangeSceneByNode("SingUp.fxml",dateTime);
+    }
+
+    public void openCourse(ActionEvent actionEvent) {
+        SceneLoader.getInstance().ChangeSceneByNode("editCourse.fxml",dateTime);
     }
 }

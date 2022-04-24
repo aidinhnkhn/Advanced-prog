@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Professor extends User{
     private boolean headDepartment,educationalAssistant,supervisor;
     private static ArrayList<Professor> professors=new ArrayList<>();
-    private ArrayList<String> coursesId;
+    private ArrayList<String> coursesId=new ArrayList<>();
     public Professor(String username, String password, Role role, String melicode, String phoneNumber, String email, String degree,String departmentId,String id) {
         super(username, password, role, melicode, phoneNumber, email, degree,departmentId,id);
         setEducationalAssistant();
@@ -38,6 +38,8 @@ public class Professor extends User{
     }
 
     public ArrayList<String> getCoursesId() {
+        if (coursesId==null)
+            coursesId=new ArrayList<>();
         return coursesId;
     }
 

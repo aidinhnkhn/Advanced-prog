@@ -18,10 +18,7 @@ import javafx.util.Duration;
 import logic.LogicalAgent;
 import logic.StudentHomePageLogic;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -70,7 +67,8 @@ public class StudentHomePage implements Initializable {
                     "\\src\\main\\resources\\eData\\users\\pictures\\" + filename);
             Image image = new Image(stream);
             imageView.setImage(image);
-        }catch (FileNotFoundException e){
+            stream.close();
+        } catch (IOException e){
             e.printStackTrace();
         }
     }

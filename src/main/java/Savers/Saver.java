@@ -2,6 +2,7 @@ package Savers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import elements.courses.Course;
 import elements.people.Professor;
 import elements.people.Student;
 import elements.university.Department;
@@ -73,8 +74,30 @@ public class Saver {
             e.printStackTrace();
         }
     }
+    public void saveCourse(Course course){
+        File file = new File(System.getProperty("user.dir") +
+                "\\src\\main\\resources\\eData\\course\\"+course.getId()+".txt");
+        GsonBuilder gsonBuilder=new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        Gson gson=gsonBuilder.create();
+        String courseJson=gson.toJson(course);
+        try{
+            FileWriter writer = new FileWriter(file, false);
+            writer.write(courseJson);
+            writer.close();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
     public void saveChanges(){
         for (Department department:Department.getDepartments())
             Saver.getInstance().saveDepartment(department);
+        for (Student student:Student.getStudents())
+            Saver.getInstance().saveStudent(student);
+        for (Professor professor:Professor.getProfessors())
+            Saver.getInstance().saveProfessor(professor);
+        for (Course course:Course.getCourses())
+            Saver.getInstance().saveCourse(course);
     }
+
 }

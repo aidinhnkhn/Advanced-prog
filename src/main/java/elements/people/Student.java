@@ -74,6 +74,7 @@ public class Student extends User {
     }
 
 
+
     public static void setStudents(ArrayList<Student> students) {
         Student.students = students;
     }
@@ -90,6 +91,12 @@ public class Student extends User {
         this.grades.add(grade);
     }
 
+    public Grade getGrade(String id) {
+        for (Grade grade : this.grades)
+            if (grade.getCourseId().equals(id))
+                return grade;
+        return null;
+    }
 
     public static Student getStudent(String studentId) {
         for (Student student : Student.getStudents())

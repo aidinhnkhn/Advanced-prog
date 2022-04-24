@@ -5,12 +5,15 @@ public class Grade {
     private double grade;
     private boolean W;
     private boolean finished;
-
+    private int unit;
+    private String name;
     public Grade(String courseId, double grade) {
         this.courseId = courseId;
         this.grade = grade;
         this.W = false;
         this.finished = false;
+        this.unit=Course.getCourse(courseId).getUnit();
+        this.name=Course.getCourse(courseId).getName();
     }
 
     public boolean isFinished() {

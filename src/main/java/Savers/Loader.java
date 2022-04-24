@@ -2,6 +2,7 @@ package Savers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import elements.courses.Course;
 import elements.people.Professor;
 import elements.people.Student;
 import elements.university.Department;
@@ -29,8 +30,15 @@ public class Loader {
         Department.setDepartments(Loader.getInstance().loadDepartments());
         Student.setStudents(Loader.getInstance().loadStudents());
         Professor.setProfessors(Loader.getInstance().loadProfessors());
+//        File file = new File(System.getProperty("user.dir") +
+//                "\\src\\main\\resources\\eData\\course\\C202242412954"+".txt");
+//        file.delete();
+        Course.setCourses(Loader.getInstance().loadCourses());
     }
 
+    public void deleteFile(File file){
+        file.delete();
+    }
     public Student loadStudent(File file) {
         try {
             Scanner scanner = new Scanner(file);
@@ -110,5 +118,28 @@ public class Loader {
         return departments;
     }
 
-
+    public Course loadCourse(File file){
+        try {
+            Scanner scanner = new Scanner(file);
+            String userJson = "";
+            while (scanner.hasNext())
+                userJson += scanner.nextLine();
+            GsonBuilder gsonBuilder = new GsonBuilder();
+            gsonBuilder.setPrettyPrinting();
+            Gson gson = gsonBuilder.create();
+            Course course = gson.fromJson(userJson, Course.class);
+            return course;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public ArrayList<Course> loadCourses(){
+        File studentDirectory = new File(System.getProperty("user.dir")
+                + "\\src\\main\\resources\\eData\\course");
+        ArrayList<Course> courses=new ArrayList<>();
+        for (File file:studentDirectory.listFiles())
+            courses.add(loadCourse(file));
+        return courses;
+    }
 }
