@@ -79,6 +79,7 @@ public class Saver {
                 "\\src\\main\\resources\\eData\\course\\"+course.getId()+".txt");
         GsonBuilder gsonBuilder=new GsonBuilder();
         gsonBuilder.setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
         Gson gson=gsonBuilder.create();
         String courseJson=gson.toJson(course);
         try{

@@ -6,6 +6,7 @@ import elements.university.Department;
 import javafx.scene.control.ComboBox;
 
 import java.io.File;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -18,7 +19,11 @@ public class Course {
     private int hour;
     private int length;
     private static ArrayList<Course> Courses=new ArrayList<>();
-    public Course(String name, String professorId, String departmentId, int unit,ArrayList<String> days,int hour,int length) {
+    private LocalDateTime examDate;
+    private String professorName;
+    private String degree;
+    public Course(String name, String professorId, String departmentId, int unit, ArrayList<String> days,
+                  int hour, int length, LocalDate examDate, int examHour,String degree) {
         this.name = name;
         this.professorId = professorId;
         this.departmentId=departmentId;
@@ -27,9 +32,21 @@ public class Course {
         this.days=days;
         this.hour=hour;
         this.length=length;
+        this.examDate=examDate.atTime(examHour,0);
+        this.degree=degree;
+        //this.examDate=examDate;
         Courses.add(this);
         Department.getDepartment(departmentId).getCourses().add(this.id);
         Professor.getProfessor(professorId).getCoursesId().add(this.id);
+        professorName=Professor.getProfessor(professorId).getUsername();
+    }
+
+    public String getDegree() {
+        return degree;
+    }
+
+    public void setDegree(String degree) {
+        this.degree = degree;
     }
 
     private String createId() {
@@ -43,6 +60,26 @@ public class Course {
         idBuilder.append(localDate.getMinute());
         idBuilder.append(localDate.getSecond());
         return idBuilder.toString();
+    }
+
+    public void setExamDate(LocalDateTime examDate) {
+        this.examDate = examDate;
+    }
+
+    public String getProfessorName() {
+        return professorName;
+    }
+
+    public void setProfessorName() {
+        this.professorName = Professor.getProfessor(professorId).getUsername();
+    }
+
+    public LocalDateTime getExamDate() {
+        return examDate;
+    }
+
+    public void setExamDate(LocalDate examDate,int examHour) {
+        this.examDate = examDate.atTime(examHour,0);
     }
 
     public void setDepartmentId(String departmentId) {

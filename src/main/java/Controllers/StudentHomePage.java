@@ -34,6 +34,8 @@ public class StudentHomePage implements Initializable {
     ImageView imageView;
     @FXML
     MenuItem minor,thesisDefense,signOut;
+    @FXML
+    MenuItem courseList;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initClock();
@@ -85,5 +87,9 @@ public class StudentHomePage implements Initializable {
 
     public void exit(ActionEvent actionEvent) {
        StudentHomePageLogic.getInstance().exit(education);
+    }
+
+    public void GoCourseList(ActionEvent actionEvent) {
+        SceneLoader.getInstance().ChangeSceneByNode("CourseList.fxml",dateTime);
     }
 }

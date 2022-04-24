@@ -5,6 +5,7 @@ import com.google.common.hash.Hashing;
 import elements.people.Professor;
 import elements.people.Role;
 import elements.people.Student;
+import elements.university.Department;
 import javafx.scene.image.Image;
 import javafx.embed.swing.SwingFXUtils;
 
@@ -93,6 +94,8 @@ public class SignUpLogic {
         if (department == null) return false;
         if (degree == null) return false;
         if (image == null) return false;
+        if (!Department.getDepartment(department).getEducationalAssistantId().equals("")) return false;
+        if (!Department.getDepartment(department).getHeadDepartmentId().equals("")) return false;
         return true;
     }
 }

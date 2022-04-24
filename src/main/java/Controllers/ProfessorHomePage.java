@@ -29,6 +29,8 @@ import java.util.ResourceBundle;
 
 public class ProfessorHomePage implements Initializable {
     @FXML
+    public MenuItem courseList;
+    @FXML
     ImageView imageView;
     @FXML
     Label dateTime, lastEnter, email, name;
@@ -91,5 +93,9 @@ public class ProfessorHomePage implements Initializable {
 
     public void openCourse(ActionEvent actionEvent) {
         SceneLoader.getInstance().ChangeSceneByNode("editCourse.fxml",dateTime);
+    }
+
+    public void openCourseList(ActionEvent actionEvent) {
+        SceneLoader.getInstance().ChangeSceneByNode("CourseList.fxml",dateTime);
     }
 }

@@ -126,6 +126,7 @@ public class Loader {
                 userJson += scanner.nextLine();
             GsonBuilder gsonBuilder = new GsonBuilder();
             gsonBuilder.setPrettyPrinting();
+            gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
             Gson gson = gsonBuilder.create();
             Course course = gson.fromJson(userJson, Course.class);
             return course;
