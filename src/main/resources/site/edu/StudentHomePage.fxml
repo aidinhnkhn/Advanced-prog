@@ -40,7 +40,7 @@
           <Menu mnemonicParsing="false" text="Registration matters">
             <items>
               <MenuItem fx:id="courseList" mnemonicParsing="false" onAction="#GoCourseList" text="Courses List" />
-                  <MenuItem mnemonicParsing="false" text="Professors List" />
+                  <MenuItem fx:id="professorList" mnemonicParsing="false" onAction="#openProfessorList" text="Professors List" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="educational services">

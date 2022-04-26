@@ -34,7 +34,7 @@
             <Menu mnemonicParsing="false" text="Registration matters">
                <items>
                   <MenuItem fx:id="courseList" mnemonicParsing="false" onAction="#openCourseList" text="Courses List" />
-                  <MenuItem mnemonicParsing="false" text="Professors List" />
+                  <MenuItem fx:id="professorList" mnemonicParsing="false" onAction="#openProfessorList" text="Professors List" />
                   <MenuItem fx:id="signUp" mnemonicParsing="false" onAction="#signUp" text="Add a member" visible="false" />
                   <MenuItem fx:id="editCourse" mnemonicParsing="false" onAction="#openCourse" text="edit Course" visible="false" />
                   <MenuItem fx:id="editProfessor" mnemonicParsing="false" text="edit Professor" visible="false" />

@@ -5,6 +5,10 @@ import com.google.gson.GsonBuilder;
 import elements.courses.Course;
 import elements.people.Professor;
 import elements.people.Student;
+import elements.request.DormRequest;
+import elements.request.FreedomRequest;
+import elements.request.MinorRequest;
+import elements.request.RecommendationRequest;
 import elements.university.Department;
 
 import java.io.File;
@@ -30,10 +34,11 @@ public class Loader {
         Department.setDepartments(Loader.getInstance().loadDepartments());
         Student.setStudents(Loader.getInstance().loadStudents());
         Professor.setProfessors(Loader.getInstance().loadProfessors());
-//        File file = new File(System.getProperty("user.dir") +
-//                "\\src\\main\\resources\\eData\\course\\C202242412954"+".txt");
-//        file.delete();
         Course.setCourses(Loader.getInstance().loadCourses());
+        MinorRequest.setMinorRequests(Loader.getInstance().loadMinorRequests());
+        DormRequest.setDormRequests(Loader.getInstance().loadDormRequests());
+        RecommendationRequest.setRecommendationRequests(Loader.getInstance().loadRecommendationRequests());
+        FreedomRequest.setFreedomRequests(Loader.getInstance().loadFreedomRequests());
     }
 
     public void deleteFile(File file){
@@ -143,4 +148,113 @@ public class Loader {
             courses.add(loadCourse(file));
         return courses;
     }
+
+    public MinorRequest loadMinorRequest(File file){
+        try {
+            Scanner scanner = new Scanner(file);
+            String userJson = "";
+            while (scanner.hasNext())
+                userJson += scanner.nextLine();
+            GsonBuilder gsonBuilder = new GsonBuilder();
+            gsonBuilder.setPrettyPrinting();
+            gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
+            Gson gson = gsonBuilder.create();
+            MinorRequest minorRequest = gson.fromJson(userJson, MinorRequest.class);
+            return minorRequest;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList<MinorRequest> loadMinorRequests(){
+        File minorDirectory = new File(System.getProperty("user.dir") +
+                "src\\main\\resources\\eData\\request\\minorRequest");
+        ArrayList<MinorRequest> minorRequests=new ArrayList<>();
+        for (File file:minorDirectory.listFiles())
+            minorRequests.add(loadMinorRequest(file));
+        return  minorRequests;
+    }
+
+    public DormRequest loadDormRequest(File file){
+        try {
+            Scanner scanner = new Scanner(file);
+            String userJson = "";
+            while (scanner.hasNext())
+                userJson += scanner.nextLine();
+            GsonBuilder gsonBuilder = new GsonBuilder();
+            gsonBuilder.setPrettyPrinting();
+            gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
+            Gson gson = gsonBuilder.create();
+            DormRequest dormRequest = gson.fromJson(userJson, DormRequest.class);
+            return dormRequest;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList<DormRequest> loadDormRequests(){
+        File dormRequestDirectory = new File(System.getProperty("user.dir") +
+                "src\\main\\resources\\eData\\request\\dormRequest");
+        ArrayList<DormRequest> dormRequests=new ArrayList<>();
+        for (File file:dormRequestDirectory.listFiles())
+            dormRequests.add(loadDormRequest(file));
+        return dormRequests;
+    }
+
+    public RecommendationRequest loadRecommendationRequest(File file){
+        try {
+            Scanner scanner = new Scanner(file);
+            String userJson = "";
+            while (scanner.hasNext())
+                userJson += scanner.nextLine();
+            GsonBuilder gsonBuilder = new GsonBuilder();
+            gsonBuilder.setPrettyPrinting();
+            gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
+            Gson gson = gsonBuilder.create();
+            RecommendationRequest recommendationRequest = gson.fromJson(userJson, RecommendationRequest.class);
+            return recommendationRequest;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList<RecommendationRequest> loadRecommendationRequests(){
+        File recommendationRequestDirectory = new File(System.getProperty("user.dir") +
+                "src\\main\\resources\\eData\\request\\recommendationRequest");
+        ArrayList<RecommendationRequest> recommendationRequests=new ArrayList<>();
+        for (File file:recommendationRequestDirectory.listFiles())
+            recommendationRequests.add(loadRecommendationRequest(file));
+        return recommendationRequests;
+    }
+
+    public FreedomRequest loadFreedomRequest(File file){
+        try {
+            Scanner scanner = new Scanner(file);
+            String userJson = "";
+            while (scanner.hasNext())
+                userJson += scanner.nextLine();
+            GsonBuilder gsonBuilder = new GsonBuilder();
+            gsonBuilder.setPrettyPrinting();
+            gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
+            Gson gson = gsonBuilder.create();
+            FreedomRequest freedomRequest = gson.fromJson(userJson, FreedomRequest.class);
+            return freedomRequest;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList<FreedomRequest> loadFreedomRequests(){
+        File freeDomeRequestDirectory = new File(System.getProperty("user.dir") +
+                "src\\main\\resources\\eData\\request\\freedomRequest");
+        ArrayList<FreedomRequest> freedomRequests=new ArrayList<>();
+        for (File file:freeDomeRequestDirectory.listFiles())
+            freedomRequests.add(loadFreedomRequest(file));
+        return freedomRequests;
+    }
+
 }

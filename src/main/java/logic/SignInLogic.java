@@ -39,7 +39,7 @@ public class SignInLogic {
         String sha256hex = Hashing.sha256()
                 .hashString(password, StandardCharsets.UTF_8)
                 .toString();
-        if (sha256hex.equals(student.getPassword())){
+        if (sha256hex.equals(student.getPassword()) && student.isEducating()){
             LogicalAgent.getInstance().setUser(student);
             student.setLastEnter(LocalDateTime.now());
             return true;

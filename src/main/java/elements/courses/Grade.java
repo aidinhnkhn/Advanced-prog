@@ -6,7 +6,7 @@ public class Grade {
     private boolean W;
     private boolean finished;
     private int unit;
-    private String name;
+    private String name,professorId;
     public Grade(String courseId, double grade) {
         this.courseId = courseId;
         this.grade = grade;
@@ -14,6 +14,35 @@ public class Grade {
         this.finished = false;
         this.unit=Course.getCourse(courseId).getUnit();
         this.name=Course.getCourse(courseId).getName();
+        this.professorId=Course.getCourse(courseId).getProfessorId();
+    }
+
+    public String getProfessorId() {
+        return professorId;
+    }
+
+    public void setProfessorId(String professorId) {
+        this.professorId = professorId;
+    }
+
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
+    }
+
+    public int getUnit() {
+        return unit;
+    }
+
+    public void setUnit(int unit) {
+        this.unit = unit;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public boolean isFinished() {

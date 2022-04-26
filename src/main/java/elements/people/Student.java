@@ -1,5 +1,6 @@
 package elements.people;
 
+import elements.courses.Course;
 import elements.courses.Grade;
 import elements.university.Department;
 
@@ -103,5 +104,28 @@ public class Student extends User {
             if (student.getId().equals(studentId))
                 return student;
         return null;
+    }
+    public ArrayList <String> getStudentCoursesWithProfessor(String professorId){
+        ArrayList<String> coursesWithProfessor=new ArrayList<>();
+        for (Grade grade:this.grades){
+            if (!grade.getProfessorId().equals(professorId)) continue;
+            StringBuilder courseResult=new StringBuilder();
+            courseResult.append(grade.getName());
+            courseResult.append(grade.getGrade());
+            coursesWithProfessor.add(courseResult.toString());
+        }
+        return coursesWithProfessor;
+    }
+    public double getَAverage(){
+        double units=0;
+        double grades=0;
+        for (Grade grade:this.grades){
+            units+=grade.getUnit();
+            grades+=grade.getGrade();
+        }
+        if (units!=0)
+            return grades/units;
+        else
+            return 0;
     }
 }

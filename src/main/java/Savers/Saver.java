@@ -5,8 +5,10 @@ import com.google.gson.GsonBuilder;
 import elements.courses.Course;
 import elements.people.Professor;
 import elements.people.Student;
+import elements.request.*;
 import elements.university.Department;
 
+import javax.xml.parsers.SAXParser;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -59,13 +61,13 @@ public class Saver {
         }
     }
 
-    public void saveDepartment(Department department){
+    public void saveDepartment(Department department) {
         File file = new File(System.getProperty("user.dir") +
-                "\\src\\main\\resources\\eData\\departments\\"+department.getName()+".txt");
+                "\\src\\main\\resources\\eData\\departments\\" + department.getName() + ".txt");
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();
         Gson gson = gsonBuilder.create();
-        String departmentJson=gson.toJson(department);
+        String departmentJson = gson.toJson(department);
         try {
             FileWriter writer = new FileWriter(file, false);
             writer.write(departmentJson);
@@ -74,31 +76,153 @@ public class Saver {
             e.printStackTrace();
         }
     }
-    public void saveCourse(Course course){
+
+    public void saveCourse(Course course) {
         File file = new File(System.getProperty("user.dir") +
-                "\\src\\main\\resources\\eData\\course\\"+course.getId()+".txt");
-        GsonBuilder gsonBuilder=new GsonBuilder();
+                "\\src\\main\\resources\\eData\\course\\" + course.getId() + ".txt");
+        GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();
         gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
-        Gson gson=gsonBuilder.create();
-        String courseJson=gson.toJson(course);
-        try{
+        Gson gson = gsonBuilder.create();
+        String courseJson = gson.toJson(course);
+        try {
             FileWriter writer = new FileWriter(file, false);
             writer.write(courseJson);
             writer.close();
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    public void saveChanges(){
-        for (Department department:Department.getDepartments())
+
+    public void saveMinorRequest(MinorRequest minorRequest) {
+        File file = new File(System.getProperty("user.dir") +
+                "src\\main\\resources\\eData\\request\\minorRequest" + minorRequest.getId() + ".txt");
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        Gson gson = gsonBuilder.create();
+        String courseJson = gson.toJson(minorRequest);
+        try {
+            FileWriter writer = new FileWriter(file, false);
+            writer.write(courseJson);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveDormRequest(DormRequest dormRequest) {
+        File file = new File(System.getProperty("user.dir") +
+                "src\\main\\resources\\eData\\request\\dormRequest" + dormRequest.getId() + ".txt");
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        Gson gson = gsonBuilder.create();
+        String courseJson = gson.toJson(dormRequest);
+        try {
+            FileWriter writer = new FileWriter(file, false);
+            writer.write(courseJson);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveRecommendationRequest(RecommendationRequest recommendationRequest){
+        File file = new File(System.getProperty("user.dir") +
+                "src\\main\\resources\\eData\\request\\recommendationRequest" + recommendationRequest.getId() + ".txt");
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        Gson gson = gsonBuilder.create();
+        String courseJson = gson.toJson(recommendationRequest);
+        try {
+            FileWriter writer = new FileWriter(file, false);
+            writer.write(courseJson);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveFreedomRequest(FreedomRequest freedomRequest){
+        File file = new File(System.getProperty("user.dir") +
+                "src\\main\\resources\\eData\\request\\freedomRequest" + freedomRequest.getId() + ".txt");
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        Gson gson = gsonBuilder.create();
+        String courseJson = gson.toJson(freedomRequest);
+        try {
+            FileWriter writer = new FileWriter(file, false);
+            writer.write(courseJson);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveCertificateStudentRequest(CertificateStudentRequest certificateStudentRequest){
+        File file = new File(System.getProperty("user.dir") +
+                "src\\main\\resources\\eData\\request\\certificateStudentRequest" + certificateStudentRequest.getId() + ".txt");
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
+        Gson gson = gsonBuilder.create();
+        String courseJson = gson.toJson(certificateStudentRequest);
+        try {
+            FileWriter writer = new FileWriter(file, false);
+            writer.write(courseJson);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveThesisDefenseRequest(ThesisDefenseRequest thesisDefenseRequest){
+        File file = new File(System.getProperty("user.dir") +
+                "src\\main\\resources\\eData\\request\\thesisDefenseRequest" + thesisDefenseRequest.getId() + ".txt");
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
+        Gson gson = gsonBuilder.create();
+        String courseJson = gson.toJson(thesisDefenseRequest);
+        try {
+            FileWriter writer = new FileWriter(file, false);
+            writer.write(courseJson);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void saveChanges() {
+        //TODO: add changes to this
+        for (Department department : Department.getDepartments())
             Saver.getInstance().saveDepartment(department);
-        for (Student student:Student.getStudents())
+
+        for (Student student : Student.getStudents())
             Saver.getInstance().saveStudent(student);
-        for (Professor professor:Professor.getProfessors())
+
+        for (Professor professor : Professor.getProfessors())
             Saver.getInstance().saveProfessor(professor);
-        for (Course course:Course.getCourses())
+
+        for (Course course : Course.getCourses())
             Saver.getInstance().saveCourse(course);
+
+        for (MinorRequest minorRequest : MinorRequest.getMinorRequests())
+            Saver.getInstance().saveMinorRequest(minorRequest);
+
+        for (DormRequest dormRequest : DormRequest.getDormRequests())
+            Saver.getInstance().saveDormRequest(dormRequest);
+
+        for (RecommendationRequest recommendationRequest:RecommendationRequest.getRecommendationRequests())
+            Saver.getInstance().saveRecommendationRequest(recommendationRequest);
+
+        for (FreedomRequest freedomRequest:FreedomRequest.getFreedomRequests())
+            Saver.getInstance().saveFreedomRequest(freedomRequest);
+
+        for (CertificateStudentRequest certificateStudentRequest:CertificateStudentRequest.getCertificateStudentRequests())
+            Saver.getInstance().saveCertificateStudentRequest(certificateStudentRequest);
+
+        for (ThesisDefenseRequest thesisDefenseRequest:ThesisDefenseRequest.getThesisDefenseRequests())
+            Saver.getInstance().saveThesisDefenseRequest(thesisDefenseRequest);
+
     }
 
 }
