@@ -1,5 +1,7 @@
 package elements.request;
 
+import elements.people.Student;
+
 import java.util.ArrayList;
 
 public class MinorRequest extends Request{
@@ -53,8 +55,10 @@ public class MinorRequest extends Request{
     @Override
     public boolean getTotalAccepted() {
         if (!this.pending)
-            if (this.accepted && this.secondAccepted)
+            if (this.accepted && this.secondAccepted) {
+                Student.getStudent(studentId).setMinorDepartment(departmentId);
                 return true;
+            }
         return false;
     }
 

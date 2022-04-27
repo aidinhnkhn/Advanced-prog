@@ -96,7 +96,7 @@ public class Saver {
 
     public void saveMinorRequest(MinorRequest minorRequest) {
         File file = new File(System.getProperty("user.dir") +
-                "src\\main\\resources\\eData\\request\\minorRequest" + minorRequest.getId() + ".txt");
+                "\\src\\main\\resources\\eData\\request\\minorRequest\\" + minorRequest.getId() + ".txt");
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();
         Gson gson = gsonBuilder.create();
@@ -112,7 +112,7 @@ public class Saver {
 
     public void saveDormRequest(DormRequest dormRequest) {
         File file = new File(System.getProperty("user.dir") +
-                "src\\main\\resources\\eData\\request\\dormRequest" + dormRequest.getId() + ".txt");
+                "\\src\\main\\resources\\eData\\request\\dormRequest\\" + dormRequest.getId() + ".txt");
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();
         Gson gson = gsonBuilder.create();
@@ -128,7 +128,7 @@ public class Saver {
 
     public void saveRecommendationRequest(RecommendationRequest recommendationRequest){
         File file = new File(System.getProperty("user.dir") +
-                "src\\main\\resources\\eData\\request\\recommendationRequest" + recommendationRequest.getId() + ".txt");
+                "\\src\\main\\resources\\eData\\request\\recommendationRequest\\" + recommendationRequest.getId() + ".txt");
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();
         Gson gson = gsonBuilder.create();
@@ -144,7 +144,7 @@ public class Saver {
 
     public void saveFreedomRequest(FreedomRequest freedomRequest){
         File file = new File(System.getProperty("user.dir") +
-                "src\\main\\resources\\eData\\request\\freedomRequest" + freedomRequest.getId() + ".txt");
+                "\\src\\main\\resources\\eData\\request\\freedomRequest\\" + freedomRequest.getId() + ".txt");
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();
         Gson gson = gsonBuilder.create();
@@ -160,7 +160,7 @@ public class Saver {
 
     public void saveCertificateStudentRequest(CertificateStudentRequest certificateStudentRequest){
         File file = new File(System.getProperty("user.dir") +
-                "src\\main\\resources\\eData\\request\\certificateStudentRequest" + certificateStudentRequest.getId() + ".txt");
+                "\\src\\main\\resources\\eData\\request\\certificateStudentRequest\\" + certificateStudentRequest.getId() + ".txt");
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();
         gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
@@ -177,7 +177,7 @@ public class Saver {
 
     public void saveThesisDefenseRequest(ThesisDefenseRequest thesisDefenseRequest){
         File file = new File(System.getProperty("user.dir") +
-                "src\\main\\resources\\eData\\request\\thesisDefenseRequest" + thesisDefenseRequest.getId() + ".txt");
+                "\\src\\main\\resources\\eData\\request\\thesisDefenseRequest\\" + thesisDefenseRequest.getId() + ".txt");
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();
         gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());

@@ -36,15 +36,15 @@ public class Professor extends User {
                     student.setSupervisorId("");
     }
 
-//    public void setHeadDepartment(boolean headDepartment) {
-//        this.headDepartment = headDepartment;
-//        if (headDepartment) this.role=Role.HeadDepartment;
-//    }
+    public void setHeadDepartment(boolean headDepartment) {
+        this.headDepartment = headDepartment;
+        if (headDepartment) this.role=Role.HeadDepartment;
+    }
 
-//    public void setEducationalAssistant(boolean educationalAssistant) {
-//        this.educationalAssistant = educationalAssistant;
-//        if (educationalAssistant) this.role=Role.EducationalAssistant;
-//    }
+    public void setEducationalAssistant(boolean educationalAssistant) {
+        this.educationalAssistant = educationalAssistant;
+        if (educationalAssistant) this.role=Role.EducationalAssistant;
+    }
 
     public static void setProfessors(ArrayList<Professor> professors) {
         Professor.professors = professors;

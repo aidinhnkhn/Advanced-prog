@@ -50,7 +50,7 @@
                   <Menu mnemonicParsing="false" text="Requests">
                     <items>
                       <MenuItem mnemonicParsing="false" text="Recommendation" />
-                        <MenuItem mnemonicParsing="false" text="Certificate student" />
+                        <MenuItem fx:id="certificateStudent" mnemonicParsing="false" onAction="#openCertificateStudent" text="Certificate student" />
                         <MenuItem mnemonicParsing="false" text="FREEDOM" />
                         <MenuItem mnemonicParsing="false" text="Dorm" />
                         <MenuItem fx:id="minor" mnemonicParsing="false" text="Minor" visible="false" />

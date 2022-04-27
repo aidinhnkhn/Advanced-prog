@@ -5,16 +5,14 @@ import com.google.gson.GsonBuilder;
 import elements.courses.Course;
 import elements.people.Professor;
 import elements.people.Student;
-import elements.request.DormRequest;
-import elements.request.FreedomRequest;
-import elements.request.MinorRequest;
-import elements.request.RecommendationRequest;
+import elements.request.*;
 import elements.university.Department;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Loader {
@@ -39,6 +37,8 @@ public class Loader {
         DormRequest.setDormRequests(Loader.getInstance().loadDormRequests());
         RecommendationRequest.setRecommendationRequests(Loader.getInstance().loadRecommendationRequests());
         FreedomRequest.setFreedomRequests(Loader.getInstance().loadFreedomRequests());
+        CertificateStudentRequest.setCertificateStudentRequests(Loader.getInstance().loadCertificates());
+        ThesisDefenseRequest.setThesisDefenseRequests(Loader.getInstance().loadThesisDefenseRequests());
     }
 
     public void deleteFile(File file){
@@ -169,9 +169,9 @@ public class Loader {
 
     public ArrayList<MinorRequest> loadMinorRequests(){
         File minorDirectory = new File(System.getProperty("user.dir") +
-                "src\\main\\resources\\eData\\request\\minorRequest");
+                "\\src\\main\\resources\\eData\\request\\minorRequest");
         ArrayList<MinorRequest> minorRequests=new ArrayList<>();
-        for (File file:minorDirectory.listFiles())
+        for (File file: Objects.requireNonNull(minorDirectory.listFiles()))
             minorRequests.add(loadMinorRequest(file));
         return  minorRequests;
     }
@@ -196,9 +196,9 @@ public class Loader {
 
     public ArrayList<DormRequest> loadDormRequests(){
         File dormRequestDirectory = new File(System.getProperty("user.dir") +
-                "src\\main\\resources\\eData\\request\\dormRequest");
+                "\\src\\main\\resources\\eData\\request\\dormRequest");
         ArrayList<DormRequest> dormRequests=new ArrayList<>();
-        for (File file:dormRequestDirectory.listFiles())
+        for (File file: Objects.requireNonNull(dormRequestDirectory.listFiles()))
             dormRequests.add(loadDormRequest(file));
         return dormRequests;
     }
@@ -223,9 +223,9 @@ public class Loader {
 
     public ArrayList<RecommendationRequest> loadRecommendationRequests(){
         File recommendationRequestDirectory = new File(System.getProperty("user.dir") +
-                "src\\main\\resources\\eData\\request\\recommendationRequest");
+                "\\src\\main\\resources\\eData\\request\\recommendationRequest");
         ArrayList<RecommendationRequest> recommendationRequests=new ArrayList<>();
-        for (File file:recommendationRequestDirectory.listFiles())
+        for (File file: Objects.requireNonNull(recommendationRequestDirectory.listFiles()))
             recommendationRequests.add(loadRecommendationRequest(file));
         return recommendationRequests;
     }
@@ -250,11 +250,63 @@ public class Loader {
 
     public ArrayList<FreedomRequest> loadFreedomRequests(){
         File freeDomeRequestDirectory = new File(System.getProperty("user.dir") +
-                "src\\main\\resources\\eData\\request\\freedomRequest");
+                "\\src\\main\\resources\\eData\\request\\freedomRequest");
         ArrayList<FreedomRequest> freedomRequests=new ArrayList<>();
-        for (File file:freeDomeRequestDirectory.listFiles())
+        for (File file: Objects.requireNonNull(freeDomeRequestDirectory.listFiles()))
             freedomRequests.add(loadFreedomRequest(file));
         return freedomRequests;
     }
 
+    public CertificateStudentRequest loadCertificate(File file){
+        try {
+            Scanner scanner = new Scanner(file);
+            String userJson = "";
+            while (scanner.hasNext())
+                userJson += scanner.nextLine();
+            GsonBuilder gsonBuilder = new GsonBuilder();
+            gsonBuilder.setPrettyPrinting();
+            gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
+            Gson gson = gsonBuilder.create();
+            CertificateStudentRequest certificateStudentRequest = gson.fromJson(userJson, CertificateStudentRequest.class);
+            return certificateStudentRequest;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public ArrayList<CertificateStudentRequest> loadCertificates(){
+        File certificateDirectory = new File(System.getProperty("user.dir") +
+                "\\src\\main\\resources\\eData\\request\\certificateStudentRequest");
+        ArrayList <CertificateStudentRequest> certificates=new ArrayList<>();
+        for (File file: Objects.requireNonNull(certificateDirectory.listFiles()))
+            certificates.add(loadCertificate(file));
+        return certificates;
+    }
+
+    public ThesisDefenseRequest loadThesisDefenseRequest(File file){
+        try {
+            Scanner scanner = new Scanner(file);
+            String userJson = "";
+            while (scanner.hasNext())
+                userJson += scanner.nextLine();
+            GsonBuilder gsonBuilder = new GsonBuilder();
+            gsonBuilder.setPrettyPrinting();
+            gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
+            Gson gson = gsonBuilder.create();
+            ThesisDefenseRequest thesisDefenseRequest = gson.fromJson(userJson, ThesisDefenseRequest.class);
+            return thesisDefenseRequest;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList<ThesisDefenseRequest> loadThesisDefenseRequests(){
+        File thesisDirectory = new File(System.getProperty("user.dir") +
+                "\\src\\main\\resources\\eData\\request\\thesisDefenseRequest");
+        ArrayList<ThesisDefenseRequest> requests=new ArrayList<>();
+        for (File file: Objects.requireNonNull(thesisDirectory.listFiles()))
+            requests.add(loadThesisDefenseRequest(file));
+        return requests;
+    }
 }
