@@ -94,6 +94,7 @@ public class EditCourseLogic {
             if (grade.showGrade().equals("N/A")) {
                 grade.setGrade(20);
                 grade.setFinished(true);
+                grade.setFinalGrade(true);
             }
         }
         File file = new File(System.getProperty("user.dir") +

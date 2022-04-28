@@ -37,7 +37,7 @@ public class ProfessorHomePage implements Initializable {
     @FXML
     MenuItem educationalStatus,signUp,editCourse,editProfessor;
     @FXML
-    MenuItem professorList;
+    MenuItem professorList,examlistItem,provisionalItem;
 
     public void initialize(URL location, ResourceBundle resources) {
         initClock();
@@ -103,5 +103,20 @@ public class ProfessorHomePage implements Initializable {
 
     public void openProfessorList(ActionEvent actionEvent) {
         SceneLoader.getInstance().ChangeSceneByNode("ProfessorList.fxml",dateTime);
+    }
+
+    public void OpenRequestPage(ActionEvent actionEvent) {
+        SceneLoader.getInstance().ChangeSceneByNode("ProfessorRequestPage.fxml",dateTime);
+    }
+
+    public void openExamList(ActionEvent actionEvent) {
+        SceneLoader.getInstance().ChangeSceneByNode("examList.fxml",dateTime);
+    }
+
+    public void openSchedulePage(ActionEvent actionEvent) {
+        SceneLoader.getInstance().ChangeSceneByNode("SchedulePage.fxml",dateTime);
+    }
+
+    public void OpenProvisionalPage(ActionEvent actionEvent) {
     }
 }

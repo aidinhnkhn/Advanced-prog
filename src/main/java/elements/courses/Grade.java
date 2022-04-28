@@ -4,7 +4,7 @@ public class Grade {
     private String courseId;
     private double grade;
     private boolean W;
-    private boolean finished;
+    private boolean finished,finalGrade;
     private int unit;
     private String name,professorId;
     public Grade(String courseId, double grade) {
@@ -12,6 +12,7 @@ public class Grade {
         this.grade = grade;
         this.W = false;
         this.finished = false;
+        this.finalGrade=false;
         this.unit=Course.getCourse(courseId).getUnit();
         this.name=Course.getCourse(courseId).getName();
         this.professorId=Course.getCourse(courseId).getProfessorId();
@@ -31,6 +32,14 @@ public class Grade {
 
     public int getUnit() {
         return unit;
+    }
+
+    public boolean isFinalGrade() {
+        return finalGrade;
+    }
+
+    public void setFinalGrade(boolean finalGrade) {
+        this.finalGrade = finalGrade;
     }
 
     public void setUnit(int unit) {
@@ -63,6 +72,10 @@ public class Grade {
 
     public void setW(boolean w) {
         W = w;
+        if (this.W){
+            this.finished=true;
+            this.finalGrade=true;
+        }
     }
 
     public double getGrade() {

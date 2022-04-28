@@ -7,7 +7,7 @@ public abstract class Request {
     protected String studentId;
     protected String departmentId;
     protected String acceptedText,deniedText;
-    protected String requestText;
+    protected String requestText,statusText;
     protected boolean pending,accepted;
     protected String id;
 
@@ -85,13 +85,21 @@ public abstract class Request {
 
     public abstract boolean getTotalAccepted();
     protected abstract String makeAcceptedText();
-    public  String getStatus(){
-        if (this.pending) return "pending";
-        if (getTotalAccepted()) return this.acceptedText;
-        return this.deniedText;
+    public  void setStatusText(){
+        if (this.pending)
+            this.statusText="pending";
+        else if (getTotalAccepted())
+            this.statusText="accepted";
+        else
+            this.statusText="rejected";
+    }
+
+    public String getStatusText() {
+        return statusText;
     }
 
     public void setAccepted(boolean accepted) {
+        this.pending=false;
         this.accepted = accepted;
     }
 

@@ -35,9 +35,9 @@ public class StudentHomePage implements Initializable {
     @FXML
     MenuItem minor,thesisDefense,signOut;
     @FXML
-    MenuItem courseList,professorList;
+    MenuItem courseList,professorList,Dorm,scheduleItem;
     @FXML
-    MenuItem certificateStudent;
+    MenuItem certificateStudent,freedom,Recommendation,examlistItem;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initClock();
@@ -101,5 +101,34 @@ public class StudentHomePage implements Initializable {
 
     public void openCertificateStudent(ActionEvent actionEvent) {
         SceneLoader.getInstance().ChangeSceneByNode("CertificateStudentPage.fxml",dateTime);
+    }
+
+    public void openMinorPage(ActionEvent actionEvent) {
+        SceneLoader.getInstance().ChangeSceneByNode("MinorRequestPage.fxml",dateTime);
+    }
+
+
+    public void OpenFreedomRequest(ActionEvent actionEvent) {
+        SceneLoader.getInstance().ChangeSceneByNode("FreedomRequestPage.fxml",dateTime);
+    }
+
+    public void OpenRecomPage(ActionEvent actionEvent) {
+        SceneLoader.getInstance().ChangeSceneByNode("RecomPage.fxml",dateTime);
+    }
+
+    public void openDormPage(ActionEvent actionEvent) {
+        SceneLoader.getInstance().ChangeSceneByNode("DormRequestPage.fxml",dateTime);
+    }
+
+    public void openThesisDefensePage(ActionEvent actionEvent) {
+        SceneLoader.getInstance().ChangeSceneByNode("ThesisDefensePage.fxml",dateTime);
+    }
+
+    public void openExamList(ActionEvent actionEvent) {
+        SceneLoader.getInstance().ChangeSceneByNode("examList.fxml",dateTime);
+    }
+
+    public void openSchedulePage(ActionEvent actionEvent) {
+        SceneLoader.getInstance().ChangeSceneByNode("SchedulePage.fxml",dateTime);
     }
 }

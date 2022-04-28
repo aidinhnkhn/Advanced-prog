@@ -24,6 +24,7 @@ public class FreedomRequest extends Request{
 
     @Override
     public void setAccepted(boolean accepted) {
+        this.pending=false;
         this.accepted=accepted;
         if (accepted){
             Student.getStudent(studentId).setEducating(false);

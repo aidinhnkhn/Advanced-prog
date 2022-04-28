@@ -94,7 +94,7 @@ public class Student extends User {
 
     public Grade getGrade(String id) {
         for (Grade grade : this.grades)
-            if (grade.getCourseId().equals(id))
+            if (grade.getCourseId().equals(id) && !grade.isFinished())
                 return grade;
         return null;
     }

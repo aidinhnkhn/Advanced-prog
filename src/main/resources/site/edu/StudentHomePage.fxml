@@ -45,16 +45,16 @@
           </Menu>
           <Menu mnemonicParsing="false" text="educational services">
             <items>
-              <MenuItem mnemonicParsing="false" text="Weekly Schedule" />
-                  <MenuItem mnemonicParsing="false" text="Exam List" />
+              <MenuItem fx:id="scheduleItem" mnemonicParsing="false" onAction="#openSchedulePage" text="Weekly Schedule" />
+                  <MenuItem fx:id="examlistItem" mnemonicParsing="false" onAction="#openExamList" text="Exam List" />
                   <Menu mnemonicParsing="false" text="Requests">
                     <items>
-                      <MenuItem mnemonicParsing="false" text="Recommendation" />
+                      <MenuItem fx:id="Recommendation" mnemonicParsing="false" onAction="#OpenRecomPage" text="Recommendation" />
                         <MenuItem fx:id="certificateStudent" mnemonicParsing="false" onAction="#openCertificateStudent" text="Certificate student" />
-                        <MenuItem mnemonicParsing="false" text="FREEDOM" />
-                        <MenuItem mnemonicParsing="false" text="Dorm" />
-                        <MenuItem fx:id="minor" mnemonicParsing="false" text="Minor" visible="false" />
-                        <MenuItem fx:id="thesisDefense" mnemonicParsing="false" text="Thesis defense" visible="false" />
+                        <MenuItem fx:id="freedom" mnemonicParsing="false" onAction="#OpenFreedomRequest" text="FREEDOM" />
+                        <MenuItem fx:id="Dorm" mnemonicParsing="false" onAction="#openDormPage" text="Dorm" />
+                        <MenuItem fx:id="minor" mnemonicParsing="false" onAction="#openMinorPage" text="Minor" visible="false" />
+                        <MenuItem fx:id="thesisDefense" mnemonicParsing="false" onAction="#openThesisDefensePage" text="Thesis defense" visible="false" />
                     </items>
                   </Menu>
             </items>

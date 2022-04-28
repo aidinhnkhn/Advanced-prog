@@ -11,7 +11,7 @@ public class DormRequest extends Request{
         this.pending=false;
         Random random=new Random();
         int randomNumber= random.nextInt(100);
-        this.accepted=randomNumber<=50;
+        this.accepted=randomNumber<=24;
         this.acceptedText="You have a place to sleep.";
         this.requestText="please let this sleep under a roof.";
         this.deniedText="Oh ****, try again this **** is totally random.";
@@ -36,4 +36,13 @@ public class DormRequest extends Request{
         return null;
     }
 
+    @Override
+    public void setStatusText() {
+        if (this.pending)
+            this.statusText="pending";
+        else if (getTotalAccepted())
+            this.statusText="accepted";
+        else
+            this.statusText=this.requestText;
+    }
 }

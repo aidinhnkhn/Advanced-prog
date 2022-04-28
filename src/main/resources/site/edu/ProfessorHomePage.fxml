@@ -42,14 +42,14 @@
             </Menu>
             <Menu mnemonicParsing="false" text="educational services">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Weekly Schedule" />
-                  <MenuItem mnemonicParsing="false" text="Exam List" />
-                  <MenuItem mnemonicParsing="false" text="Requests" />
+                  <MenuItem fx:id="scheduleItem" mnemonicParsing="false" onAction="#openSchedulePage" text="Weekly Schedule" />
+                  <MenuItem fx:id="examlistItem" mnemonicParsing="false" onAction="#openExamList" text="Exam List" />
+                  <MenuItem fx:id="requests" mnemonicParsing="false" onAction="#OpenRequestPage" text="Requests" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Record affairs">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Provisional grades" />
+                  <MenuItem fx:id="provisionalItem" mnemonicParsing="false" onAction="#OpenProvisionalPage" text="Provisional grades" />
                   <MenuItem fx:id="educationalStatus" mnemonicParsing="false" text="Educational status" visible="false" />
                </items>
             </Menu>

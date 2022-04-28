@@ -42,4 +42,9 @@ public class CertificateStudentRequest extends Request{
         res.append((LocalDate.now().plusMonths(6)));
         return res.toString();
     }
+
+    @Override
+    public void setStatusText() {
+        this.acceptedText=acceptedText+" :)";
+    }
 }

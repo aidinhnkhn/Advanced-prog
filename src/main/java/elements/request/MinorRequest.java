@@ -9,11 +9,11 @@ public class MinorRequest extends Request{
     private boolean secondAccepted;
     private static ArrayList<MinorRequest> minorRequests=new ArrayList<>();
 
-    public MinorRequest(String studentId, String departmentId, String acceptedText, String deniedText, String requestText, String secondDepartmentId) {
+    public MinorRequest(String studentId, String departmentId, String secondDepartmentId) {
         super(studentId, departmentId);
         this.acceptedText=makeAcceptedText();
         this.requestText="please Accept me I'm a nerd and want to study more";
-        this.deniedText="You are lucky to be REJECTED!";
+        this.deniedText="Rejected";
         this.secondDepartmentId = secondDepartmentId;
         this.secondAccepted=false;
         minorRequests.add(this);
@@ -35,6 +35,10 @@ public class MinorRequest extends Request{
         this.secondAccepted = secondAccepted;
         if (!secondAccepted)
             pending=false;
+        if (this.secondAccepted && this.accepted)
+            pending=false;
+        if (getTotalAccepted())
+            Student.getStudent(studentId).setMinorDepartment(secondDepartmentId);
     }
 
     public static ArrayList<MinorRequest> getMinorRequests() {
@@ -50,13 +54,16 @@ public class MinorRequest extends Request{
         this.accepted=accepted;
         if (!accepted)
             pending=false;
+        if (this.secondAccepted && this.accepted)
+            pending=false;
+        if (getTotalAccepted())
+            Student.getStudent(studentId).setMinorDepartment(secondDepartmentId);
     }
 
     @Override
     public boolean getTotalAccepted() {
         if (!this.pending)
             if (this.accepted && this.secondAccepted) {
-                Student.getStudent(studentId).setMinorDepartment(departmentId);
                 return true;
             }
         return false;
@@ -64,7 +71,7 @@ public class MinorRequest extends Request{
 
     @Override
     protected String makeAcceptedText() {
-        return "God bless your soul! you have to work hard more, is that what you wanted?";
+        return "Approved";
     }
 
 }
