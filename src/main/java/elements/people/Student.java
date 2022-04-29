@@ -94,7 +94,7 @@ public class Student extends User {
 
     public Grade getGrade(String id) {
         for (Grade grade : this.grades)
-            if (grade.getCourseId().equals(id) && !grade.isFinished())
+            if (grade.getCourseId().equals(id) && !grade.isFinalGrade())
                 return grade;
         return null;
     }
@@ -120,12 +120,25 @@ public class Student extends User {
         double units=0;
         double grades=0;
         for (Grade grade:this.grades){
+            if (!grade.isFinalGrade())
+                continue;
             units+=grade.getUnit();
-            grades+=grade.getGrade();
+            grades+=grade.getGrade()*grade.getUnit();
         }
         if (units!=0)
             return grades/units;
         else
             return 0;
+    }
+    public Grade getFinalGrades(String id){
+        for (Grade grade : this.grades)
+            if (grade.getCourseId().equals(id) && grade.isFinalGrade())
+                return grade;
+        return null;
+    }
+
+    @Override
+    public String toString() {
+        return this.getUsername()+" "+this.getId();
     }
 }

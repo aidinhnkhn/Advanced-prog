@@ -38,6 +38,8 @@ public class StudentHomePage implements Initializable {
     MenuItem courseList,professorList,Dorm,scheduleItem;
     @FXML
     MenuItem certificateStudent,freedom,Recommendation,examlistItem;
+    @FXML
+    MenuItem provisional,educationalStatus;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initClock();
@@ -130,5 +132,13 @@ public class StudentHomePage implements Initializable {
 
     public void openSchedulePage(ActionEvent actionEvent) {
         SceneLoader.getInstance().ChangeSceneByNode("SchedulePage.fxml",dateTime);
+    }
+
+    public void openStudentProvisional(ActionEvent actionEvent) {
+        SceneLoader.getInstance().ChangeSceneByNode("StudentProvisional.fxml",dateTime);
+    }
+
+    public void openEducationalStatusPage(ActionEvent actionEvent) {
+        SceneLoader.getInstance().ChangeSceneByNode("EducationalStatusPage.fxml",dateTime);
     }
 }

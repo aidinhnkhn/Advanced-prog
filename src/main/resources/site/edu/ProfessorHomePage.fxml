@@ -50,7 +50,8 @@
             <Menu mnemonicParsing="false" text="Record affairs">
                <items>
                   <MenuItem fx:id="provisionalItem" mnemonicParsing="false" onAction="#OpenProvisionalPage" text="Provisional grades" />
-                  <MenuItem fx:id="educationalStatus" mnemonicParsing="false" text="Educational status" visible="false" />
+                  <MenuItem fx:id="educationalStatus" mnemonicParsing="false" onAction="#openEducationalStatusPage" text="Educational status" visible="false" />
+                  <MenuItem fx:id="educationalAssistancePage" mnemonicParsing="false" onAction="#openEducationalGrades" text="Educational Assistant page" visible="false" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="profile">

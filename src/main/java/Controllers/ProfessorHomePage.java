@@ -35,7 +35,7 @@ public class ProfessorHomePage implements Initializable {
     @FXML
     Label dateTime, lastEnter, email, name;
     @FXML
-    MenuItem educationalStatus,signUp,editCourse,editProfessor;
+    MenuItem educationalStatus,signUp,editCourse,editProfessor,educationalAssistancePage;
     @FXML
     MenuItem professorList,examlistItem,provisionalItem;
 
@@ -50,6 +50,7 @@ public class ProfessorHomePage implements Initializable {
             educationalStatus.setVisible(true);
             signUp.setVisible(true);
             editCourse.setVisible(true);
+            educationalAssistancePage.setVisible(true);
         }
         if (professor.isHeadDepartment())
             editProfessor.setVisible(true);
@@ -118,5 +119,14 @@ public class ProfessorHomePage implements Initializable {
     }
 
     public void OpenProvisionalPage(ActionEvent actionEvent) {
+        SceneLoader.getInstance().ChangeSceneByNode("ProfessorProvisional.fxml",dateTime);
+    }
+
+    public void openEducationalGrades(ActionEvent actionEvent) {
+        SceneLoader.getInstance().ChangeSceneByNode("EducationalGrades.fxml",dateTime);
+    }
+
+    public void openEducationalStatusPage(ActionEvent actionEvent) {
+        SceneLoader.getInstance().ChangeSceneByNode("EducationalStatusPage.fxml",dateTime);
     }
 }

@@ -101,4 +101,9 @@ public class User {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return formatter.format(lastEnter);
     }
+
+    @Override
+    public String toString() {
+        return this.getUsername();
+    }
 }

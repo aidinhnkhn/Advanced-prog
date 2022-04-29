@@ -5,20 +5,28 @@ public class Grade {
     private double grade;
     private boolean W;
     private boolean finished,finalGrade;
+    private boolean objection,answered;
+    private String objectionText;
+    private String answerText;
     private int unit;
     private String name,professorId;
+    private String gradeStatus;
     public Grade(String courseId, double grade) {
         this.courseId = courseId;
         this.grade = grade;
         this.W = false;
         this.finished = false;
         this.finalGrade=false;
+        this.objection=false;
+        this.answered=false;
         this.unit=Course.getCourse(courseId).getUnit();
         this.name=Course.getCourse(courseId).getName();
         this.professorId=Course.getCourse(courseId).getProfessorId();
     }
 
     public String getProfessorId() {
+        if (professorId==null)
+            this.professorId=Course.getCourse(courseId).getProfessorId();
         return professorId;
     }
 
@@ -41,12 +49,49 @@ public class Grade {
     public void setFinalGrade(boolean finalGrade) {
         this.finalGrade = finalGrade;
     }
+    public boolean isObjection() {
+        return objection;
+    }
 
+    public void setObjection(boolean objection) {
+        this.objection = objection;
+    }
+
+    public boolean isAnswered() {
+        return answered;
+    }
+
+    public void setAnswered(boolean answered) {
+        this.answered = answered;
+    }
+
+    public String getObjectionText() {
+        if (objectionText==null)
+            objectionText="";
+        return objectionText;
+    }
+
+    public void setObjectionText(String objectionText) {
+        this.objectionText = objectionText;
+    }
+
+    public String getAnswerText() {
+        if (answerText==null)
+            answerText="";
+        return answerText;
+    }
+
+    public void setAnswerText(String answerText) {
+        this.answerText = answerText;
+    }
     public void setUnit(int unit) {
         this.unit = unit;
     }
 
     public String getName() {
+        if (name==null){
+            name=Course.getCourse(this.courseId).getName();
+        }
         return name;
     }
 
@@ -84,6 +129,15 @@ public class Grade {
 
     public void setGrade(double grade) {
         this.grade = grade;
+    }
+
+    public String getGradeStatus() {
+        setGradeStatus();
+        return gradeStatus;
+    }
+
+    public void setGradeStatus() {
+        this.gradeStatus = showGrade();
     }
 
     public String showGrade() {
