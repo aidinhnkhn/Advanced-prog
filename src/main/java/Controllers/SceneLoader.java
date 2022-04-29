@@ -9,6 +9,8 @@ import javafx.stage.Stage;
 //import org.apache.log4j.LogManager;
 //import org.apache.log4j.Logger;
 //import org.apache.log4j.PropertyConfigurator;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import site.edu.Main;
 
 import java.io.IOException;
@@ -16,7 +18,7 @@ import java.io.IOException;
 public class SceneLoader {
     private static SceneLoader sceneLoader;
 
-    //    private static Logger log=LogManager.getLogger(SceneLoader.class);
+    private static Logger log= LogManager.getLogger(SceneLoader.class);
     private SceneLoader() {
 
     }
@@ -36,11 +38,9 @@ public class SceneLoader {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
-//            PropertyConfigurator.configure("C:/Users/aidin/Desktop/sharifedu/src/main/resources/site/edu/log4j2.xml");
-//            log.info(address+" opened successfully!");
+            log.info(address+" opened successfully!");
         } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("FIle NOT found");
+            log.error(address+" couldn't be opened.");
         }
     }
     public void ChangeSceneByNode(String address,Node node){
@@ -51,11 +51,9 @@ public class SceneLoader {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
-//            PropertyConfigurator.configure("C:/Users/aidin/Desktop/sharifedu/src/main/resources/site/edu/log4j2.xml");
-//            log.info(address+" opened successfully!");
+            log.info(address+" opened successfully!");
         } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("FIle NOT found");
+            log.error(address+" couldn't be opened.");
         }
     }
 }

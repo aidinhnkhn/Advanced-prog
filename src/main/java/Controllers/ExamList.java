@@ -15,6 +15,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import logic.LogicalAgent;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -24,6 +26,9 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class ExamList implements Initializable {
+
+    private static Logger log = LogManager.getLogger(ExamList.class);
+
     public AnchorPane anchorPane;
     @FXML
      Button homePageButton;

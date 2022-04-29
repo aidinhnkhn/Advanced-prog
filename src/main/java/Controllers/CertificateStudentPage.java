@@ -10,14 +10,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import logic.LogicalAgent;
-
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class CertificateStudentPage implements Initializable {
-
+    private static Logger log = LogManager.getLogger(CertificateStudentPage.class);
     @FXML
     public AnchorPane anchorPane;
     @FXML
@@ -39,6 +40,7 @@ public class CertificateStudentPage implements Initializable {
         CertificateStudentRequest certificateStudentRequest=new CertificateStudentRequest
                 (LogicalAgent.getInstance().getUser().getId(),LogicalAgent.getInstance().getUser().getDepartmentId());
         certificateText.setText(certificateStudentRequest.getAcceptedText());
+        log.info(LogicalAgent.getInstance().getUser().getId()+ " request a certificate");
     }
 
     @Override

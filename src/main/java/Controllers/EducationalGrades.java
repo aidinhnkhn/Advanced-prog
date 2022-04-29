@@ -15,6 +15,8 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import logic.LogicalAgent;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,7 +41,7 @@ public class EducationalGrades implements Initializable {
     Label dateTime;
     @FXML
     TextArea showText;
-
+    private static Logger log = LogManager.getLogger(EducationalGrades.class);
     public void HomePage(ActionEvent actionEvent) {
         if (LogicalAgent.getInstance().getUser() instanceof Student)
             SceneLoader.getInstance().changeScene("StudentHomePage.fxml", actionEvent);
@@ -87,8 +89,9 @@ public class EducationalGrades implements Initializable {
             writer = new PrintWriter(file);
             writer.println(content);
             writer.close();
+            log.info("saved the file! "+file.getName());
         } catch (IOException ex) {
-            ex.printStackTrace();
+            log.error("couldn't save the file!");
         }
     }
 
@@ -101,6 +104,7 @@ public class EducationalGrades implements Initializable {
             gradeText.append("Objection: " + grade.getObjectionText() + "\n");
             gradeText.append("answered Objection: " + grade.getAnswerText() + "\n");
         }
+        log.info(student.getId()+ " information were requested! by :"+LogicalAgent.getInstance().getUser().getId());
         saveTextFile(gradeText.toString());
         showText.setText(gradeText.toString());
     }
@@ -112,6 +116,7 @@ public class EducationalGrades implements Initializable {
             if (professor.getUsername().contains(name))
                 professorBox.getItems().add(professor);
         }
+        log.info(LogicalAgent.getInstance().getUser().getId()+ "filtered professor by name!");
     }
 
     public void courseFile(ActionEvent actionEvent) {
@@ -143,6 +148,7 @@ public class EducationalGrades implements Initializable {
             gradeText.append("passed number: "+ passedStudentNumber+"\n");
             gradeText.append("failed number: "+(studentNumber-passedStudentNumber)+"\n");
         }
+        log.info(course.getId()+ " information were requested! by :"+LogicalAgent.getInstance().getUser().getId());
         saveTextFile(gradeText.toString());
         showText.setText(gradeText.toString());
     }
@@ -165,6 +171,7 @@ public class EducationalGrades implements Initializable {
                 gradeText.append("answered Objection: " + grade.getAnswerText() + "\n");
             }
         }
+        log.info(professor.getId()+ " information were requested! by :"+LogicalAgent.getInstance().getUser().getId());
         saveTextFile(gradeText.toString());
         showText.setText(gradeText.toString());
     }

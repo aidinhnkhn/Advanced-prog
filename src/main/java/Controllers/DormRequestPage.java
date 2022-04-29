@@ -15,11 +15,14 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import logic.LogicalAgent;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class DormRequestPage implements Initializable {
+    private static Logger log = LogManager.getLogger(DormRequestPage.class);
     @FXML
     public AnchorPane anchorPane;
     @FXML
@@ -52,6 +55,8 @@ public class DormRequestPage implements Initializable {
             DormRequest dormRequest=new DormRequest(student.getId(),student.getDepartmentId());
             alert.setContentText("you applied!");
             setupTable();
+            log.info(student.getId()+ " requested to have dorm!");
+            log.info(student.getId()+ "dorm request was accepted status: "+dormRequest.getTotalAccepted());
         }
         alert.show();
     }

@@ -11,11 +11,14 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import logic.LogicalAgent;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class EducationalStatusPage implements Initializable {
+    private static Logger log = LogManager.getLogger(EducationalStatusPage.class);
     @FXML
     public AnchorPane anchorPane;
     @FXML
@@ -88,6 +91,7 @@ public class EducationalStatusPage implements Initializable {
             if (studentCheck.getId().contains(id))
                 studentBox.getItems().add(student);
         }
+        log.info(LogicalAgent.getInstance().getUser().getId()+" filtered students by id");
     }
 
     public void searchName(ActionEvent actionEvent) {
@@ -97,10 +101,12 @@ public class EducationalStatusPage implements Initializable {
             if (studentCheck.getUsername().contains(name))
                 studentBox.getItems().add(student);
         }
+        log.info(LogicalAgent.getInstance().getUser().getId()+" filtered students by name");
     }
 
     public void pickStudent(ActionEvent actionEvent) {
         this.student=studentBox.getValue();
+        log.info(LogicalAgent.getInstance().getUser().getId()+" picked a student.");
         setupTable();
     }
 }

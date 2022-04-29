@@ -1,5 +1,6 @@
 package logic;
 
+import Controllers.SingUp;
 import Savers.Saver;
 import com.google.common.hash.Hashing;
 import elements.people.Professor;
@@ -8,6 +9,8 @@ import elements.people.Student;
 import elements.university.Department;
 import javafx.scene.image.Image;
 import javafx.embed.swing.SwingFXUtils;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import javax.imageio.ImageIO;
 import java.io.File;
@@ -16,7 +19,7 @@ import java.nio.charset.StandardCharsets;
 
 public class SignUpLogic {
     private static SignUpLogic signUpLogic;
-
+    private static Logger log = LogManager.getLogger(SignUpLogic.class);
     private SignUpLogic() {
 
     }
@@ -35,7 +38,6 @@ public class SignUpLogic {
                 , email, profession, department, degree, image)) return false;
         if (profession.equals("Student") && checkSupervisor(supervisorId)) return false;
         System.out.println(checkSupervisor(supervisorId));
-        //TODO save the user file:
         String sha256hex = Hashing.sha256()
                 .hashString(password, StandardCharsets.UTF_8)
                 .toString();
@@ -49,7 +51,6 @@ public class SignUpLogic {
     }
     private boolean checkSupervisor(String id){
         Professor professor=Professor.getProfessor(id);
-        //System.out.println(professor.getId());
         return (professor==null);
     }
     public void saveImage(Image image, String name) {
@@ -57,8 +58,9 @@ public class SignUpLogic {
                 "\\src\\main\\resources\\eData\\users\\pictures\\" + name + ".png");
         try {
             ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
+            log.info("image saved");
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
     }
 
@@ -67,12 +69,14 @@ public class SignUpLogic {
         Student student = new Student(username, password, Role.Student, melicode, phoneNumber, email, degree, department, "nothing",supervisorId);
         saveImage(image, student.getId());
         Saver.getInstance().saveStudent(student);
+        log.info("student created");
     }
 
     private void createProfessor(String username, String password, String profession, String melicode, String phoneNumber, String email, String department, String degree, Image image) {
         Professor professor = new Professor(username, password, GetRole(profession), melicode, phoneNumber, email, degree, department, "nothing");
         saveImage(image, professor.getId());
         Saver.getInstance().saveProfessor(professor);
+        log.info("professor created");
     }
 
     private Role GetRole(String profession) {

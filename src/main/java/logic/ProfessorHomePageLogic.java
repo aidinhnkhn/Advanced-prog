@@ -4,9 +4,12 @@ import Savers.Saver;
 import elements.people.Professor;
 import javafx.scene.Node;
 import javafx.stage.Stage;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 public class ProfessorHomePageLogic {
     private static ProfessorHomePageLogic professorHomePageLogic;
+    private static Logger log = LogManager.getLogger(ProfessorHomePageLogic.class);
     private ProfessorHomePageLogic(){
 
     }
@@ -16,6 +19,7 @@ public class ProfessorHomePageLogic {
         return professorHomePageLogic;
     }
     public void exit(Node node){
+        log.info("user singed out.");
         Saver.getInstance().saveProfessor((Professor) (LogicalAgent.getInstance().getUser()));
         Saver.getInstance().saveChanges();
         Stage stage=(Stage) (node.getScene().getWindow());

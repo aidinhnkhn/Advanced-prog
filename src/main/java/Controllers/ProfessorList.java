@@ -16,6 +16,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import logic.LogicalAgent;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -51,7 +53,7 @@ public class ProfessorList implements Initializable {
 
     @FXML
     private TableColumn<Professor, Role> role;
-
+    private static Logger log = LogManager.getLogger(ProfessorList.class);
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setupTable(getItems());
@@ -106,6 +108,7 @@ public class ProfessorList implements Initializable {
             if (canAdd)
                 professors.add(professor);
         }
+        log.info(LogicalAgent.getInstance().getUser().getId()+" changed the filters!");
         setupTable(professors);
     }
 }

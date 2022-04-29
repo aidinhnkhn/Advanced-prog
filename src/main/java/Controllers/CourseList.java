@@ -13,6 +13,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import logic.LogicalAgent;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -20,6 +22,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class CourseList implements Initializable {
+    private static Logger log = LogManager.getLogger(CourseList.class);
     @FXML
     public TableColumn<Course, String> courseId;
 
@@ -120,6 +123,7 @@ public class CourseList implements Initializable {
                     canAdd=false;
             if (canAdd) courses.add(course);
         }
+        log.info("course list was filtered!");
         setupTable(courses);
     }
 
@@ -137,6 +141,7 @@ public class CourseList implements Initializable {
             course.getStudentId().add(student.getId());
             student.addGrade(new Grade(course.getId(),0));
             alert.setContentText("I really like to see your face before the final exam!");
+            log.info(student.getId()+ " picked a course: "+course.getId() );
         }
         alert.show();
     }

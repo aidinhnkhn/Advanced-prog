@@ -16,6 +16,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import logic.LogicalAgent;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -43,6 +45,7 @@ public class SchedulePage implements Initializable {
     @FXML
     public TableView<CourseSchedule> tableView;
 
+    private static Logger log = LogManager.getLogger(SchedulePage.class);
     public void HomePage(ActionEvent actionEvent) {
         if (LogicalAgent.getInstance().getUser() instanceof Student)
             SceneLoader.getInstance().changeScene("StudentHomePage.fxml", actionEvent);

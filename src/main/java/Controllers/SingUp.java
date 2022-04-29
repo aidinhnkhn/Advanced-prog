@@ -12,6 +12,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import logic.LogicalAgent;
 import logic.SignUpLogic;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -37,7 +39,7 @@ public class SingUp implements Initializable {
     Label fileSelected;
 
     private String imageFile;
-
+    private static Logger log = LogManager.getLogger(SingUp.class);
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         choiceBox.getItems().addAll("Student", "Professor", "HeadDepartment", "EducationalAssistant");
@@ -79,6 +81,7 @@ public class SingUp implements Initializable {
             imageView.setImage(image);
             fileSelected.setText("Image selected");
             fileSelected.setStyle("-fx-text-fill: green");
+            log.info("user picked an image!");
         } else {
             fileSelected.setText("Image file selection failed!");
             fileSelected.setStyle("-fx-text-fill: red");
@@ -93,7 +96,6 @@ public class SingUp implements Initializable {
         alert.setTitle("Sign up");
         if(successful) {
             alert.setContentText("successful!");
-            //SceneLoader.getInstance().changeScene("SignIn.fxml",actionEvent);
         }
         else
             alert.setContentText("unsuccessful! please fill each form correctly");

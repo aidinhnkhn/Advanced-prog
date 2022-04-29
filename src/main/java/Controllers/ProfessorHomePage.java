@@ -18,11 +18,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 import logic.LogicalAgent;
 import logic.ProfessorHomePageLogic;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -44,6 +43,7 @@ public class ProfessorHomePage implements Initializable {
 
     @FXML
     MenuItem profileItem;
+    private static Logger log = LogManager.getLogger(ProfessorHomePage.class);
     public void initialize(URL location, ResourceBundle resources) {
         initClock();
         initUser(LogicalAgent.getInstance().getUser());
@@ -87,18 +87,25 @@ public class ProfessorHomePage implements Initializable {
         name.setText("name: " + user.getUsername());
         email.setText("email: " + user.getEmail());
         initImage(user);
+        log.info("User loaded.");
     }
 
     public void initImage(User user) {
         try {
             String filename = user.getId() + ".png";
+            File file=new File(System.getProperty("user.dir") +
+                    "\\src\\main\\resources\\eData\\users\\pictures\\" + filename);
+            if (!file.exists()){
+                log.warn("image couldn't be loaded");
+                return;
+            }
             InputStream stream = new FileInputStream(System.getProperty("user.dir") +
                     "\\src\\main\\resources\\eData\\users\\pictures\\" + filename);
             Image image = new Image(stream);
             imageView.setImage(image);
             stream.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("couldn't write the image");
         }
     }
 

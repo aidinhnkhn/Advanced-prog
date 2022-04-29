@@ -13,6 +13,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import logic.LogicalAgent;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -29,6 +31,7 @@ public class MinorRequestPage implements Initializable {
     TableColumn<MinorRequest,String> statusColumn;
     @FXML
     TableView<MinorRequest> tableView;
+    private static Logger log = LogManager.getLogger(MinorRequestPage.class);
     public void HomePage(ActionEvent actionEvent) {
         if (LogicalAgent.getInstance().getUser() instanceof Student)
             SceneLoader.getInstance().changeScene("StudentHomePage.fxml",actionEvent);
@@ -85,6 +88,7 @@ public class MinorRequestPage implements Initializable {
             MinorRequest minorRequest=new MinorRequest(student.getId(),student.getDepartmentId(),departmentBox.getValue());
 //            Saver.getInstance().saveMinorRequest(minorRequest);
             alert.setContentText("minor request has been sent");
+            log.info(student.getId()+" requested a minor with: "+departmentBox.getValue());
             setupTable();
         }
         alert.show();

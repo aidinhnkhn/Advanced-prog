@@ -6,6 +6,8 @@ import elements.courses.Grade;
 import elements.people.Professor;
 import elements.people.Student;
 import elements.university.Department;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -13,7 +15,7 @@ import java.util.ArrayList;
 
 public class EditCourseLogic {
     private static EditCourseLogic editCourseLogic;
-
+    private static Logger log = LogManager.getLogger(EditCourseLogic.class);
     private EditCourseLogic() {
 
     }
@@ -31,6 +33,7 @@ public class EditCourseLogic {
         Course course = new Course(name, professorId, departmentId, Integer.parseInt(unit), days,
                 Integer.parseInt(hour), Integer.parseInt(length),localDate,Integer.parseInt(examHour),degree);
         Saver.getInstance().saveCourse(course);
+        log.info(LogicalAgent.getInstance().getUser().getId()+" created: "+course.getId());
         return true;
     }
 
@@ -57,6 +60,7 @@ public class EditCourseLogic {
             course.setExamDate(localDate,Integer.parseInt(examHour));
         if (!degree.equals(""))
             course.setDegree(degree);
+        log.info(LogicalAgent.getInstance().getUser().getId()+" edited: "+course.getId());
         return true;
     }
 
@@ -99,7 +103,10 @@ public class EditCourseLogic {
         }
         File file = new File(System.getProperty("user.dir") +
                 "\\src\\main\\resources\\eData\\course\\"+course.getId()+".txt");
-        System.out.println(file.delete());
+        if (file.delete())
+            log.info(file.getName()+ " got deleted.");
+        else
+            log.warn(" couldn't delete "+file.getName() );
         return true;
     }
     public boolean doesCourseExist(String id) {

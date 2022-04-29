@@ -8,6 +8,9 @@ import elements.people.Student;
 import elements.request.*;
 import elements.university.Department;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
@@ -17,7 +20,7 @@ import java.util.Scanner;
 
 public class Loader {
     private static Loader load;
-
+    private static Logger log = LogManager.getLogger(Loader.class);
     private Loader() {
 
     }
@@ -39,10 +42,12 @@ public class Loader {
         FreedomRequest.setFreedomRequests(Loader.getInstance().loadFreedomRequests());
         CertificateStudentRequest.setCertificateStudentRequests(Loader.getInstance().loadCertificates());
         ThesisDefenseRequest.setThesisDefenseRequests(Loader.getInstance().loadThesisDefenseRequests());
+        log.info("edu Initialized");
     }
 
     public void deleteFile(File file){
         file.delete();
+        log.info(file.getName()+" has been deleted");
     }
     public Student loadStudent(File file) {
         try {
@@ -57,7 +62,7 @@ public class Loader {
             Student student = gson.fromJson(userJson, Student.class);
             return student;
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            log.error("file not Found!");
         }
         return null;
     }
@@ -68,6 +73,7 @@ public class Loader {
         ArrayList<Student> students = new ArrayList<>();
         for (File file : studentDirectory.listFiles())
             students.add(loadStudent(file));
+        log.info("students loaded.");
         return students;
     }
 
@@ -84,7 +90,7 @@ public class Loader {
             Professor professor = gson.fromJson(userJson, Professor.class);
             return professor;
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            log.error("file not Found!");
         }
         return null;
     }
@@ -94,7 +100,7 @@ public class Loader {
         ArrayList<Professor> professors = new ArrayList<>();
         for (File file : studentDirectory.listFiles())
             professors.add(loadProfessor(file));
-
+        log.info("professors loaded");
         return professors;
     }
 
@@ -110,7 +116,7 @@ public class Loader {
             Department department = gson.fromJson(userJson, Department.class);
             return department;
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            log.error("file not Found!");
         }
         return null;
     }
@@ -120,6 +126,7 @@ public class Loader {
         ArrayList<Department> departments=new ArrayList<>();
         for (File file : studentDirectory.listFiles())
             departments.add(loadDepartment(file));
+        log.info("professor loaded");
         return departments;
     }
 
@@ -136,7 +143,7 @@ public class Loader {
             Course course = gson.fromJson(userJson, Course.class);
             return course;
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            log.error("file not Found!");
         }
         return null;
     }
@@ -146,6 +153,7 @@ public class Loader {
         ArrayList<Course> courses=new ArrayList<>();
         for (File file:studentDirectory.listFiles())
             courses.add(loadCourse(file));
+        log.info("courses loaded");
         return courses;
     }
 
@@ -162,7 +170,7 @@ public class Loader {
             MinorRequest minorRequest = gson.fromJson(userJson, MinorRequest.class);
             return minorRequest;
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            log.error("file not Found!");
         }
         return null;
     }
@@ -173,6 +181,7 @@ public class Loader {
         ArrayList<MinorRequest> minorRequests=new ArrayList<>();
         for (File file: Objects.requireNonNull(minorDirectory.listFiles()))
             minorRequests.add(loadMinorRequest(file));
+        log.info("minor requests loaded");
         return  minorRequests;
     }
 
@@ -189,7 +198,7 @@ public class Loader {
             DormRequest dormRequest = gson.fromJson(userJson, DormRequest.class);
             return dormRequest;
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            log.error("file not Found!");
         }
         return null;
     }
@@ -200,6 +209,7 @@ public class Loader {
         ArrayList<DormRequest> dormRequests=new ArrayList<>();
         for (File file: Objects.requireNonNull(dormRequestDirectory.listFiles()))
             dormRequests.add(loadDormRequest(file));
+        log.info("dorm requests loaded");
         return dormRequests;
     }
 
@@ -216,7 +226,7 @@ public class Loader {
             RecommendationRequest recommendationRequest = gson.fromJson(userJson, RecommendationRequest.class);
             return recommendationRequest;
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            log.error("file not Found!");
         }
         return null;
     }
@@ -227,6 +237,7 @@ public class Loader {
         ArrayList<RecommendationRequest> recommendationRequests=new ArrayList<>();
         for (File file: Objects.requireNonNull(recommendationRequestDirectory.listFiles()))
             recommendationRequests.add(loadRecommendationRequest(file));
+        log.info("Recommendation requests loaded");
         return recommendationRequests;
     }
 
@@ -243,7 +254,7 @@ public class Loader {
             FreedomRequest freedomRequest = gson.fromJson(userJson, FreedomRequest.class);
             return freedomRequest;
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            log.error("file not Found!");
         }
         return null;
     }
@@ -254,6 +265,7 @@ public class Loader {
         ArrayList<FreedomRequest> freedomRequests=new ArrayList<>();
         for (File file: Objects.requireNonNull(freeDomeRequestDirectory.listFiles()))
             freedomRequests.add(loadFreedomRequest(file));
+        log.info("freedom requests loaded");
         return freedomRequests;
     }
 
@@ -270,7 +282,7 @@ public class Loader {
             CertificateStudentRequest certificateStudentRequest = gson.fromJson(userJson, CertificateStudentRequest.class);
             return certificateStudentRequest;
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            log.error("file not Found!");
         }
         return null;
     }
@@ -280,6 +292,7 @@ public class Loader {
         ArrayList <CertificateStudentRequest> certificates=new ArrayList<>();
         for (File file: Objects.requireNonNull(certificateDirectory.listFiles()))
             certificates.add(loadCertificate(file));
+        log.info("certificate requests loaded");
         return certificates;
     }
 
@@ -296,7 +309,7 @@ public class Loader {
             ThesisDefenseRequest thesisDefenseRequest = gson.fromJson(userJson, ThesisDefenseRequest.class);
             return thesisDefenseRequest;
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            log.error("file not Found!");
         }
         return null;
     }
@@ -307,6 +320,7 @@ public class Loader {
         ArrayList<ThesisDefenseRequest> requests=new ArrayList<>();
         for (File file: Objects.requireNonNull(thesisDirectory.listFiles()))
             requests.add(loadThesisDefenseRequest(file));
+        log.info("thesis requests loaded");
         return requests;
     }
 }

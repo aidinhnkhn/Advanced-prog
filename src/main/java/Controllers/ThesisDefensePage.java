@@ -8,6 +8,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import logic.LogicalAgent;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -27,6 +29,7 @@ public class ThesisDefensePage implements Initializable {
     Button homePageButton;
     @FXML
     Label status;
+    private static Logger log = LogManager.getLogger(ThesisDefensePage.class);
     public void HomePage(ActionEvent actionEvent) {
         if (LogicalAgent.getInstance().getUser() instanceof Student)
             SceneLoader.getInstance().changeScene("StudentHomePage.fxml",actionEvent);
@@ -58,6 +61,7 @@ public class ThesisDefensePage implements Initializable {
             else {
                 ThesisDefenseRequest thesisDefenseRequest = new ThesisDefenseRequest(student.getId(), student.getDepartmentId(), finalDate);
                 alert.setContentText("successful");
+                log.info(LogicalAgent.getInstance().getUser().getId()+" requested a thesis defense.");
             }
         }
         alert.show();

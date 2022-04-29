@@ -10,12 +10,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.layout.AnchorPane;
 import logic.LogicalAgent;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ResourceBundle;
 
 public class ChangePasswordPage implements Initializable {
+    private static Logger log = LogManager.getLogger(ChangePasswordPage.class);
     @FXML
     Button submitButton;
     @FXML
@@ -52,6 +55,7 @@ public class ChangePasswordPage implements Initializable {
                     .hashString(newPassword.getText(), StandardCharsets.UTF_8)
                     .toString();
             LogicalAgent.getInstance().getUser().setPassword(newSha256hex);
+            log.info(LogicalAgent.getInstance().getUser().getId()+" changed his password!");
             if (LogicalAgent.getInstance().getUser() instanceof Student)
                 SceneLoader.getInstance().changeScene("StudentHomePage.fxml", actionEvent);
             else

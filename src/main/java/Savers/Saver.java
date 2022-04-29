@@ -7,8 +7,10 @@ import elements.people.Professor;
 import elements.people.Student;
 import elements.request.*;
 import elements.university.Department;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
-import javax.xml.parsers.SAXParser;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -16,7 +18,7 @@ import java.time.LocalDateTime;
 
 public class Saver {
     private static Saver saveStudent;
-
+    private static Logger log = LogManager.getLogger(Saver.class);
     private Saver() {
 
     }
@@ -39,8 +41,9 @@ public class Saver {
             FileWriter writer = new FileWriter(file, false);
             writer.write(userJson);
             writer.close();
+
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("couldn't save the file!");
         }
     }
 
@@ -57,7 +60,7 @@ public class Saver {
             writer.write(userJson);
             writer.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("couldn't save the file!");
         }
     }
 
@@ -73,7 +76,7 @@ public class Saver {
             writer.write(departmentJson);
             writer.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("couldn't save the file!");
         }
     }
 
@@ -90,7 +93,7 @@ public class Saver {
             writer.write(courseJson);
             writer.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("couldn't save the file!");
         }
     }
 
@@ -106,7 +109,7 @@ public class Saver {
             writer.write(courseJson);
             writer.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("couldn't save the file!");
         }
     }
 
@@ -122,7 +125,7 @@ public class Saver {
             writer.write(courseJson);
             writer.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("couldn't save the file!");
         }
     }
 
@@ -138,7 +141,7 @@ public class Saver {
             writer.write(courseJson);
             writer.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("couldn't save the file!");
         }
     }
 
@@ -154,7 +157,7 @@ public class Saver {
             writer.write(courseJson);
             writer.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("couldn't save the file!");
         }
     }
 
@@ -171,7 +174,7 @@ public class Saver {
             writer.write(courseJson);
             writer.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("couldn't save the file!");
         }
     }
 
@@ -188,7 +191,7 @@ public class Saver {
             writer.write(courseJson);
             writer.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("couldn't save the file!");
         }
     }
     public void saveChanges() {
@@ -223,6 +226,7 @@ public class Saver {
         for (ThesisDefenseRequest thesisDefenseRequest:ThesisDefenseRequest.getThesisDefenseRequests())
             Saver.getInstance().saveThesisDefenseRequest(thesisDefenseRequest);
 
+        log.info("Saved Changes");
     }
 
 }

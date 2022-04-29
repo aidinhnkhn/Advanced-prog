@@ -14,7 +14,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import logic.LogicalAgent;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -66,7 +69,7 @@ public class ProfilePage implements Initializable {
     public AnchorPane anchorPane;
     @FXML
     CheckBox themeBox;
-
+    private static Logger log = LogManager.getLogger(ProfilePage.class);
     public void HomePage(ActionEvent actionEvent) {
         if (LogicalAgent.getInstance().getUser() instanceof Student)
             SceneLoader.getInstance().changeScene("StudentHomePage.fxml",actionEvent);
@@ -116,21 +119,34 @@ public class ProfilePage implements Initializable {
     public void initImage(User user){
         try {
             String filename=user.getId()+".png";
+            File file=new File(System.getProperty("user.dir") +
+                    "\\src\\main\\resources\\eData\\users\\pictures\\" + filename);
+            if (!file.exists()){
+                log.warn("image doesn't exist");
+                return;
+            }
             InputStream stream = new FileInputStream(System.getProperty("user.dir") +
                     "\\src\\main\\resources\\eData\\users\\pictures\\" + filename);
             Image image = new Image(stream);
             imageView.setImage(image);
             stream.close();
         } catch (IOException e){
-            e.printStackTrace();
+            log.error("couldn't load the image");
         }
     }
 
     public void saveChanges(ActionEvent actionEvent) {
         User user=LogicalAgent.getInstance().getUser();
+        if (!user.getEmail().equals(email.getText()))
+            log.info(user.getId()+" changed his email.");
+        if (!user.getPhoneNumber().equals(phoneNumber.getText()))
+            log.info(user.getId()+" changed his number!");
+        if (user.isTheme()!=themeBox.isSelected())
+            log.info(user.getId()+" changed the theme!");
         user.setEmail(email.getText());
         user.setPhoneNumber(phoneNumber.getText());
         user.setTheme(themeBox.isSelected());
+
         if (LogicalAgent.getInstance().getUser().isTheme()) {
             anchorPane.setStyle("    -fx-background-color:\n" +
                     "            linear-gradient(#4568DC, #B06AB3),\n" +

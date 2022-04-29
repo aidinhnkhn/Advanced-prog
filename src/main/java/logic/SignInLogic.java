@@ -4,13 +4,15 @@ import com.google.common.hash.Hashing;
 import elements.people.Professor;
 import elements.people.Student;
 import javafx.scene.image.Image;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 
 public class SignInLogic {
     private static SignInLogic signInLogic;
-
+    private static Logger log = LogManager.getLogger(SignInLogic.class);
     private SignInLogic() {
 
     }
@@ -41,6 +43,7 @@ public class SignInLogic {
                 .toString();
         if (sha256hex.equals(student.getPassword()) && student.isEducating()){
             LogicalAgent.getInstance().setUser(student);
+            log.info(student.getId()+" singed in.");
             return true;
         }
         return false;
@@ -53,6 +56,7 @@ public class SignInLogic {
                 .toString();
         if (sha256hex.equals(professor.getPassword())){
             LogicalAgent.getInstance().setUser(professor);
+            log.info(professor.getId()+" singed in.");
             return true;
         }
         return false;

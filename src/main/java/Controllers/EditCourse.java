@@ -8,12 +8,15 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import logic.EditCourseLogic;
 import logic.LogicalAgent;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class EditCourse implements Initializable {
+    private static Logger log = LogManager.getLogger(DormRequestPage.class);
     @FXML
     public AnchorPane anchorPane;
     @FXML

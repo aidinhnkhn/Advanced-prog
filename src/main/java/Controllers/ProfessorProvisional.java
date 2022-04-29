@@ -14,6 +14,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import logic.LogicalAgent;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -47,7 +49,7 @@ public class ProfessorProvisional implements Initializable {
     Button submitButton, finalizeButton,answerButton;
     @FXML
     TextField gradeField, idField,answerField;
-
+    private static Logger log = LogManager.getLogger(ProfessorProvisional.class);
     public void HomePage(ActionEvent actionEvent) {
         if (LogicalAgent.getInstance().getUser() instanceof Student)
             SceneLoader.getInstance().changeScene("StudentHomePage.fxml", actionEvent);
@@ -71,6 +73,7 @@ public class ProfessorProvisional implements Initializable {
             studentGrade.add(grade);
             students.add(student);
         }
+        log.info("user changed the filter!");
         setupTable(studentGrade, students);
     }
 
@@ -134,8 +137,10 @@ public class ProfessorProvisional implements Initializable {
             professorGrade = Math.round(professorGrade / 0.25) * 0.25;
             studentGrade.setGrade(professorGrade);
             studentGrade.setGradeStatus();
+            log.info("grade submitted");
         } else if (studentGrade == null) {
             alert.setContentText("this course grades are final.");
+            log.warn("student grade is null");
         }
         alert.show();
         filter(actionEvent);
@@ -166,6 +171,7 @@ public class ProfessorProvisional implements Initializable {
                 Grade grade = student.getGrade(courseId);
                 grade.setFinalGrade(true);
             }
+            log.info(course.getId()+" grades finalized!");
         }
         alert.show();
     }
@@ -182,6 +188,7 @@ public class ProfessorProvisional implements Initializable {
         if (student==null){
             alert.setContentText("enter a correct student Id");
             alert.show();
+            log.warn("student is null");
             return;
         }
         if (!course.getStudentId().contains(id))
@@ -196,6 +203,7 @@ public class ProfessorProvisional implements Initializable {
             alert.setTitle("SuccessFull");
             alert.setHeaderText("status");
             alert.setContentText("answer submitted");
+            log.info(student.getId()+" objection to "+course.getId()+" got answered!");
         }
         alert.show();
     }

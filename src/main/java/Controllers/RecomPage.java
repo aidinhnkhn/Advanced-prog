@@ -17,6 +17,8 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import logic.LogicalAgent;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,6 +42,8 @@ public class RecomPage implements Initializable {
     TableColumn<RecommendationRequest,String> idColumn;
     @FXML
     TableView<RecommendationRequest> tableView;
+
+    private static Logger log = LogManager.getLogger(RecomPage.class);
     public void HomePage(ActionEvent actionEvent) {
         if (LogicalAgent.getInstance().getUser() instanceof Student)
             SceneLoader.getInstance().changeScene("StudentHomePage.fxml",actionEvent);
@@ -63,6 +67,7 @@ public class RecomPage implements Initializable {
         else{
             alert.setContentText("we sent your request");
             RecommendationRequest recommendationRequest=new RecommendationRequest(student.getId(),professorId.getText());
+            log.info(student.getId()+" requested a Recommendation to professor: "+professorId.getText());
             setupTable();
         }
         alert.show();
@@ -128,7 +133,7 @@ public class RecomPage implements Initializable {
             writer.println(content);
             writer.close();
         } catch (IOException ex) {
-            ex.printStackTrace();
+            log.error("couldn't save the file"+file.getName());
         }
     }
 }

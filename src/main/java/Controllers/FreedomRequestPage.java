@@ -15,6 +15,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import logic.LogicalAgent;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -31,6 +33,7 @@ public class FreedomRequestPage implements Initializable {
     TableColumn<FreedomRequest,String> statusColumn;
     @FXML
     TableView<FreedomRequest> tableView;
+    private static Logger log = LogManager.getLogger(FreedomRequestPage.class);
     public void HomePage(ActionEvent actionEvent) {
         if (LogicalAgent.getInstance().getUser() instanceof Student)
             SceneLoader.getInstance().changeScene("StudentHomePage.fxml",actionEvent);
@@ -52,6 +55,7 @@ public class FreedomRequestPage implements Initializable {
         else{
             alert.setContentText("we sent your request.");
             FreedomRequest freedomRequest=new FreedomRequest(student.getId(),student.getDepartmentId());
+            log.info(student.getId()+" wants to be free!");
             setupTable();
         }
         alert.show();

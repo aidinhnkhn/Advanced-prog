@@ -14,6 +14,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import logic.LogicalAgent;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -32,7 +34,7 @@ public class ProfessorRequestPage implements Initializable {
     TextArea textArea;
     @FXML
     ComboBox<String> requestBox;
-
+    private static Logger log = LogManager.getLogger(ProfessorRequestPage.class);
     public void HomePage(ActionEvent actionEvent) {
         if (LogicalAgent.getInstance().getUser() instanceof Student)
             SceneLoader.getInstance().changeScene("StudentHomePage.fxml", actionEvent);
@@ -231,6 +233,7 @@ public class ProfessorRequestPage implements Initializable {
                     minorRequest.setAccepted(true);
                 if (professor.getDepartmentId().equals(minorRequest.getSecondDepartmentId()))
                     minorRequest.setSecondAccepted(true);
+                log.info(professor.getId()+" accepted a minor request. "+ minorRequest.getId());
             }
         }
         if (isRecommendation) {
@@ -238,16 +241,20 @@ public class ProfessorRequestPage implements Initializable {
                 return;
             RecommendationRequest recommendationRequest = RecommendationRequest.getRecommendationRequests().get(recommendationId);
             if (recommendationRequest.isPending())
-                if (professor.getId().equals(recommendationRequest.getDepartmentId()))
+                if (professor.getId().equals(recommendationRequest.getDepartmentId())){
                     recommendationRequest.setAccepted(true);
+                    log.info(professor.getId()+" accepted a Recommendation request. "+recommendationRequest.getId());
+                }
         }
         if (isFreedom) {
             if (freedomId < 0 || freedomId >= FreedomRequest.getFreedomRequests().size())
                 return;
             FreedomRequest freedomRequest = FreedomRequest.getFreedomRequests().get(freedomId);
             if (freedomRequest.isPending())
-                if (professor.getDepartmentId().equals(freedomRequest.getDepartmentId()))
+                if (professor.getDepartmentId().equals(freedomRequest.getDepartmentId())) {
                     freedomRequest.setAccepted(true);
+                    log.info(professor.getId()+" accepted a freedom request. "+freedomRequest.getId());
+                }
         }
     }
 
@@ -262,6 +269,7 @@ public class ProfessorRequestPage implements Initializable {
                     minorRequest.setAccepted(false);
                 if (professor.getDepartmentId().equals(minorRequest.getSecondDepartmentId()))
                     minorRequest.setSecondAccepted(false);
+                log.info(professor.getId()+" rejected a minor request. "+ minorRequest.getId());
             }
         }
         if (isRecommendation) {
@@ -269,16 +277,20 @@ public class ProfessorRequestPage implements Initializable {
                 return;
             RecommendationRequest recommendationRequest = RecommendationRequest.getRecommendationRequests().get(recommendationId);
             if (recommendationRequest.isPending())
-                if (professor.getId().equals(recommendationRequest.getDepartmentId()))
+                if (professor.getId().equals(recommendationRequest.getDepartmentId())) {
                     recommendationRequest.setAccepted(false);
+                    log.info(professor.getId()+" rejected a Recommendation request. "+recommendationRequest.getId());
+                }
         }
         if (isFreedom) {
             if (freedomId < 0 || freedomId >= FreedomRequest.getFreedomRequests().size())
                 return;
             FreedomRequest freedomRequest = FreedomRequest.getFreedomRequests().get(freedomId);
             if (freedomRequest.isPending())
-                if (professor.getDepartmentId().equals(freedomRequest.getDepartmentId()))
+                if (professor.getDepartmentId().equals(freedomRequest.getDepartmentId())) {
                     freedomRequest.setAccepted(false);
+                    log.info(professor.getId()+" rejected a freedom request. "+freedomRequest.getId());
+                }
         }
     }
 }

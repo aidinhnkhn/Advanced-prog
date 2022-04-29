@@ -18,6 +18,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 import logic.LogicalAgent;
 import logic.StudentHomePageLogic;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.io.*;
 import java.net.URL;
@@ -45,6 +47,8 @@ public class StudentHomePage implements Initializable {
     MenuItem provisional,educationalStatus;
     @FXML
     MenuItem profileItem;
+
+    static Logger log = LogManager.getLogger(StudentHomePage.class);
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initClock();
@@ -64,11 +68,16 @@ public class StudentHomePage implements Initializable {
     }
     public void initStudent(Student student){
         education.setText(student.isEducating()?"undergraduate":"educating");
-        supervisor.setText("you supervisor is Dr."+Professor.getProfessor(student.getSupervisorId()).getUsername());
+        try {
+            supervisor.setText("you supervisor is Dr." + Professor.getProfessor(student.getSupervisorId()).getUsername());
+        } catch (NullPointerException e){
+            log.error("user name is null");
+        }
         permission.setText("you "+(student.isEnrollPermission()?"have":"don't have")+" permission to enroll");
         enrollTime.setText("enroll time: "+(student.isEnrollPermission()?student.getEnrollHour():"not set"));
         setVisiblity(student);
         Saver.getInstance().saveStudent(student);
+        log.info("student info loaded!");
     }
     private void setVisiblity(Student student){
         if (student.getDegree().equals("Bachelor"))
@@ -80,18 +89,27 @@ public class StudentHomePage implements Initializable {
         lastEnter.setText("last enter: "+user.getDateString());
         name.setText("name: "+user.getUsername());
         email.setText("email: "+user.getEmail());
+        log.info("user info loaded!");
         initImage(user);
     }
     public void initImage(User user){
         try {
             String filename=user.getId()+".png";
+            File file=new File(System.getProperty("user.dir") +
+                    "\\src\\main\\resources\\eData\\users\\pictures\\" + filename);
+            if (!file.exists()){
+                log.warn("could not load image");
+                return;
+            }
             InputStream stream = new FileInputStream(System.getProperty("user.dir") +
                     "\\src\\main\\resources\\eData\\users\\pictures\\" + filename);
             Image image = new Image(stream);
             imageView.setImage(image);
             stream.close();
+            log.trace("user image loaded!");
         } catch (IOException e){
             e.printStackTrace();
+            log.error("couldn't load image");
         }
     }
     private void initClock() {
@@ -106,27 +124,33 @@ public class StudentHomePage implements Initializable {
     }
 
     public void exit(ActionEvent actionEvent) {
+
        StudentHomePageLogic.getInstance().exit(education);
     }
 
     public void GoCourseList(ActionEvent actionEvent) {
+
         SceneLoader.getInstance().ChangeSceneByNode("CourseList.fxml",dateTime);
     }
 
     public void openProfessorList(ActionEvent actionEvent) {
+
         SceneLoader.getInstance().ChangeSceneByNode("ProfessorList.fxml",dateTime);
     }
 
     public void openCertificateStudent(ActionEvent actionEvent) {
+
         SceneLoader.getInstance().ChangeSceneByNode("CertificateStudentPage.fxml",dateTime);
     }
 
     public void openMinorPage(ActionEvent actionEvent) {
+
         SceneLoader.getInstance().ChangeSceneByNode("MinorRequestPage.fxml",dateTime);
     }
 
 
     public void OpenFreedomRequest(ActionEvent actionEvent) {
+
         SceneLoader.getInstance().ChangeSceneByNode("FreedomRequestPage.fxml",dateTime);
     }
 
