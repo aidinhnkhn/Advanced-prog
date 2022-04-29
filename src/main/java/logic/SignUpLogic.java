@@ -37,7 +37,7 @@ public class SignUpLogic {
         if (!allChecked(username, password, confirmPass, melicode, phoneNumber
                 , email, profession, department, degree, image)) return false;
         if (profession.equals("Student") && checkSupervisor(supervisorId)) return false;
-        System.out.println(checkSupervisor(supervisorId));
+
         String sha256hex = Hashing.sha256()
                 .hashString(password, StandardCharsets.UTF_8)
                 .toString();
@@ -89,17 +89,28 @@ public class SignUpLogic {
                               String melicode, String phoneNumber, String email, String profession,
                               String department, String degree, Image image) {
         if (username.equals("")) return false;
+
         if (password.equals("")) return false;
+
         if (!password.equals(confirmPass)) return false;
+
         if (melicode.equals("")) return false;
+
         if (phoneNumber.equals("")) return false;
+
         if (email.equals("")) return false;
+
         if (profession == null) return false;
+
         if (department == null) return false;
+
         if (degree == null) return false;
+
         if (image == null) return false;
-        if (!Department.getDepartment(department).getEducationalAssistantId().equals("")) return false;
-        if (!Department.getDepartment(department).getHeadDepartmentId().equals("")) return false;
+
+        if (Department.getDepartment(department).getEducationalAssistantId().equals("")) return false;
+
+        if (Department.getDepartment(department).getHeadDepartmentId().equals("")) return false;
         return true;
     }
 }

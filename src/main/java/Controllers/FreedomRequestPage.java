@@ -48,7 +48,7 @@ public class FreedomRequestPage implements Initializable {
         alert.setTitle("FreeDom");
         FreedomRequest studentfreedomRequest=null;
         for (FreedomRequest freedomCheck:FreedomRequest.getFreedomRequests())
-            if (freedomCheck.getStudentId().equals(student.getId()) && studentfreedomRequest.isPending())
+            if (freedomCheck.getStudentId().equals(student.getId()) && freedomCheck.isPending())
                 studentfreedomRequest=freedomCheck;
         if (studentfreedomRequest!=null)
             alert.setContentText("You have already requested and it's pending!");

@@ -76,7 +76,7 @@ public class EditCourseLogic {
         if (!LogicalAgent.getInstance().getUser().getDepartmentId().equals(departmentId)) return false;
         if (localdate==null) return false;
         if (examHour.equals("")) return false;
-        if (degree.equals("")) return false;
+        if (degree==null) return false;
         return true;
     }
 
