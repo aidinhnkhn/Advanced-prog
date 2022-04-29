@@ -7,8 +7,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: CORNFLOWERBLUE;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ProfessorProvisional">
+<AnchorPane fx:id="anchorPane" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: CORNFLOWERBLUE;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ProfessorProvisional">
    <children>
       <Button fx:id="homePageButton" layoutX="778.0" layoutY="561.0" mnemonicParsing="false" onAction="#HomePage" prefHeight="25.0" prefWidth="108.0" text="Home Page" />
       <ComboBox fx:id="coursesId" layoutX="750.0" layoutY="393.0" prefWidth="150.0" />

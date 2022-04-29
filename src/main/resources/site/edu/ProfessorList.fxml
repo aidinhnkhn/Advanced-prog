@@ -10,8 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: CORNFLOWERBLUE;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ProfessorList">
+<AnchorPane fx:id="anchorPane" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: CORNFLOWERBLUE;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ProfessorList">
    <children>
       <TableView fx:id="tableView" prefHeight="400.0" prefWidth="840.0" style="-fx-background-color: WHITE;">
         <columns>

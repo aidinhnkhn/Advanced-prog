@@ -20,6 +20,7 @@ import logic.SignInLogic;
 
 import java.io.*;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.IdentityHashMap;
 import java.util.Map;
 import java.util.Random;
@@ -27,52 +28,55 @@ import java.util.ResourceBundle;
 
 public class SignIn implements Initializable {
     @FXML
-    TextField usernameField,captcha;
+    TextField usernameField, captcha;
     @FXML
     PasswordField passField;
     @FXML
     Button SignInButton;
     @FXML
-    Button SignUPButton,refreshButton;
+    Button SignUPButton, refreshButton;
     @FXML
     ImageView imageView;
     private final Map<Image, String> imageFileNames = new IdentityHashMap<>();
+
     public void nextField(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.TAB)
             passField.requestFocus();
     }
 
-    public void singUpAction(ActionEvent actionEvent){
+    public void singUpAction(ActionEvent actionEvent) {
         SceneLoader.getInstance().changeScene("SingUp.fxml", actionEvent);
     }
 
-    public void refresh(ActionEvent actionEvent){
+    public void refresh(ActionEvent actionEvent) {
         try {
-            String filename=getCaptchaName();
+            String filename = getCaptchaName();
             InputStream stream = new FileInputStream(System.getProperty("user.dir") +
                     "\\src\\main\\resources\\eData\\Captcha\\" + filename);
             Image image = new Image(stream);
             if (!imageFileNames.containsKey(image))
-                imageFileNames.put(image,filename);
+                imageFileNames.put(image, filename);
             imageView.setImage(image);
-        }catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
-    private String getCaptchaName(){
-        Random random=new Random();
-        int captchaNumber= random.nextInt(5);
-        if(captchaNumber==0)
+
+    private String getCaptchaName() {
+        Random random = new Random();
+        int captchaNumber = random.nextInt(5);
+        if (captchaNumber == 0)
             return "5720.png";
-        else if(captchaNumber==1)
+        else if (captchaNumber == 1)
             return "6280.png";
-        else if(captchaNumber==2)
+        else if (captchaNumber == 2)
             return "8217.png";
-        else if(captchaNumber==3)
+        else if (captchaNumber == 3)
             return "8387.png";
         else
             return "8612.png";
     }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         refresh(new ActionEvent());
@@ -81,24 +85,28 @@ public class SignIn implements Initializable {
     }
 
     public void enter(ActionEvent actionEvent) {
-        boolean successful=SignInLogic.getInstance().signIn
-                (usernameField.getText(),passField.getText(),captcha.getText(),imageFileNames.get(imageView.getImage()));
-        Alert alert=new Alert(Alert.AlertType.INFORMATION);
+        boolean successful = SignInLogic.getInstance().signIn
+                (usernameField.getText(), passField.getText(), captcha.getText(), imageFileNames.get(imageView.getImage()));
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Sign in status");
         alert.setTitle("Sign in");
-        if(successful) {
+        if (successful) {
+            LocalDateTime nowTime = LocalDateTime.now().minusHours(3);
             alert.setContentText("successful!");
-            goToHomePage(actionEvent);
-        }
-        else
+            if (LogicalAgent.getInstance().getUser().getLastEnter().isBefore(nowTime))
+                SceneLoader.getInstance().changeScene("ChangePasswordPage.fxml", actionEvent);
+            else
+                goToHomePage(actionEvent);
+        } else
             alert.setContentText("unsuccessful! please fill each form correctly");
         alert.show();
         refresh(new ActionEvent());
     }
-    private void goToHomePage(ActionEvent actionEvent){
+
+    private void goToHomePage(ActionEvent actionEvent) {
         if (LogicalAgent.getInstance().getUser() instanceof Student)
-            SceneLoader.getInstance().changeScene("StudentHomePage.fxml",actionEvent);
+            SceneLoader.getInstance().changeScene("StudentHomePage.fxml", actionEvent);
         else
-            SceneLoader.getInstance().changeScene("ProfessorHomePage.fxml",actionEvent);
+            SceneLoader.getInstance().changeScene("ProfessorHomePage.fxml", actionEvent);
     }
 }

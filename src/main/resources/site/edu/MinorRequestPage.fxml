@@ -10,8 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: CORNFLOWERBLUE;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.MinorRequestPage">
+<AnchorPane fx:id="anchorPane" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: CORNFLOWERBLUE;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.MinorRequestPage">
    <children>
       <Button fx:id="homePageButton" layoutX="792.0" layoutY="561.0" mnemonicParsing="false" onAction="#HomePage" prefHeight="25.0" prefWidth="94.0" text="Home Page" />
       <HBox layoutX="14.0" layoutY="14.0" prefHeight="100.0" prefWidth="532.0" spacing="10.0">

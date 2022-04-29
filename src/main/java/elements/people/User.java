@@ -12,6 +12,7 @@ public class User {
     protected String id,melicode,phoneNumber,email,degree,departmentId;
     protected Role role;
     protected LocalDateTime lastEnter;
+    protected boolean theme;
     public User(String username, String password,Role role,String melicode,String phoneNumber,String email,String degree,String departmentId,String id) {
         this.username = username;
         this.password = password;
@@ -44,6 +45,14 @@ public class User {
         return departmentId;
     }
 
+    public boolean isTheme() {
+        return theme;
+    }
+
+    public void setTheme(boolean theme) {
+        this.theme = theme;
+    }
+
     private String getRoleid(){
         if (this.role==Role.Student) return "s";
         else return "p";
@@ -59,6 +68,10 @@ public class User {
 
     public String getId() {
         return id;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getMelicode() {

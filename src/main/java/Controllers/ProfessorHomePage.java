@@ -14,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 import logic.LogicalAgent;
 import logic.ProfessorHomePageLogic;
@@ -31,6 +32,8 @@ public class ProfessorHomePage implements Initializable {
     @FXML
     public MenuItem courseList;
     @FXML
+    public AnchorPane anchorPane;
+    @FXML
     ImageView imageView;
     @FXML
     Label dateTime, lastEnter, email, name;
@@ -39,11 +42,24 @@ public class ProfessorHomePage implements Initializable {
     @FXML
     MenuItem professorList,examlistItem,provisionalItem;
 
+    @FXML
+    MenuItem profileItem;
     public void initialize(URL location, ResourceBundle resources) {
         initClock();
         initUser(LogicalAgent.getInstance().getUser());
         setVisibility((Professor) (LogicalAgent.getInstance().getUser()));
         Saver.getInstance().saveProfessor((Professor) (LogicalAgent.getInstance().getUser()));
+        if (LogicalAgent.getInstance().getUser().isTheme()) {
+            anchorPane.setStyle("    -fx-background-color:\n" +
+                    "            linear-gradient(#4568DC, #B06AB3),\n" +
+                    "            repeating-image-pattern(\"Stars_128.png\"),\n" +
+                    "            radial-gradient(center 50% 50%, radius 50%, #FFFFFF33, #00000033);\n");
+        }
+        else
+            anchorPane.setStyle("-fx-background-color: CORNFLOWERBLUE");
+
+
+        LogicalAgent.getInstance().getUser().setLastEnter(LocalDateTime.now());
     }
     public void setVisibility(Professor professor){
         if (professor.isEducationalAssistant()) {
@@ -128,5 +144,9 @@ public class ProfessorHomePage implements Initializable {
 
     public void openEducationalStatusPage(ActionEvent actionEvent) {
         SceneLoader.getInstance().ChangeSceneByNode("EducationalStatusPage.fxml",dateTime);
+    }
+
+    public void openProfilePage(ActionEvent actionEvent) {
+        SceneLoader.getInstance().ChangeSceneByNode("ProfilePage.fxml",dateTime);
     }
 }

@@ -8,8 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: CORNFLOWERBLUE;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.EducationalGrades">
+<AnchorPane fx:id="anchorPane" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: CORNFLOWERBLUE;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.EducationalGrades">
    <children>
       <Button fx:id="homePageButton" layoutX="795.0" layoutY="561.0" mnemonicParsing="false" onAction="#HomePage" prefHeight="25.0" prefWidth="91.0" text="Home Page" />
       <ComboBox fx:id="professorBox" layoutX="736.0" layoutY="14.0" onAction="#professorFile" prefWidth="150.0" promptText="professor id" />

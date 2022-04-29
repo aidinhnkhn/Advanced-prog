@@ -6,8 +6,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: CORNFLOWERBLUE;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.StudentProvisional">
+<AnchorPane fx:id="anchorPane" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: CORNFLOWERBLUE;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.StudentProvisional">
    <children>
       <Button fx:id="homePageButton" layoutX="801.0" layoutY="561.0" mnemonicParsing="false" onAction="#HomePage" prefHeight="25.0" prefWidth="85.0" text="Home Page" />
       <TableView fx:id="tableView" layoutX="11.0" layoutY="14.0" prefHeight="434.0" prefWidth="879.0">

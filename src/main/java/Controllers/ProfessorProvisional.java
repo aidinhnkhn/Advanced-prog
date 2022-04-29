@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import logic.LogicalAgent;
 
 import java.net.URL;
@@ -20,6 +21,8 @@ import java.util.ResourceBundle;
 
 
 public class ProfessorProvisional implements Initializable {
+    @FXML
+    public AnchorPane anchorPane;
     @FXML
     Button homePageButton, filterButton;
     @FXML
@@ -88,6 +91,14 @@ public class ProfessorProvisional implements Initializable {
         Professor professor = (Professor) LogicalAgent.getInstance().getUser();
         for (String courseId : professor.getCoursesId())
             coursesId.getItems().add(courseId);
+        if (LogicalAgent.getInstance().getUser().isTheme()) {
+            anchorPane.setStyle("    -fx-background-color:\n" +
+                    "            linear-gradient(#4568DC, #B06AB3),\n" +
+                    "            repeating-image-pattern(\"Stars_128.png\"),\n" +
+                    "            radial-gradient(center 50% 50%, radius 50%, #FFFFFF33, #00000033);\n");
+        }
+        else
+            anchorPane.setStyle("-fx-background-color: CORNFLOWERBLUE");
     }
 
     public void submit(ActionEvent actionEvent) {

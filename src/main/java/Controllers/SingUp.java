@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import logic.LogicalAgent;
 import logic.SignUpLogic;
@@ -18,6 +19,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class SingUp implements Initializable {
+    @FXML
+    public AnchorPane anchorPane;
     @FXML
     TextField usernameField, melicode, phoneNumber, email,supervisorId;
     @FXML
@@ -39,6 +42,14 @@ public class SingUp implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         choiceBox.getItems().addAll("Student", "Professor", "HeadDepartment", "EducationalAssistant");
         department.getItems().addAll("Chemical Eng", "Computer Eng", "Physics", "Mathematics", "Chemistry");
+        if (LogicalAgent.getInstance().getUser().isTheme()) {
+            anchorPane.setStyle("    -fx-background-color:\n" +
+                    "            linear-gradient(#4568DC, #B06AB3),\n" +
+                    "            repeating-image-pattern(\"Stars_128.png\"),\n" +
+                    "            radial-gradient(center 50% 50%, radius 50%, #FFFFFF33, #00000033);\n");
+        }
+        else
+            anchorPane.setStyle("-fx-background-color: CORNFLOWERBLUE");
     }
 
     public void degreeSetItems(MouseEvent mouseEvent) {

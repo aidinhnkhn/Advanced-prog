@@ -14,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 import logic.LogicalAgent;
 import logic.StudentHomePageLogic;
@@ -26,6 +27,8 @@ import java.util.ResourceBundle;
 
 public class StudentHomePage implements Initializable {
 
+    @FXML
+    public AnchorPane anchorPane;
     @FXML
     Label dateTime,lastEnter,email,name;
     @FXML
@@ -40,11 +43,24 @@ public class StudentHomePage implements Initializable {
     MenuItem certificateStudent,freedom,Recommendation,examlistItem;
     @FXML
     MenuItem provisional,educationalStatus;
+    @FXML
+    MenuItem profileItem;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initClock();
         initUser(LogicalAgent.getInstance().getUser());
         initStudent((Student)(LogicalAgent.getInstance().getUser()));
+        if (LogicalAgent.getInstance().getUser().isTheme()) {
+            anchorPane.setStyle("    -fx-background-color:\n" +
+                    "            linear-gradient(#4568DC, #B06AB3),\n" +
+                    "            repeating-image-pattern(\"Stars_128.png\"),\n" +
+                    "            radial-gradient(center 50% 50%, radius 50%, #FFFFFF33, #00000033);\n");
+        }
+        else
+            anchorPane.setStyle("-fx-background-color: CORNFLOWERBLUE");
+
+        LogicalAgent.getInstance().getUser().setLastEnter(LocalDateTime.now());
+
     }
     public void initStudent(Student student){
         education.setText(student.isEducating()?"undergraduate":"educating");
@@ -140,5 +156,9 @@ public class StudentHomePage implements Initializable {
 
     public void openEducationalStatusPage(ActionEvent actionEvent) {
         SceneLoader.getInstance().ChangeSceneByNode("EducationalStatusPage.fxml",dateTime);
+    }
+
+    public void openProfilePage(ActionEvent actionEvent) {
+        SceneLoader.getInstance().ChangeSceneByNode("ProfilePage.fxml",dateTime);
     }
 }

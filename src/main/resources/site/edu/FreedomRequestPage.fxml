@@ -5,8 +5,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: CORNFLOWERBLUE;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.FreedomRequestPage">
+<AnchorPane fx:id="anchorPane" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: CORNFLOWERBLUE;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.FreedomRequestPage">
    <children>
       <Button fx:id="freedomRequestButton" layoutX="372.0" layoutY="412.0" mnemonicParsing="false" onAction="#requestFreedom" prefHeight="25.0" prefWidth="157.0" text="Freedom is expecting you" />
       <Button fx:id="homePageButton" layoutX="768.0" layoutY="561.0" mnemonicParsing="false" onAction="#HomePage" prefHeight="25.0" prefWidth="118.0" text="Home Page" />

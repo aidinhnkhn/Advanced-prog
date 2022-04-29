@@ -41,7 +41,6 @@ public class SignInLogic {
                 .toString();
         if (sha256hex.equals(student.getPassword()) && student.isEducating()){
             LogicalAgent.getInstance().setUser(student);
-            student.setLastEnter(LocalDateTime.now());
             return true;
         }
         return false;
@@ -54,7 +53,6 @@ public class SignInLogic {
                 .toString();
         if (sha256hex.equals(professor.getPassword())){
             LogicalAgent.getInstance().setUser(professor);
-            professor.setLastEnter(LocalDateTime.now());
             return true;
         }
         return false;

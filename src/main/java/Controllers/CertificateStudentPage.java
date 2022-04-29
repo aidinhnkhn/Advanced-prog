@@ -4,12 +4,22 @@ import elements.people.Student;
 import elements.request.CertificateStudentRequest;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.AnchorPane;
 import logic.LogicalAgent;
 
-public class CertificateStudentPage {
+
+
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class CertificateStudentPage implements Initializable {
+
+    @FXML
+    public AnchorPane anchorPane;
     @FXML
     Button HomePageButton;
 
@@ -29,5 +39,18 @@ public class CertificateStudentPage {
         CertificateStudentRequest certificateStudentRequest=new CertificateStudentRequest
                 (LogicalAgent.getInstance().getUser().getId(),LogicalAgent.getInstance().getUser().getDepartmentId());
         certificateText.setText(certificateStudentRequest.getAcceptedText());
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        if (LogicalAgent.getInstance().getUser().isTheme()) {
+            anchorPane.setStyle("    -fx-background-color:\n" +
+                    "            linear-gradient(#4568DC, #B06AB3),\n" +
+                    "            repeating-image-pattern(\"Stars_128.png\"),\n" +
+                    "            radial-gradient(center 50% 50%, radius 50%, #FFFFFF33, #00000033);\n");
+        }
+        else{
+            anchorPane.setStyle("-fx-background-color: CORNFLOWERBLUE");
+        }
     }
 }

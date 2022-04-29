@@ -11,12 +11,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import logic.LogicalAgent;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MinorRequestPage implements Initializable {
+    public AnchorPane anchorPane;
     @FXML
     Button homePageButton,applyButton;
     @FXML
@@ -39,6 +41,14 @@ public class MinorRequestPage implements Initializable {
         for (Department department:Department.getDepartments())
             departmentBox.getItems().add(department.getName());
         setupTable();
+        if (LogicalAgent.getInstance().getUser().isTheme()) {
+            anchorPane.setStyle("    -fx-background-color:\n" +
+                    "            linear-gradient(#4568DC, #B06AB3),\n" +
+                    "            repeating-image-pattern(\"Stars_128.png\"),\n" +
+                    "            radial-gradient(center 50% 50%, radius 50%, #FFFFFF33, #00000033);\n");
+        }
+        else
+            anchorPane.setStyle("-fx-background-color: CORNFLOWERBLUE");
     }
     private void setupTable(){
         Student student=(Student) (LogicalAgent.getInstance().getUser());

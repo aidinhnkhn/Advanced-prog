@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -22,6 +23,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class EducationalGrades implements Initializable {
+    @FXML
+    public AnchorPane anchorPane;
     @FXML
     Button homePageButton, searchButton;
     @FXML
@@ -50,6 +53,14 @@ public class EducationalGrades implements Initializable {
             studentBox.getItems().add(student.getId());
         for (Course course : Course.getCourses())
             courseBox.getItems().add(course.getId());
+        if (LogicalAgent.getInstance().getUser().isTheme()) {
+            anchorPane.setStyle("    -fx-background-color:\n" +
+                    "            linear-gradient(#4568DC, #B06AB3),\n" +
+                    "            repeating-image-pattern(\"Stars_128.png\"),\n" +
+                    "            radial-gradient(center 50% 50%, radius 50%, #FFFFFF33, #00000033);\n");
+        }
+        else
+            anchorPane.setStyle("-fx-background-color: CORNFLOWERBLUE");
     }
 
     public void saveTextFile(String sampleText) {

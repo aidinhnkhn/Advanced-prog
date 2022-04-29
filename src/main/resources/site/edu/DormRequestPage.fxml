@@ -5,8 +5,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: CORNFLOWERBLUE;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.DormRequestPage">
+<AnchorPane fx:id="anchorPane" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: CORNFLOWERBLUE;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.DormRequestPage">
    <children>
       <Button fx:id="homePageButton" layoutX="779.0" layoutY="561.0" mnemonicParsing="false" onAction="#HomePage" prefHeight="25.0" prefWidth="107.0" text="Home Page" />
       <Button fx:id="dormButton" layoutX="350.0" layoutY="489.0" mnemonicParsing="false" onAction="#requestDorm" prefHeight="25.0" prefWidth="201.0" text="request Dorm" />

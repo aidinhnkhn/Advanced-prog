@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: CORNFLOWERBLUE;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.StudentHomePage">
+<AnchorPane fx:id="anchorPane" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: CORNFLOWERBLUE;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.StudentHomePage">
    <children>
       <HBox layoutY="483.0" prefHeight="100.0" prefWidth="879.0" spacing="10.0">
          <children>
@@ -59,15 +59,15 @@
                   </Menu>
             </items>
           </Menu>
-          <Menu fx:id="educationalStatus" mnemonicParsing="false" onAction="#openEducationalStatusPage" text="Record affairs">
+          <Menu mnemonicParsing="false" text="Record affairs">
             <items>
               <MenuItem fx:id="provisional" mnemonicParsing="false" onAction="#openStudentProvisional" text="Provisional grades" />
-                  <MenuItem mnemonicParsing="false" text="Educational status" />
+                  <MenuItem fx:id="educationalStatus" mnemonicParsing="false" onAction="#openEducationalStatusPage" text="Educational status" />
             </items>
           </Menu>
             <Menu mnemonicParsing="false" text="profile">
               <items>
-                <MenuItem mnemonicParsing="false" text="show profile" />
+                <MenuItem fx:id="profileItem" mnemonicParsing="false" onAction="#openProfilePage" text="show profile" />
                   <MenuItem fx:id="signOut" mnemonicParsing="false" onAction="#exit" text="Sign out" />
               </items>
             </Menu>

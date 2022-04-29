@@ -14,6 +14,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import logic.LogicalAgent;
 
 import java.net.URL;
@@ -21,6 +22,8 @@ import java.util.ResourceBundle;
 
 public class ProfessorList implements Initializable {
 
+    @FXML
+    public AnchorPane anchorPane;
     @FXML
     ComboBox<String> departmentBox,degreeBox;
     @FXML
@@ -55,6 +58,14 @@ public class ProfessorList implements Initializable {
         departmentBox.getItems().addAll("Chemical Eng", "Computer Eng", "Physics", "Mathematics", "Chemistry");
         degreeBox.getItems().addAll("Assistant Professor", "Associate Professor", "full Professor");
         roleBox.getItems().addAll(Role.Professor,Role.EducationalAssistant,Role.HeadDepartment);
+        if (LogicalAgent.getInstance().getUser().isTheme()) {
+            anchorPane.setStyle("    -fx-background-color:\n" +
+                    "            linear-gradient(#4568DC, #B06AB3),\n" +
+                    "            repeating-image-pattern(\"Stars_128.png\"),\n" +
+                    "            radial-gradient(center 50% 50%, radius 50%, #FFFFFF33, #00000033);\n");
+        }
+        else
+            anchorPane.setStyle("-fx-background-color: CORNFLOWERBLUE");
     }
     public ObservableList<Professor> getItems(){
         ObservableList<Professor> professors= FXCollections.observableArrayList();

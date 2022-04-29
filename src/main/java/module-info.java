@@ -9,6 +9,7 @@ module site.edu {
     requires javafx.swing;
     requires com.google.gson;
     requires com.google.common;
+    requires log4j;
 
     opens site.edu to javafx.fxml;
     exports site.edu;
