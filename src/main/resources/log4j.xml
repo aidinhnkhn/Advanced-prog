@@ -3,8 +3,8 @@
 <log4j:configuration debug="true">
 
     <appender name="file" class="org.apache.log4j.RollingFileAppender">
-        <param name="append" value="false" />
-        <param name="maxFileSize" value="10KB" />
+        <param name="append" value="true" />
+        <param name="maxFileSize" value="2MB" />
         <param name="maxBackupIndex" value="5" />
 
         <param name="file" value="./src/main/resources/logs/userActivity.log" />
@@ -13,6 +13,26 @@
                    value="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n" />
         </layout>
     </appender>
+    <appender name="JsonFileAppender" class="org.apache.log4j.RollingFileAppender">
+        <param name="File" value="./src/main/resources/logs/serverActivity.log" />
+        <param name="MaxFileSize" value="2MB" />
+        <param name="append" value="true" />
+        <param name="MaxBackupIndex" value="15" />
+
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%d{HH:mm:ss.SSS}] %-5p %c %x - %m%n" />
+        </layout>
+    </appender>
+    <!-- additivity="false" because we do not want to append to main log file log.log file -->
+    <category name="server" additivity="false">
+        <priority value="debug" />
+        <appender-ref ref="JsonFileAppender" />
+    </category>
+
+    <category name="server.network" additivity="false">
+        <priority value="debug" />
+        <appender-ref ref="JsonFileAppender" />
+    </category>
 
     <root>
         <level value="INFO" />

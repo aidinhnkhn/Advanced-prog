@@ -1,5 +1,8 @@
 package server;
 
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import server.network.AuthenticationToken;
 import server.network.ClientHandler;
 
@@ -9,6 +12,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 public class Server {
+
+    private static Logger log = LogManager.getLogger(Server.class);
     private final ArrayList<ClientHandler> clientHandlers;
     private static Server server;
 
@@ -28,7 +33,7 @@ public class Server {
     }
 
     public void init() {
-        System.out.println("Server is running...");
+        log.info("Server is running");
         try {
             ServerSocket serverSocket = new ServerSocket(port);
             while (true) {
