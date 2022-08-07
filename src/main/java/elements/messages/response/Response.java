@@ -1,5 +1,12 @@
 package elements.messages.response;
 
+
+import Savers.LocalDateTimeDeserializer;
+import Savers.LocalDateTimeSerializer;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.time.LocalDateTime;
 import java.util.HashMap;
 
 public class Response {
@@ -34,4 +41,21 @@ public class Response {
     public String getErrorMessage() {
         return errorMessage;
     }
+
+    public static String toJson(Response response){
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
+        gsonBuilder.setPrettyPrinting();
+        Gson gson = gsonBuilder.create();
+        return gson.toJson(response);
+    }
+
+    public static Response fromJson(String responseJson){
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
+        Gson gson = gsonBuilder.create();
+        return gson.fromJson(responseJson,Response.class);
+    }
+
 }

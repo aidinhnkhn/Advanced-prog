@@ -10,14 +10,25 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 
 public class Message {
+
+    private String authToken;
     private MessageStatus status;
     private HashMap <String , Object> data;
 
-    public Message (MessageStatus messageStatus){
+    public Message (MessageStatus messageStatus, String authToken){
         this.status = messageStatus;
+        this.authToken= authToken;
     }
 
-    public void addData(String dataName,Object inputData){
+    public String getAuthToken() {
+        return authToken;
+    }
+
+    public void setAuthToken(String authToken) {
+        this.authToken = authToken;
+    }
+
+    public void addData(String dataName, Object inputData){
         this.data.put(dataName,inputData);
     }
 

@@ -1,6 +1,8 @@
 package server.network;
 
 import elements.people.User;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import server.Server;
 
 import java.io.IOException;
@@ -9,6 +11,7 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class ClientHandler implements Runnable{
+    private static Logger log = LogManager.getLogger(ClientHandler.class);
     private final Socket socket;
     private final PrintWriter out;
     private final String authToken;
@@ -25,8 +28,7 @@ public class ClientHandler implements Runnable{
 
     @Override
     public void run() {
-        System.out.println("ClientHandler has been created!");
-        //this.sendMessage(new Message(this.authToken, this.authToken, "authToken"));
+        log.info("ClientHandler has been created!");
         try {
             Scanner in = new Scanner(socket.getInputStream());
             while (!exit) {
@@ -43,6 +45,7 @@ public class ClientHandler implements Runnable{
                 //ServerLogic.getInstance().analyse(message);
             }
         } catch (IOException e) {
+            log.debug("Client handler is down");
             e.printStackTrace();
         }
     }

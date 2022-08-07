@@ -19,4 +19,6 @@ module site.edu {
     opens elements.courses to com.google.gson, javafx.base;
     opens elements.university to com.google.gson;
     opens elements.request to com.google.gson, javafx.base;
+    opens elements.messages.message to com.google.gson;
+    opens elements.messages.response to com.google.gson;
 }

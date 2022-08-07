@@ -37,12 +37,13 @@ public class Server {
         try {
             ServerSocket serverSocket = new ServerSocket(port);
             while (true) {
-                System.out.println("waiting for a connection...");
+                log.info("waiting for a connection...");
                 Socket socket = serverSocket.accept();
                 addNewClientHandler(socket);
-                System.out.println("====> There are " + clientHandlers.size() + " clients on the server!");
+                log.info("====> There are " + clientHandlers.size() + " clients on the server!");
             }
         } catch (IOException e) {
+            log.fatal("Server is down");
             e.printStackTrace();
         }
     }
