@@ -4,16 +4,21 @@ import elements.people.User;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import server.Server;
+import shared.messages.response.Response;
+import shared.messages.response.ResponseStatus;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class ClientHandler implements Runnable{
     private static Logger log = LogManager.getLogger(ClientHandler.class);
     private final Socket socket;
     private final PrintWriter out;
+
+    private final Scanner in;
     private final String authToken;
 
     private User user;
@@ -22,6 +27,7 @@ public class ClientHandler implements Runnable{
     public ClientHandler(Socket socket, String authToken) throws IOException {
         this.socket = socket;
         this.out = new PrintWriter(socket.getOutputStream());
+        this.in = new Scanner(socket.getInputStream());
         this.authToken = authToken;
         this.exit = false;
     }
@@ -30,29 +36,41 @@ public class ClientHandler implements Runnable{
     public void run() {
         log.info("ClientHandler has been created!");
         try {
-            Scanner in = new Scanner(socket.getInputStream());
+            sendAuthToken();
             while (!exit) {
-                System.out.println("ClientHandler is waiting for a message.");
+                //System.out.println("ClientHandler is waiting for a message.");
                 String messageFromClient = in.nextLine();
                 while (true) {
                     String nextLine = in.nextLine();
                     if (nextLine.equals("over")) break;
                     messageFromClient += nextLine;
                 }
-                System.out.println("Message from Client: " + messageFromClient);
+                log.info("Message from Client: " + messageFromClient);
+                //this.sendMessage("message received!\nover");
                 //change the message into the class:
                 //analayse the message:
                 //ServerLogic.getInstance().analyse(message);
             }
-        } catch (IOException e) {
+        } catch (NoSuchElementException e) {
             log.debug("Client handler is down");
             e.printStackTrace();
         }
     }
 
+    public void sendAuthToken(){
+        Response response = new Response(ResponseStatus.AuThToken);
+        response.addData("authToken",this.authToken);
+        this.sendMessage(Response.toJson(response));
+    }
     public void stop(){
         Server.getServer().getClientHandlers().remove(this);
         this.exit = true;
     }
+
+    public void sendMessage(String message){
+        out.println(message);
+        out.flush();
+    }
+
 
 }

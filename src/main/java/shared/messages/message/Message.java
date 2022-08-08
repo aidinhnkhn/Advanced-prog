@@ -1,4 +1,4 @@
-package elements.messages.message;
+package shared.messages.message;
 
 
 import Savers.LocalDateTimeDeserializer;
@@ -18,10 +18,15 @@ public class Message {
     public Message (MessageStatus messageStatus, String authToken){
         this.status = messageStatus;
         this.authToken= authToken;
+        data = new HashMap<>();
     }
 
     public String getAuthToken() {
         return authToken;
+    }
+
+    public HashMap<String, Object> getData() {
+        return data;
     }
 
     public void setAuthToken(String authToken) {
@@ -45,7 +50,7 @@ public class Message {
         gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
         gsonBuilder.setPrettyPrinting();
         Gson gson = gsonBuilder.create();
-        return gson.toJson(message);
+        return gson.toJson(message)+'\n'+"over";
     }
 
     public static Message fromJson(String messageString){

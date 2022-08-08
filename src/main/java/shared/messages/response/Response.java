@@ -1,4 +1,4 @@
-package elements.messages.response;
+package shared.messages.response;
 
 
 import Savers.LocalDateTimeDeserializer;
@@ -30,6 +30,10 @@ public class Response {
         return status;
     }
 
+    public HashMap<String, Object> getData() {
+        return data;
+    }
+
     public void addData(String dataName, Object data) {
         this.data.put(dataName, data);
     }
@@ -47,7 +51,7 @@ public class Response {
         gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
         gsonBuilder.setPrettyPrinting();
         Gson gson = gsonBuilder.create();
-        return gson.toJson(response);
+        return gson.toJson(response)+'\n'+"over";
     }
 
     public static Response fromJson(String responseJson){

@@ -1,6 +1,6 @@
 package server;
 
-import elements.util.Config;
+import shared.util.Config;
 
 public class ServerMain {
     public static void main(String[] args) {

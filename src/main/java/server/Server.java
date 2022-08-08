@@ -3,7 +3,7 @@ package server;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import server.network.AuthenticationToken;
+import shared.util.AuthenticationToken;
 import server.network.ClientHandler;
 
 import java.io.IOException;
@@ -16,7 +16,8 @@ public class Server {
     private static Logger log = LogManager.getLogger(Server.class);
     private final ArrayList<ClientHandler> clientHandlers;
     private static Server server;
-
+    private ServerSocket serverSocket;
+    private boolean running;
     private final int port;
     public Server(int port){
         Server.server = this;
@@ -35,8 +36,10 @@ public class Server {
     public void init() {
         log.info("Server is running");
         try {
-            ServerSocket serverSocket = new ServerSocket(port);
-            while (true) {
+            serverSocket = new ServerSocket(port);
+            running = true;
+            //listenForNewConnection();
+            while (running) {
                 log.info("waiting for a connection...");
                 Socket socket = serverSocket.accept();
                 addNewClientHandler(socket);
@@ -52,5 +55,9 @@ public class Server {
         ClientHandler clientHandler = new ClientHandler(socket, AuthenticationToken.generateNewToken());
         clientHandlers.add(clientHandler);
         new Thread(clientHandler).start();
+    }
+
+    private void listenForNewConnection() throws IOException {
+
     }
 }

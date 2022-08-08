@@ -16,6 +16,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import logic.LogicalAgent;
 import logic.SignInLogic;
+import shared.messages.message.Message;
+import site.edu.Main;
 
 
 import java.io.*;
@@ -50,6 +52,7 @@ public class SignIn implements Initializable {
 
     public void refresh(ActionEvent actionEvent) {
         try {
+            //Main.mainClient.getServerController().sendTestMessage();
             String filename = getCaptchaName();
             InputStream stream = new FileInputStream(System.getProperty("user.dir") +
                     "\\src\\main\\resources\\eData\\Captcha\\" + filename);
@@ -81,7 +84,6 @@ public class SignIn implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         refresh(new ActionEvent());
         Loader.getInstance().initializeEdu();
-
     }
 
     public void enter(ActionEvent actionEvent) {
