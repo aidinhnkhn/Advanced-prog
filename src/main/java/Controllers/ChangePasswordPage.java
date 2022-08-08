@@ -38,7 +38,7 @@ public class ChangePasswordPage implements Initializable {
             anchorPane.setStyle("-fx-background-color: CORNFLOWERBLUE");
         }
     }
-
+//TODO: change the below function :D
     public void submit(ActionEvent actionEvent) {
         String sha256hex = Hashing.sha256()
                 .hashString(oldPassword.getText(), StandardCharsets.UTF_8)
@@ -49,7 +49,7 @@ public class ChangePasswordPage implements Initializable {
         if (!sha256hex.equals(LogicalAgent.getInstance().getUser().getPassword()))
             alert.setContentText("old password is incorrect");
         if (!confirmPassword.getText().equals(newPassword.getText()))
-            alert.setContentText("make sure that u entered new passwords correctly!");
+            alert.setContentText("make sure that you entered new passwords correctly!");
         else{
             String newSha256hex = Hashing.sha256()
                     .hashString(newPassword.getText(), StandardCharsets.UTF_8)

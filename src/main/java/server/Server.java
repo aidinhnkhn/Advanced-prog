@@ -74,4 +74,11 @@ public class Server {
         Thread saverThread = new Thread(Saver.getInstance());
         saverThread.start();
     }
+
+    public ClientHandler getClientHandler(String authToken){
+        for (ClientHandler clientHandler : clientHandlers)
+            if (clientHandler.getAuthToken().equals(authToken))
+                return clientHandler;
+        return null;
+    }
 }

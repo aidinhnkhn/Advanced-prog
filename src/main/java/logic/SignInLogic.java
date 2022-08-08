@@ -6,6 +6,11 @@ import elements.people.Student;
 import javafx.scene.image.Image;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import shared.messages.message.Message;
+import shared.messages.message.MessageStatus;
+import shared.messages.response.Response;
+import shared.util.JsonCaster;
+import site.edu.Main;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
@@ -40,11 +45,10 @@ public class SignInLogic {
                 .hashString(password, StandardCharsets.UTF_8)
                 .toString();
         //TODO: sent the login request to the server, get the result
-        Student student=Student.getStudent(id); // all of these lines turn into a return & set the logicalAgent user
-        if (student==null) return false;
-        if (sha256hex.equals(student.getPassword()) && student.isEducating()){
+        Response response = Main.mainClient.getServerController().sendLoginRequest(id,sha256hex);
+        if ((Boolean) response.getData("login")){
+            Student student = JsonCaster.studentCaster((String)response.getData("user"));
             LogicalAgent.getInstance().setUser(student);
-            log.info(student.getId()+" singed in.");
             return true;
         }
         return false;
@@ -54,11 +58,9 @@ public class SignInLogic {
                 .hashString(password, StandardCharsets.UTF_8)
                 .toString();
         //TODO: sent the login request to the server, get the result
-        Professor professor=Professor.getProfessor(id);
-        if (professor==null) return false;
-        if (sha256hex.equals(professor.getPassword())){
-            LogicalAgent.getInstance().setUser(professor);
-            log.info(professor.getId()+" singed in.");
+        Response response = Main.mainClient.getServerController().sendLoginRequest(id,sha256hex);
+        if ((Boolean) response.getData("login")){
+            LogicalAgent.getInstance().setUser((Professor)(response.getData("user")));
             return true;
         }
         return false;

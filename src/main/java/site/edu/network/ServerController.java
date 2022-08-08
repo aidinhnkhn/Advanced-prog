@@ -7,6 +7,7 @@ import shared.messages.message.MessageStatus;
 import shared.messages.response.Response;
 import shared.util.ImageSender;
 import site.edu.Client;
+import site.edu.Main;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -72,6 +73,16 @@ public class ServerController {
         String responseString = receiveMessage();
         Response response = Response.fromJson(responseString);
         log.info("received captcha");
+        return response;
+    }
+
+    public Response sendLoginRequest(String id,String password){
+        Message message = new Message(MessageStatus.Login, Main.mainClient.getAuthToken());
+        message.addData("id",id);
+        message.addData("password",password);
+        Main.mainClient.getServerController().sendMessage(Message.toJson(message));
+        Response response = Response.fromJson(receiveMessage());
+        log.info("received login response");
         return response;
     }
 }

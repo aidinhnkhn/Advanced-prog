@@ -111,5 +111,18 @@ public class University {
         return university;
     }
 
+    public Student getStudentById(String id){
+        for (Student student:students)
+            if (student.getId().equals(id))
+                return student;
+        return null;
+    }
+
+    public Professor getProfessorById(String id){
+        for (Professor professor:professors)
+            if (professor.getId().equals(id))
+                return professor;
+        return null;
+    }
 
 }

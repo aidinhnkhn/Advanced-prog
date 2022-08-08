@@ -19,5 +19,7 @@ public class Analyser {
     public void analyse(Message message){
         if (message.getStatus()== MessageStatus.Captcha)
             Handler.getInstance().sendCaptcha(message.getAuthToken());
+        else if (message.getStatus() == MessageStatus.Login)
+            Handler.getInstance().checkLogin(message.getAuthToken(),message);
     }
 }
