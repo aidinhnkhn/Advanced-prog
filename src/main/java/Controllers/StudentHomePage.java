@@ -1,6 +1,6 @@
 package Controllers;
 
-import Savers.Saver;
+import server.Savers.Saver;
 import elements.people.Professor;
 import elements.people.Student;
 import elements.people.User;

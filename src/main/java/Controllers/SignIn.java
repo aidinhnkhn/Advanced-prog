@@ -1,8 +1,7 @@
 package Controllers;
 
-import Savers.Loader;
+import server.Savers.Loader;
 import elements.people.Student;
-import elements.university.Department;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,7 +15,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import logic.LogicalAgent;
 import logic.SignInLogic;
-import shared.messages.message.Message;
+import shared.messages.response.Response;
+import shared.util.ImageSender;
 import site.edu.Main;
 
 
@@ -25,10 +25,10 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.IdentityHashMap;
 import java.util.Map;
-import java.util.Random;
 import java.util.ResourceBundle;
 
 public class SignIn implements Initializable {
+
     @FXML
     TextField usernameField, captcha;
     @FXML
@@ -51,34 +51,16 @@ public class SignIn implements Initializable {
     }
 
     public void refresh(ActionEvent actionEvent) {
-        try {
-            //Main.mainClient.getServerController().sendTestMessage();
-            String filename = getCaptchaName();
-            InputStream stream = new FileInputStream(System.getProperty("user.dir") +
-                    "\\src\\main\\resources\\eData\\Captcha\\" + filename);
-            Image image = new Image(stream);
-            if (!imageFileNames.containsKey(image))
-                imageFileNames.put(image, filename);
-            imageView.setImage(image);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        Response response= Main.mainClient.getServerController().getCaptcha();
+        byte[] bytes = ImageSender.decode((String) response.getData("image"));
+        Image image = new Image(new ByteArrayInputStream(bytes));
+        String filename = (String)response.getData("number");
+        if (!imageFileNames.containsKey(image))
+            imageFileNames.put(image, filename);
+        imageView.setImage(image);
     }
 
-    private String getCaptchaName() {
-        Random random = new Random();
-        int captchaNumber = random.nextInt(5);
-        if (captchaNumber == 0)
-            return "5720.png";
-        else if (captchaNumber == 1)
-            return "6280.png";
-        else if (captchaNumber == 2)
-            return "8217.png";
-        else if (captchaNumber == 3)
-            return "8387.png";
-        else
-            return "8612.png";
-    }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -99,10 +81,11 @@ public class SignIn implements Initializable {
                 SceneLoader.getInstance().changeScene("ChangePasswordPage.fxml", actionEvent);
             else
                 goToHomePage(actionEvent);
-        } else
+        } else {
             alert.setContentText("unsuccessful! please fill each form correctly");
+            refresh(new ActionEvent());
+        }
         alert.show();
-        refresh(new ActionEvent());
     }
 
     private void goToHomePage(ActionEvent actionEvent) {

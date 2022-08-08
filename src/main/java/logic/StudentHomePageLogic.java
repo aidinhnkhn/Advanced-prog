@@ -1,12 +1,9 @@
 package logic;
 
 
-import Controllers.SceneLoader;
-import Savers.Saver;
+import server.Savers.Saver;
 import elements.people.Student;
-import javafx.event.ActionEvent;
 import javafx.scene.Node;
-import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;

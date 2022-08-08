@@ -1,8 +1,8 @@
 package shared.messages.response;
 
 
-import Savers.LocalDateTimeDeserializer;
-import Savers.LocalDateTimeSerializer;
+import shared.gsonSerializers.LocalDateTimeDeserializer;
+import shared.gsonSerializers.LocalDateTimeSerializer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

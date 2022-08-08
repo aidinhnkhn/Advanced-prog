@@ -1,6 +1,6 @@
 package site.edu;
 
-import Savers.Saver;
+import server.Savers.Saver;
 import shared.util.Config;
 import javafx.application.Application;
 import javafx.application.Platform;

@@ -1,9 +1,7 @@
 package elements.courses;
 
-import Savers.Saver;
 import elements.people.Professor;
 import elements.university.Department;
-import javafx.scene.control.ComboBox;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -34,7 +32,7 @@ public class Course {
         this.length=length;
         this.examDate=examDate.atTime(examHour,0);
         this.degree=degree;
-        //this.examDate=examDate;
+        // TODO: fix these lines
         Courses.add(this);
         Department.getDepartment(departmentId).getCourses().add(this.id);
         Professor.getProfessor(professorId).getCoursesId().add(this.id);

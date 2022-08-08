@@ -14,6 +14,7 @@ public class RecommendationRequest extends Request{
         this.acceptedText=makeAcceptedText();
         this.deniedText="oh man you're stuck here with me!";
         this.professorName=Professor.getProfessor(departmentId).getUsername();
+        //TODO: fix this line
         recommendationRequests.add(this);
     }
 

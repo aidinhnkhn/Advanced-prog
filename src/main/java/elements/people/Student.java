@@ -23,6 +23,7 @@ public class Student extends User {
         this.supervisorId=supervisorId;
         this.enrollHour="8:00";
         this.enrollPermission=true;
+        //TODO: fix this
         Department.getDepartment(this.departmentId).getStudents().add(this.id);
     }
 

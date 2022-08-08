@@ -36,11 +36,12 @@ public class SignInLogic {
         return image.equals(captcha+".png");
     }
     public boolean checkStudent(String id,String password){
-        Student student=Student.getStudent(id);
-        if (student==null) return false;
         String sha256hex = Hashing.sha256()
                 .hashString(password, StandardCharsets.UTF_8)
                 .toString();
+        //TODO: sent the login request to the server, get the result
+        Student student=Student.getStudent(id); // all of these lines turn into a return & set the logicalAgent user
+        if (student==null) return false;
         if (sha256hex.equals(student.getPassword()) && student.isEducating()){
             LogicalAgent.getInstance().setUser(student);
             log.info(student.getId()+" singed in.");
@@ -49,11 +50,12 @@ public class SignInLogic {
         return false;
     }
     public boolean checkProfessor(String id,String password){
-        Professor professor=Professor.getProfessor(id);
-        if (professor==null) return false;
         String sha256hex = Hashing.sha256()
                 .hashString(password, StandardCharsets.UTF_8)
                 .toString();
+        //TODO: sent the login request to the server, get the result
+        Professor professor=Professor.getProfessor(id);
+        if (professor==null) return false;
         if (sha256hex.equals(professor.getPassword())){
             LogicalAgent.getInstance().setUser(professor);
             log.info(professor.getId()+" singed in.");

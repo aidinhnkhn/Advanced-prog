@@ -16,6 +16,7 @@ public class MinorRequest extends Request{
         this.deniedText="Rejected";
         this.secondDepartmentId = secondDepartmentId;
         this.secondAccepted=false;
+        //TODO: fix this line
         minorRequests.add(this);
     }
 

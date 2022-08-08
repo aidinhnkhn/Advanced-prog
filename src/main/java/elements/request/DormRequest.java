@@ -15,6 +15,7 @@ public class DormRequest extends Request{
         this.acceptedText="You have a place to sleep.";
         this.requestText="please let this sleep under a roof.";
         this.deniedText="Oh ****, try again this **** is totally random.";
+        //TODO: fix this line
         dormRequests.add(this);
     }
 

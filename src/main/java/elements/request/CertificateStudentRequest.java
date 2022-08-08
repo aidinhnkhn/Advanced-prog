@@ -14,6 +14,7 @@ public class CertificateStudentRequest extends Request{
         this.acceptedText=makeAcceptedText();
         this.deniedText="it seems this university doesn't want you to get a certificate.";
         this.requestText="Give this Student whatever he/she likes!(Certificate)";
+        //TODO: fix this line
         certificateStudentRequests.add(this);
         this.pending=false;
         this.accepted=true;

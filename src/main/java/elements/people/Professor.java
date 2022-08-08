@@ -14,6 +14,7 @@ public class Professor extends User {
         setEducationalAssistant();
         setHeadDepartment();
         professors.add(this);
+        //TODO: fix this
         Department.getDepartment(this.departmentId).getProfessors().add(this.id);
         supervisor = true;
     }

@@ -1,6 +1,5 @@
 package Controllers;
 
-import Savers.Saver;
 import elements.people.Student;
 import elements.request.MinorRequest;
 import elements.university.Department;

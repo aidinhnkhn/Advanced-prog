@@ -1,6 +1,6 @@
 package logic;
 
-import Savers.Saver;
+import server.Savers.Saver;
 import elements.courses.Course;
 import elements.courses.Grade;
 import elements.people.Professor;

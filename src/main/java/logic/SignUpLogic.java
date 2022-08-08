@@ -1,7 +1,6 @@
 package logic;
 
-import Controllers.SingUp;
-import Savers.Saver;
+import server.Savers.Saver;
 import com.google.common.hash.Hashing;
 import elements.people.Professor;
 import elements.people.Role;

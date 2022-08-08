@@ -3,6 +3,8 @@ package server;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import server.Savers.Loader;
+import server.Savers.Saver;
 import shared.util.AuthenticationToken;
 import server.network.ClientHandler;
 
@@ -19,7 +21,8 @@ public class Server {
     private ServerSocket serverSocket;
     private boolean running;
     private final int port;
-    public Server(int port){
+
+    public Server(int port) {
         Server.server = this;
         this.port = port;
         clientHandlers = new ArrayList<>();
@@ -38,6 +41,7 @@ public class Server {
         try {
             serverSocket = new ServerSocket(port);
             running = true;
+            getSiteOnline();
             //listenForNewConnection();
             while (running) {
                 log.info("waiting for a connection...");
@@ -57,7 +61,17 @@ public class Server {
         new Thread(clientHandler).start();
     }
 
-    private void listenForNewConnection() throws IOException {
+    public void sendMessageToClient(String authToken, String message) {
+        for (ClientHandler clientHandler : clientHandlers)
+            if (clientHandler.getAuthToken().equals(authToken)) {
+                clientHandler.sendMessage(message);
+                break;
+            }
+    }
 
+    private void getSiteOnline(){
+        Loader.getInstance().initializeEdu();
+        Thread saverThread = new Thread(Saver.getInstance());
+        saverThread.start();
     }
 }

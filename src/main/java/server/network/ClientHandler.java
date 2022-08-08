@@ -4,6 +4,7 @@ import elements.people.User;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import server.Server;
+import shared.messages.message.Message;
 import shared.messages.response.Response;
 import shared.messages.response.ResponseStatus;
 
@@ -32,6 +33,18 @@ public class ClientHandler implements Runnable{
         this.exit = false;
     }
 
+    public String getAuthToken() {
+        return authToken;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @Override
     public void run() {
         log.info("ClientHandler has been created!");
@@ -48,8 +61,9 @@ public class ClientHandler implements Runnable{
                 log.info("Message from Client: " + messageFromClient);
                 //this.sendMessage("message received!\nover");
                 //change the message into the class:
+                Message message = Message.fromJson(messageFromClient);
                 //analayse the message:
-                //ServerLogic.getInstance().analyse(message);
+                Analyser.getInstance().analyse(message);
             }
         } catch (NoSuchElementException e) {
             log.debug("Client handler is down");

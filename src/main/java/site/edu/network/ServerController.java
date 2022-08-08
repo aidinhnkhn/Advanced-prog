@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import shared.messages.message.Message;
 import shared.messages.message.MessageStatus;
 import shared.messages.response.Response;
+import shared.util.ImageSender;
 import site.edu.Client;
 
 import java.io.IOException;
@@ -65,10 +66,12 @@ public class ServerController {
         log.info(authToken);
     }
 
-    public void sendTestMessage(){
-        Message message = new Message(MessageStatus.Test,client.getAuthToken());
-        message.addData("Test","if i can test it now");
+    public Response getCaptcha(){
+        Message message = new Message(MessageStatus.Captcha,client.getAuthToken());
         this.sendMessage(Message.toJson(message));
-        log.info(receiveMessage());
+        String responseString = receiveMessage();
+        Response response = Response.fromJson(responseString);
+        log.info("received captcha");
+        return response;
     }
 }

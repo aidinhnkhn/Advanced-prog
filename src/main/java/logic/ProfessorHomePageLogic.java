@@ -1,6 +1,6 @@
 package logic;
 
-import Savers.Saver;
+import server.Savers.Saver;
 import elements.people.Professor;
 import javafx.scene.Node;
 import javafx.stage.Stage;

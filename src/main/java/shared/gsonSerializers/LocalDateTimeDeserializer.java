@@ -1,4 +1,4 @@
-package Savers;
+package shared.gsonSerializers;
 import com.google.gson.*;
 
 import java.lang.reflect.Type;

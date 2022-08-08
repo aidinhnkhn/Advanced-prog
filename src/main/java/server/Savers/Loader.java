@@ -1,4 +1,4 @@
-package Savers;
+package server.Savers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -10,6 +10,8 @@ import elements.university.Department;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import server.university.University;
+import shared.gsonSerializers.LocalDateTimeDeserializer;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -32,16 +34,27 @@ public class Loader {
     }
 
     public void initializeEdu() {
-        Department.setDepartments(Loader.getInstance().loadDepartments());
-        Student.setStudents(Loader.getInstance().loadStudents());
-        Professor.setProfessors(Loader.getInstance().loadProfessors());
-        Course.setCourses(Loader.getInstance().loadCourses());
-        MinorRequest.setMinorRequests(Loader.getInstance().loadMinorRequests());
-        DormRequest.setDormRequests(Loader.getInstance().loadDormRequests());
-        RecommendationRequest.setRecommendationRequests(Loader.getInstance().loadRecommendationRequests());
-        FreedomRequest.setFreedomRequests(Loader.getInstance().loadFreedomRequests());
-        CertificateStudentRequest.setCertificateStudentRequests(Loader.getInstance().loadCertificates());
-        ThesisDefenseRequest.setThesisDefenseRequests(Loader.getInstance().loadThesisDefenseRequests());
+//        Department.setDepartments(Loader.getInstance().loadDepartments());
+//        Student.setStudents(Loader.getInstance().loadStudents());
+//        Professor.setProfessors(Loader.getInstance().loadProfessors());
+//        Course.setCourses(Loader.getInstance().loadCourses());
+//        MinorRequest.setMinorRequests(Loader.getInstance().loadMinorRequests());
+//        DormRequest.setDormRequests(Loader.getInstance().loadDormRequests());
+//        RecommendationRequest.setRecommendationRequests(Loader.getInstance().loadRecommendationRequests());
+//        FreedomRequest.setFreedomRequests(Loader.getInstance().loadFreedomRequests());
+//        CertificateStudentRequest.setCertificateStudentRequests(Loader.getInstance().loadCertificates());
+//        ThesisDefenseRequest.setThesisDefenseRequests(Loader.getInstance().loadThesisDefenseRequests());
+
+        University.getInstance().setDepartments(loadDepartments());
+        University.getInstance().setStudents(loadStudents());
+        University.getInstance().setProfessors(loadProfessors());
+        University.getInstance().setCourses(loadCourses());
+        University.getInstance().setMinorRequests(loadMinorRequests());
+        University.getInstance().setDormRequests(loadDormRequests());
+        University.getInstance().setRecommendationRequests(loadRecommendationRequests());
+        University.getInstance().setFreedomRequests(loadFreedomRequests());
+        University.getInstance().setCertificateStudentRequests(loadCertificates());
+        University.getInstance().setThesisDefenseRequests(loadThesisDefenseRequests());
         log.info("edu Initialized");
     }
 

@@ -1,4 +1,4 @@
-package Savers;
+package server.Savers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -9,6 +9,8 @@ import elements.request.*;
 import elements.university.Department;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import server.university.University;
+import shared.gsonSerializers.LocalDateTimeSerializer;
 
 
 import java.io.File;
@@ -16,11 +18,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
-public class Saver {
+public class Saver implements Runnable{
     private static Saver saveStudent;
     private static Logger log = LogManager.getLogger(Saver.class);
-    private Saver() {
 
+    private boolean running;
+    private Saver() {
+        running = true;
     }
 
     public static Saver getInstance() {
@@ -29,6 +33,9 @@ public class Saver {
         return saveStudent;
     }
 
+    public void stop(){
+        running = false;
+    }
     public void saveStudent(Student student) {
         File file = new File(System.getProperty("user.dir") +
                 "\\src\\main\\resources\\eData\\users\\students\\" + student.getId() + ".txt");
@@ -195,38 +202,50 @@ public class Saver {
         }
     }
     public void saveChanges() {
-        //TODO: add changes to this
-        for (Department department : Department.getDepartments())
+        for (Department department : University.getInstance().getDepartments())
             Saver.getInstance().saveDepartment(department);
 
-        for (Student student : Student.getStudents())
+        for (Student student : University.getInstance().getStudents())
             Saver.getInstance().saveStudent(student);
 
-        for (Professor professor : Professor.getProfessors())
+        for (Professor professor : University.getInstance().getProfessors())
             Saver.getInstance().saveProfessor(professor);
 
-        for (Course course : Course.getCourses())
+        for (Course course : University.getInstance().getCourses())
             Saver.getInstance().saveCourse(course);
 
-        for (MinorRequest minorRequest : MinorRequest.getMinorRequests())
+        for (MinorRequest minorRequest : University.getInstance().getMinorRequests())
             Saver.getInstance().saveMinorRequest(minorRequest);
 
-        for (DormRequest dormRequest : DormRequest.getDormRequests())
+        for (DormRequest dormRequest : University.getInstance().getDormRequests())
             Saver.getInstance().saveDormRequest(dormRequest);
 
-        for (RecommendationRequest recommendationRequest:RecommendationRequest.getRecommendationRequests())
+        for (RecommendationRequest recommendationRequest:University.getInstance().getRecommendationRequests())
             Saver.getInstance().saveRecommendationRequest(recommendationRequest);
 
-        for (FreedomRequest freedomRequest:FreedomRequest.getFreedomRequests())
+        for (FreedomRequest freedomRequest:University.getInstance().getFreedomRequests())
             Saver.getInstance().saveFreedomRequest(freedomRequest);
 
-        for (CertificateStudentRequest certificateStudentRequest:CertificateStudentRequest.getCertificateStudentRequests())
+        for (CertificateStudentRequest certificateStudentRequest:University.getInstance().getCertificateStudentRequests())
             Saver.getInstance().saveCertificateStudentRequest(certificateStudentRequest);
 
-        for (ThesisDefenseRequest thesisDefenseRequest:ThesisDefenseRequest.getThesisDefenseRequests())
+        for (ThesisDefenseRequest thesisDefenseRequest:University.getInstance().getThesisDefenseRequests())
             Saver.getInstance().saveThesisDefenseRequest(thesisDefenseRequest);
 
         log.info("Saved Changes");
     }
 
+    @Override
+    public void run() {
+        while(running){
+            saveChanges();
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                log.fatal("Saver class can't save the changes");
+                e.printStackTrace();
+            }
+        }
+    }
+    //TODO: config the addresses
 }

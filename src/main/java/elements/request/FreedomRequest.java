@@ -11,6 +11,7 @@ public class FreedomRequest extends Request{
         this.acceptedText="Congrats you are free now!";
         this.deniedText="you are gonna be here for a while!";
         this.requestText="let me out please!";
+        //TODO: fix this line:
         freedomRequests.add(this);
     }
 

@@ -21,6 +21,7 @@ public class Department {
         students=new ArrayList<>();
         professors=new ArrayList<>();
         courses=new ArrayList<>();
+        //TODO: add new departments to the University
     }
 
     public String getName() {
