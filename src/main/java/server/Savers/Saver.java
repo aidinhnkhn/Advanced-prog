@@ -18,11 +18,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
-public class Saver implements Runnable{
+public class Saver implements Runnable {
     private static Saver saveStudent;
     private static Logger log = LogManager.getLogger(Saver.class);
 
     private boolean running;
+
     private Saver() {
         running = true;
     }
@@ -33,9 +34,10 @@ public class Saver implements Runnable{
         return saveStudent;
     }
 
-    public void stop(){
+    public void stop() {
         running = false;
     }
+
     public void saveStudent(Student student) {
         File file = new File(System.getProperty("user.dir") +
                 "\\src\\main\\resources\\eData\\users\\students\\" + student.getId() + ".txt");
@@ -136,7 +138,7 @@ public class Saver implements Runnable{
         }
     }
 
-    public void saveRecommendationRequest(RecommendationRequest recommendationRequest){
+    public void saveRecommendationRequest(RecommendationRequest recommendationRequest) {
         File file = new File(System.getProperty("user.dir") +
                 "\\src\\main\\resources\\eData\\request\\recommendationRequest\\" + recommendationRequest.getId() + ".txt");
         GsonBuilder gsonBuilder = new GsonBuilder();
@@ -152,7 +154,7 @@ public class Saver implements Runnable{
         }
     }
 
-    public void saveFreedomRequest(FreedomRequest freedomRequest){
+    public void saveFreedomRequest(FreedomRequest freedomRequest) {
         File file = new File(System.getProperty("user.dir") +
                 "\\src\\main\\resources\\eData\\request\\freedomRequest\\" + freedomRequest.getId() + ".txt");
         GsonBuilder gsonBuilder = new GsonBuilder();
@@ -168,7 +170,7 @@ public class Saver implements Runnable{
         }
     }
 
-    public void saveCertificateStudentRequest(CertificateStudentRequest certificateStudentRequest){
+    public void saveCertificateStudentRequest(CertificateStudentRequest certificateStudentRequest) {
         File file = new File(System.getProperty("user.dir") +
                 "\\src\\main\\resources\\eData\\request\\certificateStudentRequest\\" + certificateStudentRequest.getId() + ".txt");
         GsonBuilder gsonBuilder = new GsonBuilder();
@@ -185,7 +187,7 @@ public class Saver implements Runnable{
         }
     }
 
-    public void saveThesisDefenseRequest(ThesisDefenseRequest thesisDefenseRequest){
+    public void saveThesisDefenseRequest(ThesisDefenseRequest thesisDefenseRequest) {
         File file = new File(System.getProperty("user.dir") +
                 "\\src\\main\\resources\\eData\\request\\thesisDefenseRequest\\" + thesisDefenseRequest.getId() + ".txt");
         GsonBuilder gsonBuilder = new GsonBuilder();
@@ -201,6 +203,7 @@ public class Saver implements Runnable{
             log.error("couldn't save the file!");
         }
     }
+
     public void saveChanges() {
         for (Department department : University.getInstance().getDepartments())
             Saver.getInstance().saveDepartment(department);
@@ -220,16 +223,16 @@ public class Saver implements Runnable{
         for (DormRequest dormRequest : University.getInstance().getDormRequests())
             Saver.getInstance().saveDormRequest(dormRequest);
 
-        for (RecommendationRequest recommendationRequest:University.getInstance().getRecommendationRequests())
+        for (RecommendationRequest recommendationRequest : University.getInstance().getRecommendationRequests())
             Saver.getInstance().saveRecommendationRequest(recommendationRequest);
 
-        for (FreedomRequest freedomRequest:University.getInstance().getFreedomRequests())
+        for (FreedomRequest freedomRequest : University.getInstance().getFreedomRequests())
             Saver.getInstance().saveFreedomRequest(freedomRequest);
 
-        for (CertificateStudentRequest certificateStudentRequest:University.getInstance().getCertificateStudentRequests())
+        for (CertificateStudentRequest certificateStudentRequest : University.getInstance().getCertificateStudentRequests())
             Saver.getInstance().saveCertificateStudentRequest(certificateStudentRequest);
 
-        for (ThesisDefenseRequest thesisDefenseRequest:University.getInstance().getThesisDefenseRequests())
+        for (ThesisDefenseRequest thesisDefenseRequest : University.getInstance().getThesisDefenseRequests())
             Saver.getInstance().saveThesisDefenseRequest(thesisDefenseRequest);
 
     }
@@ -237,10 +240,11 @@ public class Saver implements Runnable{
     @Override
     public void run() {
         int cnt = 0;
-        while(running){
+        while (running) {
             saveChanges();
             cnt++;
-            if (cnt % 8 == 0) log.info("saved Changes!");
+            cnt %= 30;
+            if (cnt == 0) log.info("saved Changes!");
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {

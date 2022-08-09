@@ -39,7 +39,6 @@ public class ChangePasswordPage implements Initializable {
             anchorPane.setStyle("-fx-background-color: CORNFLOWERBLUE");
         }
     }
-//TODO: change the below function :D
     public void submit(ActionEvent actionEvent) {
         String sha256hex = Hashing.sha256()
                 .hashString(oldPassword.getText(), StandardCharsets.UTF_8)

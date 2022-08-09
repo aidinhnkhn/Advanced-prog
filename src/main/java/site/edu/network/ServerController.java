@@ -1,6 +1,7 @@
 package site.edu.network;
 
 import elements.people.Professor;
+import elements.people.User;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import shared.messages.message.Message;
@@ -67,6 +68,7 @@ public class ServerController {
                 if (nextLine.equals("over")) break;
                 messageFromServer += nextLine;
             }
+            log.info(messageFromServer);
             return messageFromServer;
         }catch (NoSuchElementException e){
             if (serverOnline) {
@@ -133,5 +135,27 @@ public class ServerController {
         log.info("professor received!");
         Professor professor = JsonCaster.professorCaster((String) response.getData("professor"));
         return  professor;
+    }
+
+    public void sendNewUserInfo(User user) {
+        Message message = new Message(MessageStatus.NewUserInfo,client.getAuthToken());
+        message.addData("email",user.getEmail());
+        message.addData("number",user.getPhoneNumber());
+        message.addData("theme",user.isTheme());
+        sendMessage(Message.toJson(message));
+    }
+
+    public void sendObjection(String courseId, String text) {
+        Message message = new Message(MessageStatus.Objection,client.getAuthToken());
+        message.addData("courseId",courseId);
+        message.addData("objectionText",text);
+        sendMessage(Message.toJson(message));
+    }
+
+    public Response getStudents() {
+        Message message = new Message(MessageStatus.StudentList,client.getAuthToken());
+        sendMessage(Message.toJson(message));
+        Response response = Response.fromJson(receiveMessage());
+        return response;
     }
 }

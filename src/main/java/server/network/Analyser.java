@@ -29,5 +29,11 @@ public class Analyser {
             Handler.getInstance().sendUserImage(message);
         else if (message.getStatus() == MessageStatus.getProfessor)
             Handler.getInstance().sendProfessor(message);
+        else if (message.getStatus() == MessageStatus.NewUserInfo)
+            Handler.getInstance().setUserInfo(message);
+        else if (message.getStatus() == MessageStatus.Objection)
+            Handler.getInstance().setGradeObjection(message);
+        else if (message.getStatus() == MessageStatus.StudentList)
+            Handler.getInstance().sendStudentList(message);
     }
 }

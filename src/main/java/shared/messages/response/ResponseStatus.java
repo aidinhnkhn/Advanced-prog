@@ -3,5 +3,5 @@ package shared.messages.response;
 public enum ResponseStatus {
     AuThToken,
     Captcha,
-    UserImage, sentProfessor, Login
+    UserImage, sentProfessor, StudentList, Login
 }

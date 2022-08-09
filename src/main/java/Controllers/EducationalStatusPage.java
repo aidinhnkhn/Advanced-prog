@@ -13,8 +13,13 @@ import javafx.scene.layout.AnchorPane;
 import logic.LogicalAgent;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import server.university.University;
+import shared.messages.response.Response;
+import shared.util.JsonCaster;
+import site.edu.Main;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class EducationalStatusPage implements Initializable {
@@ -41,7 +46,7 @@ public class EducationalStatusPage implements Initializable {
     Label statusLabel;
     private Student student;
     public void HomePage(ActionEvent actionEvent) {
-        if (LogicalAgent.getInstance().getUser() instanceof Student)
+        if (Main.mainClient.getUser() instanceof Student)
             SceneLoader.getInstance().changeScene("StudentHomePage.fxml", actionEvent);
         else
             SceneLoader.getInstance().changeScene("ProfessorHomePage.fxml", actionEvent);
@@ -50,8 +55,8 @@ public class EducationalStatusPage implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        if (LogicalAgent.getInstance().getUser() instanceof Student) {
-            student = (Student) LogicalAgent.getInstance().getUser();
+        if (Main.mainClient.getUser() instanceof Student) {
+            student = (Student) Main.mainClient.getUser();
             studentBox.setVisible(false);
             nameField.setVisible(false);
             nameSearchButton.setVisible(false);
@@ -59,7 +64,7 @@ public class EducationalStatusPage implements Initializable {
             idField.setVisible(false);
             setupTable();
         }
-        if (LogicalAgent.getInstance().getUser().isTheme()) {
+        if (Main.mainClient.getUser().isTheme()) {
             anchorPane.setStyle("    -fx-background-color:\n" +
                     "            linear-gradient(#4568DC, #B06AB3),\n" +
                     "            repeating-image-pattern(\"Stars_128.png\"),\n" +
@@ -87,26 +92,36 @@ public class EducationalStatusPage implements Initializable {
     public void searchId(ActionEvent actionEvent) {
         String id=idField.getText();
         studentBox.getItems().clear();
-        for (Student studentCheck:Student.getStudents()){
+        ArrayList<Student> students= requestStudents();
+        //System.out.println(students);
+        for (Student studentCheck: students){
             if (studentCheck.getId().contains(id))
-                studentBox.getItems().add(student);
+                studentBox.getItems().add(studentCheck);
         }
-        log.info(LogicalAgent.getInstance().getUser().getId()+" filtered students by id");
+        log.info(Main.mainClient.getUser().getId()+" filtered students by id");
     }
 
     public void searchName(ActionEvent actionEvent) {
         String name=nameField.getText();
         studentBox.getItems().clear();
-        for (Student studentCheck:Student.getStudents()){
+        ArrayList<Student> students= requestStudents();
+        //System.out.println(students);
+        for (Student studentCheck:students){
             if (studentCheck.getUsername().contains(name))
-                studentBox.getItems().add(student);
+                studentBox.getItems().add(studentCheck);
         }
-        log.info(LogicalAgent.getInstance().getUser().getId()+" filtered students by name");
+        log.info(Main.mainClient.getUser().getId()+" filtered students by name");
     }
 
     public void pickStudent(ActionEvent actionEvent) {
         this.student=studentBox.getValue();
-        log.info(LogicalAgent.getInstance().getUser().getId()+" picked a student.");
+        log.info(Main.mainClient.getUser().getId()+" picked a student.");
         setupTable();
+    }
+
+    private ArrayList<Student> requestStudents(){
+        Response response=Main.mainClient.getServerController().getStudents();
+        String listString = (String)response.getData("list");
+        return JsonCaster.studentArrayListCaster(listString);
     }
 }

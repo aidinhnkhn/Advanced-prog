@@ -1,5 +1,6 @@
 package server.network;
 
+import elements.courses.Grade;
 import elements.people.Professor;
 import elements.people.Student;
 import elements.people.User;
@@ -137,5 +138,29 @@ public class Handler {
         Response response = new Response(ResponseStatus.sentProfessor);
         response.addData("professor",professorString);
         Server.getServer().sendMessageToClient(message.getAuthToken(),Response.toJson(response));
+    }
+
+    public void setUserInfo(Message message) {
+        Server.getServer().getClientHandler(message.getAuthToken()).getUser().setTheme((Boolean)message.getData("theme"));
+        Server.getServer().getClientHandler(message.getAuthToken()).getUser().setPhoneNumber((String)message.getData("number"));
+        Server.getServer().getClientHandler(message.getAuthToken()).getUser().setEmail((String)message.getData("email"));
+        log.info(Server.getServer().getClientHandler(message.getAuthToken()).getUser().getId()+" changed the information.");
+    }
+
+    public void setGradeObjection(Message message) {
+        String courseId = (String)message.getData("courseId");
+        String objectionText=(String)message.getData("objectionText");
+        Student student = (Student) Server.getServer().getClientHandler(message.getAuthToken()).getUser();
+        Grade grade=student.getGrade(courseId);
+        grade.setObjection(true);
+        grade.setObjectionText(objectionText);
+        log.info(student.getId()+" objected to course "+courseId);
+    }
+
+    public void sendStudentList(Message message) {
+        Response response = new Response(ResponseStatus.StudentList);
+        String list = JsonCaster.objectToJson(University.getInstance().getStudents());
+        response.addData("list",list);
+        Server.getServer().sendMessageToClient(message.getAuthToken(), Response.toJson(response));
     }
 }

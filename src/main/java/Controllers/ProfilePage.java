@@ -16,11 +16,11 @@ import javafx.scene.layout.AnchorPane;
 import logic.LogicalAgent;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import shared.messages.response.Response;
+import shared.util.ImageSender;
+import site.edu.Main;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -71,7 +71,7 @@ public class ProfilePage implements Initializable {
     CheckBox themeBox;
     private static Logger log = LogManager.getLogger(ProfilePage.class);
     public void HomePage(ActionEvent actionEvent) {
-        if (LogicalAgent.getInstance().getUser() instanceof Student)
+        if (Main.mainClient.getUser() instanceof Student)
             SceneLoader.getInstance().changeScene("StudentHomePage.fxml",actionEvent);
         else
             SceneLoader.getInstance().changeScene("ProfessorHomePage.fxml",actionEvent);
@@ -82,12 +82,8 @@ public class ProfilePage implements Initializable {
 
         initUser();
 
-        if (LogicalAgent.getInstance().getUser() instanceof Student){
-            Student student=(Student) LogicalAgent.getInstance().getUser();
-            supervisor.setText("supervisor: "+Professor.getProfessor(student.getSupervisorId()).getUsername());
-            enterYear.setText(new StringBuilder("enter year: "+student.getId().charAt(1)+student.getId().charAt(2)).toString());
-            isEducating.setText((student.isEducating()?"undergraduate":"graduated"));
-            average.setText("average: "+Double.toString(student.getَAverage()));
+        if (Main.mainClient.getUser() instanceof Student){
+            initStudent();
         }
         else{
             supervisor.setVisible(false);
@@ -95,7 +91,7 @@ public class ProfilePage implements Initializable {
             isEducating.setVisible(false);
             average.setVisible(false);
         }
-        if (LogicalAgent.getInstance().getUser().isTheme()) {
+        if (Main.mainClient.getUser().isTheme()) {
             anchorPane.setStyle("    -fx-background-color:\n" +
                     "            linear-gradient(#4568DC, #B06AB3),\n" +
                     "            repeating-image-pattern(\"Stars_128.png\"),\n" +
@@ -105,7 +101,7 @@ public class ProfilePage implements Initializable {
             anchorPane.setStyle("-fx-background-color: CORNFLOWERBLUE");
     }
     public void initUser(){
-        User user=LogicalAgent.getInstance().getUser();
+        User user=Main.mainClient.getUser();
         username.setText("username: "+user.getUsername());
         phoneNumber.setText(user.getPhoneNumber());
         id.setText("id: "+user.getId());
@@ -117,26 +113,35 @@ public class ProfilePage implements Initializable {
         initImage(user);
     }
     public void initImage(User user){
-        try {
-            String filename=user.getId()+".png";
-            File file=new File(System.getProperty("user.dir") +
-                    "\\src\\main\\resources\\eData\\users\\pictures\\" + filename);
-            if (!file.exists()){
-                log.warn("image doesn't exist");
-                return;
-            }
-            InputStream stream = new FileInputStream(System.getProperty("user.dir") +
-                    "\\src\\main\\resources\\eData\\users\\pictures\\" + filename);
-            Image image = new Image(stream);
+        if(Main.mainClient.getServerController().isServerOnline()) {
+            Response response = Main.mainClient.getServerController().getUserImage();
+            byte[] bytes = ImageSender.decode((String) response.getData("image"));
+            Image image = new Image(new ByteArrayInputStream(bytes));
+            Main.mainClient.setImage(image);
             imageView.setImage(image);
-            stream.close();
-        } catch (IOException e){
-            log.error("couldn't load the image");
+        }else{
+            imageView.setImage(Main.mainClient.getImage());
         }
+        log.info("user image loaded!");
+    }
+
+    public void initStudent(){
+        Student student=(Student) Main.mainClient.getUser();
+        Professor professor;
+        if(Main.mainClient.getServerController().isServerOnline()) {
+            professor = Main.mainClient.getServerController().getProfessor(student.getSupervisorId());
+            Main.mainClient.setProfessor(professor);
+        }
+        else
+            professor = Main.mainClient.getProfessor();
+        supervisor.setText("supervisor: "+ professor.getUsername());
+        enterYear.setText(new StringBuilder("enter year: "+student.getId().charAt(1)+student.getId().charAt(2)).toString());
+        isEducating.setText((student.isEducating()?"undergraduate":"graduated"));
+        average.setText("average: "+Double.toString(student.getَAverage()));
     }
 
     public void saveChanges(ActionEvent actionEvent) {
-        User user=LogicalAgent.getInstance().getUser();
+        User user=Main.mainClient.getUser();
         if (!user.getEmail().equals(email.getText()))
             log.info(user.getId()+" changed his email.");
         if (!user.getPhoneNumber().equals(phoneNumber.getText()))
@@ -146,8 +151,9 @@ public class ProfilePage implements Initializable {
         user.setEmail(email.getText());
         user.setPhoneNumber(phoneNumber.getText());
         user.setTheme(themeBox.isSelected());
-
-        if (LogicalAgent.getInstance().getUser().isTheme()) {
+        //TODO: send the user changes to server
+        Main.mainClient.getServerController().sendNewUserInfo(user);
+        if (Main.mainClient.getUser().isTheme()) {
             anchorPane.setStyle("    -fx-background-color:\n" +
                     "            linear-gradient(#4568DC, #B06AB3),\n" +
                     "            repeating-image-pattern(\"Stars_128.png\"),\n" +
