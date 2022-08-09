@@ -2,6 +2,7 @@ package shared.util;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import elements.people.Professor;
 import elements.people.Student;
 import shared.gsonSerializers.LocalDateTimeDeserializer;
 import shared.gsonSerializers.LocalDateTimeSerializer;
@@ -9,6 +10,15 @@ import shared.gsonSerializers.LocalDateTimeSerializer;
 import java.time.LocalDateTime;
 
 public class JsonCaster {
+
+    public static Professor professorCaster(String professorString){
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
+        Gson gson = gsonBuilder.create();
+        Professor professor = gson.fromJson(professorString, Professor.class);
+        return professor;
+    }
     public static Student studentCaster(String studentString){
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();

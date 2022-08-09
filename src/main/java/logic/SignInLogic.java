@@ -44,7 +44,7 @@ public class SignInLogic {
         String sha256hex = Hashing.sha256()
                 .hashString(password, StandardCharsets.UTF_8)
                 .toString();
-        //TODO: sent the login request to the server, get the result
+        //sent the login request to the server, get the result
         Response response = Main.mainClient.getServerController().sendLoginRequest(id,sha256hex);
         if ((Boolean) response.getData("login")){
             Student student = JsonCaster.studentCaster((String)response.getData("user"));
@@ -57,10 +57,11 @@ public class SignInLogic {
         String sha256hex = Hashing.sha256()
                 .hashString(password, StandardCharsets.UTF_8)
                 .toString();
-        //TODO: sent the login request to the server, get the result
+        //sent the login request to the server, get the result
         Response response = Main.mainClient.getServerController().sendLoginRequest(id,sha256hex);
         if ((Boolean) response.getData("login")){
-            LogicalAgent.getInstance().setUser((Professor)(response.getData("user")));
+            Professor professor = JsonCaster.professorCaster((String)response.getData("user"));
+            LogicalAgent.getInstance().setUser(professor);
             return true;
         }
         return false;

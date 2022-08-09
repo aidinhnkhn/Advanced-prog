@@ -1,6 +1,10 @@
 package server.network;
 
+import elements.people.Professor;
 import elements.people.Student;
+import elements.people.User;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import server.Server;
 import server.university.University;
 import shared.messages.message.Message;
@@ -13,6 +17,7 @@ import java.util.Random;
 
 public class Handler {
 
+    private static Logger log = LogManager.getLogger(Handler.class);
     private static Handler handler;
 
     private Handler(){
@@ -61,7 +66,22 @@ public class Handler {
     }
 
     private void checkProfessorLogin(String authToken, String id, String password) {
-
+        Response response = new Response(ResponseStatus.Login);
+        Professor professor = University.getInstance().getProfessorById(id);
+        if (professor == null){
+            response.addData("login",false);
+            Server.getServer().sendMessageToClient(authToken,Response.toJson(response));
+            return;
+        }
+        if (professor.getPassword().equals(password)){
+            response.addData("login",true);
+            response.addData("user",JsonCaster.objectToJson(professor));
+            Server.getServer().getClientHandler(authToken).setUser(professor);
+            log.info(professor.getId()+" logged in.");
+        }
+        else
+            response.addData("login",false);
+        Server.getServer().sendMessageToClient(authToken,Response.toJson(response));
     }
 
     private void checkStudentLogin(String authToken, String id, String password) {
@@ -76,9 +96,15 @@ public class Handler {
             response.addData("login",true);
             response.addData("user", JsonCaster.objectToJson(student));
             Server.getServer().getClientHandler(authToken).setUser(student);
+            log.info(student.getId()+" logged in.");
         }
         else
             response.addData("login",false);
         Server.getServer().sendMessageToClient(authToken,Response.toJson(response));
+    }
+
+    public void setNewPassword(Message message) {
+        User user = Server.getServer().getClientHandler(message.getAuthToken()).getUser();
+        user.setPassword((String)message.getData("newPassword"));
     }
 }

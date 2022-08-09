@@ -77,12 +77,18 @@ public class ServerController {
     }
 
     public Response sendLoginRequest(String id,String password){
-        Message message = new Message(MessageStatus.Login, Main.mainClient.getAuthToken());
+        Message message = new Message(MessageStatus.Login, client.getAuthToken());
         message.addData("id",id);
         message.addData("password",password);
         Main.mainClient.getServerController().sendMessage(Message.toJson(message));
         Response response = Response.fromJson(receiveMessage());
         log.info("received login response");
         return response;
+    }
+
+    public void sendNewPassword(String password){
+        Message message = new Message(MessageStatus.NewPassword,client.getAuthToken());
+        message.addData("newPassword",password);
+        sendMessage(Message.toJson(message));
     }
 }

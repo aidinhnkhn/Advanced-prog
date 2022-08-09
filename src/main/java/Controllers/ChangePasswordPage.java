@@ -12,6 +12,7 @@ import javafx.scene.layout.AnchorPane;
 import logic.LogicalAgent;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import site.edu.Main;
 
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -55,6 +56,7 @@ public class ChangePasswordPage implements Initializable {
                     .hashString(newPassword.getText(), StandardCharsets.UTF_8)
                     .toString();
             LogicalAgent.getInstance().getUser().setPassword(newSha256hex);
+            Main.mainClient.getServerController().sendNewPassword(newSha256hex);
             log.info(LogicalAgent.getInstance().getUser().getId()+" changed his password!");
             if (LogicalAgent.getInstance().getUser() instanceof Student)
                 SceneLoader.getInstance().changeScene("StudentHomePage.fxml", actionEvent);

@@ -232,13 +232,15 @@ public class Saver implements Runnable{
         for (ThesisDefenseRequest thesisDefenseRequest:University.getInstance().getThesisDefenseRequests())
             Saver.getInstance().saveThesisDefenseRequest(thesisDefenseRequest);
 
-        log.info("Saved Changes");
     }
 
     @Override
     public void run() {
+        int cnt = 0;
         while(running){
             saveChanges();
+            cnt++;
+            if (cnt % 8 == 0) log.info("saved Changes!");
             try {
                 Thread.sleep(5000);
             } catch (InterruptedException e) {

@@ -21,5 +21,7 @@ public class Analyser {
             Handler.getInstance().sendCaptcha(message.getAuthToken());
         else if (message.getStatus() == MessageStatus.Login)
             Handler.getInstance().checkLogin(message.getAuthToken(),message);
+        else if (message.getStatus() == MessageStatus.NewPassword)
+            Handler.getInstance().setNewPassword(message);
     }
 }
