@@ -23,5 +23,11 @@ public class Analyser {
             Handler.getInstance().checkLogin(message.getAuthToken(),message);
         else if (message.getStatus() == MessageStatus.NewPassword)
             Handler.getInstance().setNewPassword(message);
+        else if (message.getStatus() == MessageStatus.LastEnter)
+            Handler.getInstance().setLastEnter(message.getAuthToken());
+        else if (message.getStatus() == MessageStatus.UserImage)
+            Handler.getInstance().sendUserImage(message);
+        else if (message.getStatus() == MessageStatus.getProfessor)
+            Handler.getInstance().sendProfessor(message);
     }
 }

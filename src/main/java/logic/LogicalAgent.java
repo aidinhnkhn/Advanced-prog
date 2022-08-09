@@ -5,7 +5,7 @@ import elements.people.User;
 public class LogicalAgent {
     private static LogicalAgent logicalAgent;
     private User user;
-    private LogicalAgent(){
+    public LogicalAgent(){
 
     }
     public static LogicalAgent getInstance(){

@@ -29,7 +29,7 @@ public class ChangePasswordPage implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        if (LogicalAgent.getInstance().getUser().isTheme()) {
+        if (Main.mainClient.getUser().isTheme()) {
             anchorPane.setStyle("    -fx-background-color:\n" +
                     "            linear-gradient(#4568DC, #B06AB3),\n" +
                     "            repeating-image-pattern(\"Stars_128.png\"),\n" +
@@ -47,7 +47,7 @@ public class ChangePasswordPage implements Initializable {
         Alert alert=new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("password Change");
         alert.setHeaderText("Status");
-        if (!sha256hex.equals(LogicalAgent.getInstance().getUser().getPassword()))
+        if (!sha256hex.equals(Main.mainClient.getUser().getPassword()))
             alert.setContentText("old password is incorrect");
         if (!confirmPassword.getText().equals(newPassword.getText()))
             alert.setContentText("make sure that you entered new passwords correctly!");
@@ -55,10 +55,10 @@ public class ChangePasswordPage implements Initializable {
             String newSha256hex = Hashing.sha256()
                     .hashString(newPassword.getText(), StandardCharsets.UTF_8)
                     .toString();
-            LogicalAgent.getInstance().getUser().setPassword(newSha256hex);
+           Main.mainClient.getUser().setPassword(newSha256hex);
             Main.mainClient.getServerController().sendNewPassword(newSha256hex);
-            log.info(LogicalAgent.getInstance().getUser().getId()+" changed his password!");
-            if (LogicalAgent.getInstance().getUser() instanceof Student)
+            log.info(Main.mainClient.getUser().getId()+" changed his password!");
+            if (Main.mainClient.getUser() instanceof Student)
                 SceneLoader.getInstance().changeScene("StudentHomePage.fxml", actionEvent);
             else
                 SceneLoader.getInstance().changeScene("ProfessorHomePage.fxml", actionEvent);

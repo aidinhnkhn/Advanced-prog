@@ -16,10 +16,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
-import logic.LogicalAgent;
 import logic.StudentHomePageLogic;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import shared.messages.response.Response;
+import shared.util.ImageSender;
+import site.edu.Main;
 
 import java.io.*;
 import java.net.URL;
@@ -51,10 +53,12 @@ public class StudentHomePage implements Initializable {
     static Logger log = LogManager.getLogger(StudentHomePage.class);
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        Main.mainClient.getServerController().sendLastEnter();
+        Main.mainClient.getUser().setLastEnter(LocalDateTime.now());
         initClock();
-        initUser(LogicalAgent.getInstance().getUser());
-        initStudent((Student)(LogicalAgent.getInstance().getUser()));
-        if (LogicalAgent.getInstance().getUser().isTheme()) {
+        initUser(Main.mainClient.getUser());
+        initStudent((Student)(Main.mainClient.getUser()));
+        if (Main.mainClient.getUser().isTheme()) {
             anchorPane.setStyle("    -fx-background-color:\n" +
                     "            linear-gradient(#4568DC, #B06AB3),\n" +
                     "            repeating-image-pattern(\"Stars_128.png\"),\n" +
@@ -63,13 +67,19 @@ public class StudentHomePage implements Initializable {
         else
             anchorPane.setStyle("-fx-background-color: CORNFLOWERBLUE");
 
-        LogicalAgent.getInstance().getUser().setLastEnter(LocalDateTime.now());
 
     }
     public void initStudent(Student student){
         education.setText(student.isEducating()?"undergraduate":"educating");
         try {
-            supervisor.setText("you supervisor is Dr." + Professor.getProfessor(student.getSupervisorId()).getUsername());
+            Professor professor;
+            if(Main.mainClient.getServerController().isServerOnline()) {
+                professor = Main.mainClient.getServerController().getProfessor(student.getSupervisorId());
+                Main.mainClient.setProfessor(professor);
+            }
+            else
+                professor = Main.mainClient.getProfessor();
+            supervisor.setText("you supervisor is Dr." + professor.getUsername());
         } catch (NullPointerException e){
             log.error("user name is null");
         }
@@ -93,24 +103,17 @@ public class StudentHomePage implements Initializable {
         initImage(user);
     }
     public void initImage(User user){
-        try {
-            String filename=user.getId()+".png";
-            File file=new File(System.getProperty("user.dir") +
-                    "\\src\\main\\resources\\eData\\users\\pictures\\" + filename);
-            if (!file.exists()){
-                log.warn("could not load image");
-                return;
-            }
-            InputStream stream = new FileInputStream(System.getProperty("user.dir") +
-                    "\\src\\main\\resources\\eData\\users\\pictures\\" + filename);
-            Image image = new Image(stream);
+
+        if(Main.mainClient.getServerController().isServerOnline()) {
+            Response response = Main.mainClient.getServerController().getUserImage();
+            byte[] bytes = ImageSender.decode((String) response.getData("image"));
+            Image image = new Image(new ByteArrayInputStream(bytes));
+            Main.mainClient.setImage(image);
             imageView.setImage(image);
-            stream.close();
-            log.trace("user image loaded!");
-        } catch (IOException e){
-            e.printStackTrace();
-            log.error("couldn't load image");
+        }else{
+            imageView.setImage(Main.mainClient.getImage());
         }
+        log.info("user image loaded!");
     }
     private void initClock() {
 
@@ -124,7 +127,6 @@ public class StudentHomePage implements Initializable {
     }
 
     public void exit(ActionEvent actionEvent) {
-
        StudentHomePageLogic.getInstance().exit(education);
     }
 

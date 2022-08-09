@@ -20,8 +20,7 @@ public class ProfessorHomePageLogic {
     }
     public void exit(Node node){
         log.info("user singed out.");
-        Saver.getInstance().saveProfessor((Professor) (LogicalAgent.getInstance().getUser()));
-        Saver.getInstance().saveChanges();
+        //TODO: send the exit request to Server
         Stage stage=(Stage) (node.getScene().getWindow());
         stage.close();
     }

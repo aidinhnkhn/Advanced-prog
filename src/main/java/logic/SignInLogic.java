@@ -48,7 +48,8 @@ public class SignInLogic {
         Response response = Main.mainClient.getServerController().sendLoginRequest(id,sha256hex);
         if ((Boolean) response.getData("login")){
             Student student = JsonCaster.studentCaster((String)response.getData("user"));
-            LogicalAgent.getInstance().setUser(student);
+            //LogicalAgent.getInstance().setUser(student);
+            Main.mainClient.setUser(student);
             return true;
         }
         return false;
@@ -61,7 +62,8 @@ public class SignInLogic {
         Response response = Main.mainClient.getServerController().sendLoginRequest(id,sha256hex);
         if ((Boolean) response.getData("login")){
             Professor professor = JsonCaster.professorCaster((String)response.getData("user"));
-            LogicalAgent.getInstance().setUser(professor);
+            //LogicalAgent.getInstance().setUser(professor);
+            Main.mainClient.setUser(professor);
             return true;
         }
         return false;

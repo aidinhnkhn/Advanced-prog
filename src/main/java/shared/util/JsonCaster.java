@@ -28,6 +28,14 @@ public class JsonCaster {
         return student;
     }
 
+    public static LocalDateTime dateCaster(String date){
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
+        Gson gson = gsonBuilder.create();
+        LocalDateTime localDate = gson.fromJson(date,LocalDateTime.class);
+        return localDate;
+    }
     public static String objectToJson(Object object){
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();

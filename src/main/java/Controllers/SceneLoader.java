@@ -41,6 +41,7 @@ public class SceneLoader {
             log.info(address+" opened successfully!");
         } catch (IOException e) {
             log.error(address+" couldn't be opened.");
+            e.printStackTrace();
         }
     }
     public void ChangeSceneByNode(String address,Node node){
@@ -54,6 +55,7 @@ public class SceneLoader {
             log.info(address+" opened successfully!");
         } catch (IOException e) {
             log.error(address+" couldn't be opened.");
+            e.printStackTrace();
         }
     }
 }

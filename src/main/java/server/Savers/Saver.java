@@ -242,7 +242,7 @@ public class Saver implements Runnable{
             cnt++;
             if (cnt % 8 == 0) log.info("saved Changes!");
             try {
-                Thread.sleep(5000);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 log.fatal("Saver class can't save the changes");
                 e.printStackTrace();

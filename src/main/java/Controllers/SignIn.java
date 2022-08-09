@@ -77,7 +77,7 @@ public class SignIn implements Initializable {
         if (successful) {
             LocalDateTime nowTime = LocalDateTime.now().minusHours(3);
             alert.setContentText("successful!");
-            if (LogicalAgent.getInstance().getUser().getLastEnter().isBefore(nowTime))
+            if (Main.mainClient.getUser().getLastEnter().isBefore(nowTime))
                 SceneLoader.getInstance().changeScene("ChangePasswordPage.fxml", actionEvent);
             else
                 goToHomePage(actionEvent);
@@ -89,7 +89,7 @@ public class SignIn implements Initializable {
     }
 
     private void goToHomePage(ActionEvent actionEvent) {
-        if (LogicalAgent.getInstance().getUser() instanceof Student)
+        if (Main.mainClient.getUser() instanceof Student)
             SceneLoader.getInstance().changeScene("StudentHomePage.fxml", actionEvent);
         else
             SceneLoader.getInstance().changeScene("ProfessorHomePage.fxml", actionEvent);

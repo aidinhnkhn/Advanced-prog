@@ -13,6 +13,8 @@ import shared.messages.response.ResponseStatus;
 import shared.util.ImageSender;
 import shared.util.JsonCaster;
 
+import java.io.File;
+import java.time.LocalDateTime;
 import java.util.Random;
 
 public class Handler {
@@ -20,24 +22,25 @@ public class Handler {
     private static Logger log = LogManager.getLogger(Handler.class);
     private static Handler handler;
 
-    private Handler(){
+    private Handler() {
 
     }
 
-    public static Handler getInstance(){
-        if (handler==null)
+    public static Handler getInstance() {
+        if (handler == null)
             handler = new Handler();
         return handler;
     }
-    public void sendCaptcha(String authToken){
+
+    public void sendCaptcha(String authToken) {
         String captchaName = handler.getCaptchaName();
         String path = System.getProperty("user.dir") +
                 "\\src\\main\\resources\\eData\\Captcha\\" + captchaName;
         String encodedImage = ImageSender.encode(path);
         Response response = new Response(ResponseStatus.Captcha);
-        response.addData("image",encodedImage);
-        response.addData("number",captchaName);
-        Server.getServer().sendMessageToClient(authToken,Response.toJson(response));
+        response.addData("image", encodedImage);
+        response.addData("number", captchaName);
+        Server.getServer().sendMessageToClient(authToken, Response.toJson(response));
     }
 
     private String getCaptchaName() {
@@ -57,54 +60,82 @@ public class Handler {
 
     public void checkLogin(String authToken, Message message) {
 
-        String id = (String)message.getData("id");
-        String password = (String)message.getData("password");
-        if (id.charAt(0)=='s')
-            checkStudentLogin(authToken,id,password);
+        String id = (String) message.getData("id");
+        String password = (String) message.getData("password");
+        if (id.charAt(0) == 's')
+            checkStudentLogin(authToken, id, password);
         else
-            checkProfessorLogin(authToken,id,password);
+            checkProfessorLogin(authToken, id, password);
     }
 
     private void checkProfessorLogin(String authToken, String id, String password) {
         Response response = new Response(ResponseStatus.Login);
         Professor professor = University.getInstance().getProfessorById(id);
-        if (professor == null){
-            response.addData("login",false);
-            Server.getServer().sendMessageToClient(authToken,Response.toJson(response));
+        if (professor == null) {
+            response.addData("login", false);
+            Server.getServer().sendMessageToClient(authToken, Response.toJson(response));
             return;
         }
-        if (professor.getPassword().equals(password)){
-            response.addData("login",true);
-            response.addData("user",JsonCaster.objectToJson(professor));
+        if (professor.getPassword().equals(password)) {
+            response.addData("login", true);
+            response.addData("user", JsonCaster.objectToJson(professor));
             Server.getServer().getClientHandler(authToken).setUser(professor);
-            log.info(professor.getId()+" logged in.");
-        }
-        else
-            response.addData("login",false);
-        Server.getServer().sendMessageToClient(authToken,Response.toJson(response));
+            log.info(professor.getId() + " logged in.");
+        } else
+            response.addData("login", false);
+        Server.getServer().sendMessageToClient(authToken, Response.toJson(response));
     }
 
     private void checkStudentLogin(String authToken, String id, String password) {
         Response response = new Response(ResponseStatus.Login);
         Student student = University.getInstance().getStudentById(id);
-        if (student == null){
-            response.addData("login",false);
-            Server.getServer().sendMessageToClient(authToken,Response.toJson(response));
+        if (student == null) {
+            response.addData("login", false);
+            Server.getServer().sendMessageToClient(authToken, Response.toJson(response));
             return;
         }
-        if (student.isEducating() && student.getPassword().equals(password)){
-            response.addData("login",true);
+        if (student.isEducating() && student.getPassword().equals(password)) {
+            response.addData("login", true);
             response.addData("user", JsonCaster.objectToJson(student));
             Server.getServer().getClientHandler(authToken).setUser(student);
-            log.info(student.getId()+" logged in.");
-        }
-        else
-            response.addData("login",false);
-        Server.getServer().sendMessageToClient(authToken,Response.toJson(response));
+            log.info(student.getId() + " logged in.");
+        } else
+            response.addData("login", false);
+        Server.getServer().sendMessageToClient(authToken, Response.toJson(response));
     }
 
     public void setNewPassword(Message message) {
         User user = Server.getServer().getClientHandler(message.getAuthToken()).getUser();
-        user.setPassword((String)message.getData("newPassword"));
+        user.setPassword((String) message.getData("newPassword"));
+    }
+
+    public void setLastEnter(String authToken) {
+        User user = Server.getServer().getClientHandler(authToken).getUser();
+        user.setLastEnter(LocalDateTime.now());
+    }
+
+    public void sendUserImage(Message message) {
+        String filename = message.getData("id") + ".png";
+        File file = new File(System.getProperty("user.dir") +
+                "\\src\\main\\resources\\eData\\users\\pictures\\" + filename);
+        String path = "";
+        if (!file.exists())
+            path = System.getProperty("user.dir") +
+                    "\\src\\main\\resources\\eData\\users\\pictures\\every.png";
+        else
+            path = System.getProperty("user.dir") +
+                    "\\src\\main\\resources\\eData\\users\\pictures\\" + filename;
+        String encodedImage = ImageSender.encode(path);
+        Response response = new Response(ResponseStatus.UserImage);
+        response.addData("image", encodedImage);
+        Server.getServer().sendMessageToClient(message.getAuthToken(), Response.toJson(response));
+    }
+
+    public void sendProfessor(Message message) {
+        Professor professor =University.getInstance().getProfessorById((String)message.getData("id"));
+        String professorString = JsonCaster.objectToJson(professor);
+        Response response = new Response(ResponseStatus.sentProfessor);
+        response.addData("professor",professorString);
+        Server.getServer().sendMessageToClient(message.getAuthToken(),Response.toJson(response));
     }
 }

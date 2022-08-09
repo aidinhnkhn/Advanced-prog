@@ -19,6 +19,9 @@ import logic.LogicalAgent;
 import logic.ProfessorHomePageLogic;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import shared.messages.response.Response;
+import shared.util.ImageSender;
+import site.edu.Main;
 
 import java.io.*;
 import java.net.URL;
@@ -44,11 +47,14 @@ public class ProfessorHomePage implements Initializable {
     MenuItem profileItem;
     private static Logger log = LogManager.getLogger(ProfessorHomePage.class);
     public void initialize(URL location, ResourceBundle resources) {
+        Main.mainClient.getServerController().sendLastEnter();
+        Main.mainClient.getUser().setLastEnter(LocalDateTime.now());
+
         initClock();
-        initUser(LogicalAgent.getInstance().getUser());
-        setVisibility((Professor) (LogicalAgent.getInstance().getUser()));
-        Saver.getInstance().saveProfessor((Professor) (LogicalAgent.getInstance().getUser()));
-        if (LogicalAgent.getInstance().getUser().isTheme()) {
+        initUser(Main.mainClient.getUser());
+        setVisibility((Professor) (Main.mainClient.getUser()));
+
+        if (Main.mainClient.getUser().isTheme()) {
             anchorPane.setStyle("    -fx-background-color:\n" +
                     "            linear-gradient(#4568DC, #B06AB3),\n" +
                     "            repeating-image-pattern(\"Stars_128.png\"),\n" +
@@ -58,7 +64,6 @@ public class ProfessorHomePage implements Initializable {
             anchorPane.setStyle("-fx-background-color: CORNFLOWERBLUE");
 
 
-        LogicalAgent.getInstance().getUser().setLastEnter(LocalDateTime.now());
     }
     public void setVisibility(Professor professor){
         if (professor.isEducationalAssistant()) {
@@ -90,22 +95,16 @@ public class ProfessorHomePage implements Initializable {
     }
 
     public void initImage(User user) {
-        try {
-            String filename = user.getId() + ".png";
-            File file=new File(System.getProperty("user.dir") +
-                    "\\src\\main\\resources\\eData\\users\\pictures\\" + filename);
-            if (!file.exists()){
-                log.warn("image couldn't be loaded");
-                return;
-            }
-            InputStream stream = new FileInputStream(System.getProperty("user.dir") +
-                    "\\src\\main\\resources\\eData\\users\\pictures\\" + filename);
-            Image image = new Image(stream);
+        if(Main.mainClient.getServerController().isServerOnline()) {
+            Response response = Main.mainClient.getServerController().getUserImage();
+            byte[] bytes = ImageSender.decode((String) response.getData("image"));
+            Image image = new Image(new ByteArrayInputStream(bytes));
+            Main.mainClient.setImage(image);
             imageView.setImage(image);
-            stream.close();
-        } catch (IOException e) {
-            log.error("couldn't write the image");
+        }else{
+            imageView.setImage(Main.mainClient.getImage());
         }
+        log.info("user image loaded!");
     }
 
     public void exit(ActionEvent actionEvent) {
