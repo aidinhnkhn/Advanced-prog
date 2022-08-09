@@ -39,7 +39,7 @@ public class Main extends Application {
             stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
                 @Override
                 public void handle(WindowEvent e) {
-                    Saver.getInstance().saveChanges();
+                    //Saver.getInstance().saveChanges();
                     Platform.exit();
                     System.exit(0);
                 }

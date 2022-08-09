@@ -3,6 +3,7 @@ package shared.util;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import elements.courses.Course;
 import elements.people.Professor;
 import elements.people.Student;
 import shared.gsonSerializers.LocalDateTimeDeserializer;
@@ -54,5 +55,14 @@ public class JsonCaster {
         Gson gson = gsonBuilder.create();
         String objectJson = gson.toJson(object);
         return objectJson;
+    }
+
+    public static Course courseCaster(String course) {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
+        Gson gson = gsonBuilder.create();
+        Course course1 = gson.fromJson(course,Course.class);
+        return course1;
     }
 }

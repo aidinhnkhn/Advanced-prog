@@ -16,6 +16,7 @@ import javafx.scene.layout.AnchorPane;
 import logic.LogicalAgent;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import site.edu.Main;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -51,7 +52,7 @@ public class ProfessorProvisional implements Initializable {
     TextField gradeField, idField,answerField;
     private static Logger log = LogManager.getLogger(ProfessorProvisional.class);
     public void HomePage(ActionEvent actionEvent) {
-        if (LogicalAgent.getInstance().getUser() instanceof Student)
+        if (Main.mainClient.getUser() instanceof Student)
             SceneLoader.getInstance().changeScene("StudentHomePage.fxml", actionEvent);
         else
             SceneLoader.getInstance().changeScene("ProfessorHomePage.fxml", actionEvent);
@@ -62,11 +63,14 @@ public class ProfessorProvisional implements Initializable {
             return;
 
         String courseId = coursesId.getValue();
-        Course course = Course.getCourse(courseId);
+
+        Course course = Main.mainClient.getServerController().getCourseById(courseId);
+
         ObservableList<Grade> studentGrade = FXCollections.observableArrayList();
         ObservableList<Student> students = FXCollections.observableArrayList();
         for (String id : course.getStudentId()) {
-            Student student = Student.getStudent(id);
+
+            Student student = Main.mainClient.getServerController().getStudentById(id);
             Grade grade = student.getGrade(courseId);
             if (grade==null) continue;
             grade.setGradeStatus();
@@ -91,10 +95,10 @@ public class ProfessorProvisional implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Professor professor = (Professor) LogicalAgent.getInstance().getUser();
+        Professor professor = (Professor) Main.mainClient.getUser();
         for (String courseId : professor.getCoursesId())
             coursesId.getItems().add(courseId);
-        if (LogicalAgent.getInstance().getUser().isTheme()) {
+        if (Main.mainClient.getUser().isTheme()) {
             anchorPane.setStyle("    -fx-background-color:\n" +
                     "            linear-gradient(#4568DC, #B06AB3),\n" +
                     "            repeating-image-pattern(\"Stars_128.png\"),\n" +
@@ -111,7 +115,7 @@ public class ProfessorProvisional implements Initializable {
         alert.setTitle("Error");
         alert.setHeaderText("Something went Wrong!");
 
-        Student student = Student.getStudent(id);
+        Student student = Main.mainClient.getServerController().getStudentById(id);
         if (coursesId.getValue() == null) return;
         if (student==null){
             alert.setContentText("enter a correct student Id");
@@ -119,7 +123,7 @@ public class ProfessorProvisional implements Initializable {
             return;
         }
         Grade studentGrade = student.getGrade(courseId);
-        Course course = Course.getCourse(courseId);
+        Course course = Main.mainClient.getServerController().getCourseById(courseId);
         String regExp = "[\\x00-\\x20]*[+-]?(((((\\p{Digit}+)(\\.)?((\\p{Digit}+)?)([eE][+-]?(\\p{Digit}+))?)|(\\.((\\p{Digit}+))([eE][+-]?(\\p{Digit}+))?)|(((0[xX](\\p{XDigit}+)(\\.)?)|(0[xX](\\p{XDigit}+)?(\\.)(\\p{XDigit}+)))[pP][+-]?(\\p{Digit}+)))[fFdD]?))[\\x00-\\x20]*";
         if (!course.getStudentId().contains(id))
             alert.setContentText("enter a correct student Id.");
@@ -132,11 +136,11 @@ public class ProfessorProvisional implements Initializable {
             alert.setTitle("SuccessFull");
             alert.setHeaderText("status");
             alert.setContentText("grade submitted");
-            studentGrade.setFinished(true);
+
             double professorGrade = Double.parseDouble(grade);
             professorGrade = Math.round(professorGrade / 0.25) * 0.25;
-            studentGrade.setGrade(professorGrade);
-            studentGrade.setGradeStatus();
+
+            Main.mainClient.getServerController().sendStudentGrade(id,courseId,professorGrade);
             log.info("grade submitted");
         } else if (studentGrade == null) {
             alert.setContentText("this course grades are final.");
@@ -152,35 +156,27 @@ public class ProfessorProvisional implements Initializable {
         alert.setHeaderText("Status");
         if (coursesId.getValue() == null)
             return;
+
         String courseId = coursesId.getValue();
-        Course course = Course.getCourse(courseId);
-        boolean check = true;
-        for (String id : course.getStudentId()) {
-            Student student = Student.getStudent(id);
-            Grade grade = student.getGrade(courseId);
-            if (!grade.isFinished())
-                check = false;
-        }
-        if (!check){
+
+
+        boolean check = Main.mainClient.getServerController().finalizeGrades(courseId,Main.mainClient.getUser().getId());
+
+        if (!check)
             alert.setContentText("you haven't submitted all of the grades");
-        }
-        else if (check){
+
+        else if (check)
             alert.setContentText("this course grades are final!");
-            for (String id : course.getStudentId()) {
-                Student student = Student.getStudent(id);
-                Grade grade = student.getGrade(courseId);
-                grade.setFinalGrade(true);
-            }
-            log.info(course.getId()+" grades finalized!");
-        }
+
         alert.show();
+        filter(actionEvent);
     }
 
     public void answerObjection(ActionEvent actionEvent) {
         String courseId = coursesId.getValue(), id = idField.getText();
-        Student student = Student.getStudent(id);
+        Student student = Main.mainClient.getServerController().getStudentById(id);
         Grade studentGrade = student.getGrade(courseId);
-        Course course = Course.getCourse(courseId);
+        Course course = Main.mainClient.getServerController().getCourseById(courseId);
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
         alert.setHeaderText("Something went Wrong!");
@@ -198,13 +194,14 @@ public class ProfessorProvisional implements Initializable {
         else if (!studentGrade.isObjection())
             alert.setContentText("student has no objection yet");
         else if (studentGrade.isObjection()){
-            studentGrade.setAnswered(true);
-            studentGrade.setAnswerText(answerField.getText());
+            Main.mainClient.getServerController().answerObjection(answerField.getText(),id,courseId);
+
             alert.setTitle("SuccessFull");
             alert.setHeaderText("status");
             alert.setContentText("answer submitted");
             log.info(student.getId()+" objection to "+course.getId()+" got answered!");
         }
         alert.show();
+        filter(actionEvent);
     }
 }

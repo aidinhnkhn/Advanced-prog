@@ -1,5 +1,6 @@
 package server.network;
 
+import elements.courses.Course;
 import elements.courses.Grade;
 import elements.people.Professor;
 import elements.people.Student;
@@ -162,5 +163,60 @@ public class Handler {
         String list = JsonCaster.objectToJson(University.getInstance().getStudents());
         response.addData("list",list);
         Server.getServer().sendMessageToClient(message.getAuthToken(), Response.toJson(response));
+    }
+
+    public void sendCourse(Message message) {
+        Response response = new Response(ResponseStatus.Course);
+        Course course = University.getInstance().getCourseById((String)message.getData("id"));
+        response.addData("course",JsonCaster.objectToJson(course));
+        Server.getServer().sendMessageToClient(message.getAuthToken(), Response.toJson(response));
+        log.info("course sent");
+    }
+
+    public void sendStudent(Message message) {
+        Response response = new Response(ResponseStatus.Student);
+        Student student = University.getInstance().getStudentById((String)message.getData("id"));
+        response.addData("student",JsonCaster.objectToJson(student));
+        Server.getServer().sendMessageToClient(message.getAuthToken(), Response.toJson(response));
+        log.info("sent the student");
+    }
+
+    public void setGrade(Message message) {
+        Student student = University.getInstance().getStudentById((String)message.getData("id"));
+        Grade grade = student.getGrade((String)message.getData("courseId"));
+        grade.setFinished(true);
+        grade.setGrade((Double)message.getData("givenGrade"));
+        grade.setGradeStatus();
+        log.info("grade submitted for "+student.getId());
+    }
+
+    public void finalizeGrades(Message message) {
+        Course course = University.getInstance().getCourseById((String)message.getData("courseId"));
+        boolean check = true;
+        for (String id : course.getStudentId()){
+            Student student = University.getInstance().getStudentById(id);
+            Grade grade = student.getGrade((String)message.getData("courseId"));
+            if (!grade.isFinished())
+                check = false;
+        }
+        if (check) {
+            for (String id : course.getStudentId()) {
+                Student student = University.getInstance().getStudentById(id);
+                Grade grade = student.getGrade((String) message.getData("courseId"));
+                grade.setFinalGrade(true);
+            }
+            log.info((String) message.getData("courseId") + " grades finalized.");
+        }
+        Response response = new Response(ResponseStatus.FinalGradeStatus);
+        response.addData("check",check);
+        Server.getServer().sendMessageToClient(message.getAuthToken(), Response.toJson(response));
+    }
+
+    public void AnswerObjection(Message message) {
+        Student student = University.getInstance().getStudentById((String)message.getData("id"));
+        Grade grade = student.getGrade((String)message.getData("courseId"));
+        grade.setAnswered(true);
+        grade.setAnswerText((String)message.getData("text"));
+        log.info("objection answer submitted");
     }
 }

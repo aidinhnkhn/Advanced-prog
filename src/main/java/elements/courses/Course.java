@@ -117,6 +117,7 @@ public class Course {
     }
 
     public void setProfessorId(String professorId) {
+        //TODO: fix this
         Professor.getProfessor(this.professorId).getCoursesId().remove(this.id);
         this.professorId = professorId;
         Professor.getProfessor(this.professorId).getCoursesId().add(this.id);

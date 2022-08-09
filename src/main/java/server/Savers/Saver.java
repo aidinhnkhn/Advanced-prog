@@ -242,9 +242,6 @@ public class Saver implements Runnable {
         int cnt = 0;
         while (running) {
             saveChanges();
-            cnt++;
-            cnt %= 30;
-            if (cnt == 0) log.info("saved Changes!");
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {

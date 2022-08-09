@@ -1,5 +1,7 @@
 package elements.courses;
 
+import server.university.University;
+
 public class Grade {
     private String courseId;
     private double grade;
@@ -19,14 +21,13 @@ public class Grade {
         this.finalGrade=false;
         this.objection=false;
         this.answered=false;
-        this.unit=Course.getCourse(courseId).getUnit();
-        this.name=Course.getCourse(courseId).getName();
-        this.professorId=Course.getCourse(courseId).getProfessorId();
+        //TODO: fix this
+        this.unit= University.getInstance().getCourseById(courseId).getUnit();
+        this.name=University.getInstance().getCourseById(courseId).getName();
+        this.professorId=University.getInstance().getCourseById(courseId).getProfessorId();
     }
 
     public String getProfessorId() {
-        if (professorId==null)
-            this.professorId=Course.getCourse(courseId).getProfessorId();
         return professorId;
     }
 
@@ -89,9 +90,6 @@ public class Grade {
     }
 
     public String getName() {
-        if (name==null){
-            name=Course.getCourse(this.courseId).getName();
-        }
         return name;
     }
 

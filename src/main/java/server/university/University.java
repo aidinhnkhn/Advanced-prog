@@ -125,4 +125,10 @@ public class University {
         return null;
     }
 
+    public Course getCourseById(String id){
+        for (Course course:Courses)
+            if (course.getId().equals(id))
+                return course;
+        return null;
+    }
 }

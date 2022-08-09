@@ -35,5 +35,15 @@ public class Analyser {
             Handler.getInstance().setGradeObjection(message);
         else if (message.getStatus() == MessageStatus.StudentList)
             Handler.getInstance().sendStudentList(message);
+        else if (message.getStatus() == MessageStatus.Course)
+            Handler.getInstance().sendCourse(message);
+        else if (message.getStatus() == MessageStatus.Student)
+            Handler.getInstance().sendStudent(message);
+        else if (message.getStatus() == MessageStatus.setGrade)
+            Handler.getInstance().setGrade(message);
+        else if (message.getStatus() == MessageStatus.FinalizeGrades)
+            Handler.getInstance().finalizeGrades(message);
+        else if (message.getStatus() == MessageStatus.AnswerObjection)
+            Handler.getInstance().AnswerObjection(message);
     }
 }

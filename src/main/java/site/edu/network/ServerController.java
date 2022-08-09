@@ -1,6 +1,8 @@
 package site.edu.network;
 
+import elements.courses.Course;
 import elements.people.Professor;
+import elements.people.Student;
 import elements.people.User;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -68,7 +70,7 @@ public class ServerController {
                 if (nextLine.equals("over")) break;
                 messageFromServer += nextLine;
             }
-            log.info(messageFromServer);
+            //log.info(messageFromServer);
             return messageFromServer;
         }catch (NoSuchElementException e){
             if (serverOnline) {
@@ -157,5 +159,49 @@ public class ServerController {
         sendMessage(Message.toJson(message));
         Response response = Response.fromJson(receiveMessage());
         return response;
+    }
+
+    public Course getCourseById(String courseId) {
+        Message message = new Message(MessageStatus.Course,client.getAuthToken());
+        message.addData("id",courseId);
+        sendMessage(Message.toJson(message));
+        Response response = Response.fromJson(receiveMessage());
+        Course course = JsonCaster.courseCaster((String)response.getData("course"));
+        return course;
+    }
+
+    public Student getStudentById(String id) {
+        Message message = new Message(MessageStatus.Student,client.getAuthToken());
+        message.addData("id",id);
+        sendMessage(Message.toJson(message));
+        Response response = Response.fromJson(receiveMessage());
+        Student student = JsonCaster.studentCaster((String)response.getData("student"));
+        return student;
+    }
+
+    public void sendStudentGrade(String id, String courseId, double professorGrade) {
+        Message message = new Message(MessageStatus.setGrade,client.getAuthToken());
+        message.addData("id",id);
+        message.addData("courseId",courseId);
+        message.addData("givenGrade",professorGrade);
+        sendMessage(Message.toJson(message));
+    }
+
+
+    public boolean finalizeGrades(String courseId, String id) {
+        Message message = new Message(MessageStatus.FinalizeGrades,client.getAuthToken());
+        message.addData("id",id);
+        message.addData("courseId",courseId);
+        sendMessage(Message.toJson(message));
+        Response response = Response.fromJson(receiveMessage());
+        return (Boolean)response.getData("check");
+    }
+
+    public void answerObjection(String text,String id,String courseId) {
+        Message message = new Message(MessageStatus.AnswerObjection,client.getAuthToken());
+        message.addData("text",text);
+        message.addData("id",id);
+        message.addData("courseId",courseId);
+        sendMessage(Message.toJson(message));
     }
 }
