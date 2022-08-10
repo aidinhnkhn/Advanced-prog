@@ -67,7 +67,7 @@ public class ClientHandler implements Runnable{
             }
         } catch (NoSuchElementException e) {
             log.debug("Client handler is down");
-            Server.getServer().getClientHandlers().remove(this);
+            stop();
         }
     }
 

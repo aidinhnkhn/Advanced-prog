@@ -72,7 +72,7 @@ public class ServerController {
             }
             //log.info(messageFromServer);
             return messageFromServer;
-        }catch (NoSuchElementException e){
+        } catch (NoSuchElementException e) {
             if (serverOnline) {
                 log.info("Server is offline.");
             }
@@ -89,8 +89,8 @@ public class ServerController {
         log.info(authToken);
     }
 
-    public Response getCaptcha(){
-        Message message = new Message(MessageStatus.Captcha,client.getAuthToken());
+    public Response getCaptcha() {
+        Message message = new Message(MessageStatus.Captcha, client.getAuthToken());
         this.sendMessage(Message.toJson(message));
         String responseString = receiveMessage();
         Response response = Response.fromJson(responseString);
@@ -98,31 +98,31 @@ public class ServerController {
         return response;
     }
 
-    public Response sendLoginRequest(String id,String password){
+    public Response sendLoginRequest(String id, String password) {
         Message message = new Message(MessageStatus.Login, client.getAuthToken());
-        message.addData("id",id);
-        message.addData("password",password);
+        message.addData("id", id);
+        message.addData("password", password);
         Main.mainClient.getServerController().sendMessage(Message.toJson(message));
         Response response = Response.fromJson(receiveMessage());
         log.info("received login response");
         return response;
     }
 
-    public void sendNewPassword(String password){
-        Message message = new Message(MessageStatus.NewPassword,client.getAuthToken());
-        message.addData("newPassword",password);
+    public void sendNewPassword(String password) {
+        Message message = new Message(MessageStatus.NewPassword, client.getAuthToken());
+        message.addData("newPassword", password);
         sendMessage(Message.toJson(message));
     }
 
 
     public void sendLastEnter() {
-        Message message = new Message(MessageStatus.LastEnter,client.getAuthToken());
+        Message message = new Message(MessageStatus.LastEnter, client.getAuthToken());
         sendMessage(Message.toJson(message));
     }
 
     public Response getUserImage() {
-        Message message = new Message(MessageStatus.UserImage,client.getAuthToken());
-        message.addData("id",Main.mainClient.getUser().getId());
+        Message message = new Message(MessageStatus.UserImage, client.getAuthToken());
+        message.addData("id", Main.mainClient.getUser().getId());
         sendMessage(Message.toJson(message));
         Response response = Response.fromJson(receiveMessage());
         log.info("received user Image");
@@ -130,92 +130,102 @@ public class ServerController {
     }
 
     public Professor getProfessor(String supervisorId) {
-        Message message = new Message(MessageStatus.getProfessor,client.getAuthToken());
-        message.addData("id",supervisorId);
+        Message message = new Message(MessageStatus.getProfessor, client.getAuthToken());
+        message.addData("id", supervisorId);
         sendMessage(Message.toJson(message));
         Response response = Response.fromJson(receiveMessage());
         log.info("professor received!");
         Professor professor = JsonCaster.professorCaster((String) response.getData("professor"));
-        return  professor;
+        return professor;
     }
 
     public void sendNewUserInfo(User user) {
-        Message message = new Message(MessageStatus.NewUserInfo,client.getAuthToken());
-        message.addData("email",user.getEmail());
-        message.addData("number",user.getPhoneNumber());
-        message.addData("theme",user.isTheme());
+        Message message = new Message(MessageStatus.NewUserInfo, client.getAuthToken());
+        message.addData("email", user.getEmail());
+        message.addData("number", user.getPhoneNumber());
+        message.addData("theme", user.isTheme());
         sendMessage(Message.toJson(message));
     }
 
     public void sendObjection(String courseId, String text) {
-        Message message = new Message(MessageStatus.Objection,client.getAuthToken());
-        message.addData("courseId",courseId);
-        message.addData("objectionText",text);
+        Message message = new Message(MessageStatus.Objection, client.getAuthToken());
+        message.addData("courseId", courseId);
+        message.addData("objectionText", text);
         sendMessage(Message.toJson(message));
     }
 
     public Response getStudents() {
-        Message message = new Message(MessageStatus.StudentList,client.getAuthToken());
+        Message message = new Message(MessageStatus.StudentList, client.getAuthToken());
         sendMessage(Message.toJson(message));
         Response response = Response.fromJson(receiveMessage());
         return response;
     }
 
     public Course getCourseById(String courseId) {
-        Message message = new Message(MessageStatus.Course,client.getAuthToken());
-        message.addData("id",courseId);
+        Message message = new Message(MessageStatus.Course, client.getAuthToken());
+        message.addData("id", courseId);
         sendMessage(Message.toJson(message));
         Response response = Response.fromJson(receiveMessage());
-        Course course = JsonCaster.courseCaster((String)response.getData("course"));
+        Course course = JsonCaster.courseCaster((String) response.getData("course"));
         return course;
     }
 
     public Student getStudentById(String id) {
-        Message message = new Message(MessageStatus.Student,client.getAuthToken());
-        message.addData("id",id);
+        Message message = new Message(MessageStatus.Student, client.getAuthToken());
+        message.addData("id", id);
         sendMessage(Message.toJson(message));
         Response response = Response.fromJson(receiveMessage());
-        Student student = JsonCaster.studentCaster((String)response.getData("student"));
+        Student student = JsonCaster.studentCaster((String) response.getData("student"));
         return student;
     }
 
     public void sendStudentGrade(String id, String courseId, double professorGrade) {
-        Message message = new Message(MessageStatus.setGrade,client.getAuthToken());
-        message.addData("id",id);
-        message.addData("courseId",courseId);
-        message.addData("givenGrade",professorGrade);
+        Message message = new Message(MessageStatus.setGrade, client.getAuthToken());
+        message.addData("id", id);
+        message.addData("courseId", courseId);
+        message.addData("givenGrade", professorGrade);
         sendMessage(Message.toJson(message));
     }
 
 
     public boolean finalizeGrades(String courseId, String id) {
-        Message message = new Message(MessageStatus.FinalizeGrades,client.getAuthToken());
-        message.addData("id",id);
-        message.addData("courseId",courseId);
+        Message message = new Message(MessageStatus.FinalizeGrades, client.getAuthToken());
+        message.addData("id", id);
+        message.addData("courseId", courseId);
         sendMessage(Message.toJson(message));
         Response response = Response.fromJson(receiveMessage());
-        return (Boolean)response.getData("check");
+        return (Boolean) response.getData("check");
     }
 
-    public void answerObjection(String text,String id,String courseId) {
-        Message message = new Message(MessageStatus.AnswerObjection,client.getAuthToken());
-        message.addData("text",text);
-        message.addData("id",id);
-        message.addData("courseId",courseId);
+    public void answerObjection(String text, String id, String courseId) {
+        Message message = new Message(MessageStatus.AnswerObjection, client.getAuthToken());
+        message.addData("text", text);
+        message.addData("id", id);
+        message.addData("courseId", courseId);
         sendMessage(Message.toJson(message));
     }
 
     public Response getCourses() {
-        Message message = new Message(MessageStatus.CourseList,client.getAuthToken());
+        Message message = new Message(MessageStatus.CourseList, client.getAuthToken());
         sendMessage(Message.toJson(message));
         Response response = Response.fromJson(receiveMessage());
         return response;
     }
 
     public Response getProfessors() {
-        Message message = new Message(MessageStatus.ProfessorList,client.getAuthToken());
+        Message message = new Message(MessageStatus.ProfessorList, client.getAuthToken());
         sendMessage(Message.toJson(message));
         Response response = Response.fromJson(receiveMessage());
         return response;
+    }
+
+    public Student pickCourse(String courseId, String studentId) {
+        Message message = new Message(MessageStatus.PickCourse, client.getAuthToken());
+        message.addData("courseId", courseId);
+        message.addData("studentId", studentId);
+        sendMessage(Message.toJson(message));
+        Response response = Response.fromJson(receiveMessage());
+        String studentString = (String) response.getData("student");
+        return JsonCaster.studentCaster(studentString);
     }
 }

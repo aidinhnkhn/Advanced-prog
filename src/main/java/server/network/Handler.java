@@ -235,4 +235,15 @@ public class Handler {
         Server.getServer().sendMessageToClient(message.getAuthToken(), Response.toJson(response));
         log.info("send the professor list");
     }
+
+    public void pickCourse(Message message) {
+        Response response = new Response(ResponseStatus.UserInfo);
+        Course course = University.getInstance().getCourseById((String)message.getData("courseId"));
+        Student student = University.getInstance().getStudentById((String)message.getData("studentId"));
+        course.getStudentId().add(student.getId());
+        student.addGrade(new Grade(course.getId(),0));
+        response.addData("student",JsonCaster.objectToJson(student));
+        Server.getServer().sendMessageToClient(message.getAuthToken(), Response.toJson(response));
+        log.info(student.getId() + " picked the course " + course.getId());
+    }
 }

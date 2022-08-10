@@ -20,7 +20,6 @@ public class ProfessorHomePageLogic {
     }
     public void exit(Node node){
         log.info("user singed out.");
-        //TODO: send the exit request to Server
         Stage stage=(Stage) (node.getScene().getWindow());
         stage.close();
     }

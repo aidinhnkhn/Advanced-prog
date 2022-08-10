@@ -131,4 +131,11 @@ public class University {
                 return course;
         return null;
     }
+
+    public Department getDepartmentById(String id) {
+        for (Department department:departments)
+            if (department.getName().equals(id))
+                return department;
+        return null;
+    }
 }

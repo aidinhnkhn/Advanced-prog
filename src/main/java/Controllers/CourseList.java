@@ -15,6 +15,9 @@ import javafx.scene.layout.AnchorPane;
 import logic.LogicalAgent;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import shared.messages.response.Response;
+import shared.util.JsonCaster;
+import site.edu.Main;
 
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -65,11 +68,11 @@ public class CourseList implements Initializable {
         departmentBox.getItems().addAll("Chemical Eng", "Computer Eng", "Physics", "Mathematics", "Chemistry");
         dayBox.getItems().addAll("Monday","Tuesday","Wednesday","Thursday","Friday");
         unitBox.getItems().addAll(0,1,2,3,4);
-        if (LogicalAgent.getInstance().getUser() instanceof Student){
+        if (Main.mainClient.getUser() instanceof Student){
             coursePicker.setVisible(true);
             coursePickerId.setVisible(true);
         }
-        if (LogicalAgent.getInstance().getUser().isTheme()) {
+        if (Main.mainClient.getUser().isTheme()) {
             anchorPane.setStyle("    -fx-background-color:\n" +
                     "            linear-gradient(#4568DC, #B06AB3),\n" +
                     "            repeating-image-pattern(\"Stars_128.png\"),\n" +
@@ -82,8 +85,9 @@ public class CourseList implements Initializable {
 
     public ObservableList<Course> getItems(){
         ObservableList<Course> courses= FXCollections.observableArrayList();
-        for (Course course:Course.getCourses()) {
-            course.setProfessorName();
+        ArrayList<Course> availableCourses  = requestCourses();
+        for (Course course:availableCourses) {
+            //course.setProfessorName();
             courses.add(course);
         }
         return courses;
@@ -102,7 +106,7 @@ public class CourseList implements Initializable {
     }
 
     public void homePage(ActionEvent actionEvent) {
-        if (LogicalAgent.getInstance().getUser() instanceof Student)
+        if (Main.mainClient.getUser() instanceof Student)
             SceneLoader.getInstance().changeScene("StudentHomePage.fxml",actionEvent);
         else
             SceneLoader.getInstance().changeScene("ProfessorHomePage.fxml",actionEvent);
@@ -110,7 +114,8 @@ public class CourseList implements Initializable {
 
     public void filter(ActionEvent actionEvent) {
         ObservableList<Course> courses= FXCollections.observableArrayList();
-        for (Course course:Course.getCourses()){
+        ArrayList<Course> availableCourses  = requestCourses();
+        for (Course course:availableCourses){
             boolean canAdd=true;
             if (dayCheck.isSelected() && dayBox.getValue()!=null)
                     if (!course.getDays().contains(dayBox.getValue()))
@@ -128,9 +133,10 @@ public class CourseList implements Initializable {
     }
 
     public void pickCourse(ActionEvent actionEvent) {
+
         String id=coursePickerId.getText();
-        Course course=Course.getCourse(id);
-        Student student=((Student)(LogicalAgent.getInstance().getUser()));
+        Course course=Main.mainClient.getServerController().getCourseById(id);
+        Student student=((Student)(Main.mainClient.getUser()));
         Alert alert=new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("taking a course????");
         alert.setHeaderText("your status:");
@@ -138,11 +144,17 @@ public class CourseList implements Initializable {
             alert.setContentText("you can't even copy a text and you are taking a course??");
         }
         else{
-            course.getStudentId().add(student.getId());
-            student.addGrade(new Grade(course.getId(),0));
+
+            Student newStudent = Main.mainClient.getServerController().pickCourse(id,student.getId());
+            Main.mainClient.setUser(newStudent);
             alert.setContentText("I really like to see your face before the final exam!");
             log.info(student.getId()+ " picked a course: "+course.getId() );
         }
         alert.show();
+    }
+    private ArrayList<Course> requestCourses() {
+        Response response=Main.mainClient.getServerController().getCourses();
+        String listString = (String)response.getData("list");
+        return JsonCaster.courseArrayListCaster(listString);
     }
 }

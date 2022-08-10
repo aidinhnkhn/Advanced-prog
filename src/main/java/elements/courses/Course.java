@@ -2,6 +2,7 @@ package elements.courses;
 
 import elements.people.Professor;
 import elements.university.Department;
+import server.university.University;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -34,9 +35,9 @@ public class Course {
         this.degree=degree;
         // TODO: fix these lines
         Courses.add(this);
-        Department.getDepartment(departmentId).getCourses().add(this.id);
-        Professor.getProfessor(professorId).getCoursesId().add(this.id);
-        professorName=Professor.getProfessor(professorId).getUsername();
+        University.getInstance().getDepartmentById(departmentId).getCourses().add(this.id);
+        University.getInstance().getProfessorById(professorId).getCoursesId().add(this.id);
+        professorName= University.getInstance().getProfessorById(professorId).getUsername();
     }
 
     public String getDegree() {
