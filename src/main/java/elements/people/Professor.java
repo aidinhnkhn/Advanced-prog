@@ -1,6 +1,7 @@
 package elements.people;
 
 import elements.university.Department;
+import server.university.University;
 
 import java.util.ArrayList;
 
@@ -14,9 +15,9 @@ public class Professor extends User {
         setEducationalAssistant();
         setHeadDepartment();
         professors.add(this);
-        //TODO: fix this
-        Department.getDepartment(this.departmentId).getProfessors().add(this.id);
         supervisor = true;
+        University.getInstance().getDepartmentById(this.departmentId).getProfessors().add(this.id);
+        University.getInstance().getProfessors().add(this);
     }
 
     public void setRole(Role role) {

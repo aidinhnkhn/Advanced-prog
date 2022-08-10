@@ -21,6 +21,7 @@ import java.nio.charset.StandardCharsets;
 public class SignUpLogic {
     private static SignUpLogic signUpLogic;
     private static Logger log = LogManager.getLogger(SignUpLogic.class);
+
     private SignUpLogic() {
 
     }
@@ -34,7 +35,7 @@ public class SignUpLogic {
 
     public boolean SignUp(String username, String password, String confirmPass,
                           String melicode, String phoneNumber, String email, String profession,
-                          String department, String degree, Image image,String supervisorId) {
+                          String department, String degree, Image image, String supervisorId) {
         System.out.println("here");
         if (!allChecked(username, password, confirmPass, melicode, phoneNumber
                 , email, profession, department, degree, image)) return false;
@@ -45,17 +46,19 @@ public class SignUpLogic {
                 .toString();
         //TODO: add this fucking shit to server
         if (profession.equals("Student"))
-            createStudent(username, sha256hex, melicode, phoneNumber, email, department, degree, image,supervisorId);
+            createStudent(username, sha256hex, melicode, phoneNumber, email, department, degree, image, supervisorId);
 
         else
             createProfessor(username, sha256hex, profession, melicode, phoneNumber, email, department, degree, image);
 
         return true;
     }
-    private boolean checkSupervisor(String id){
-        Professor professor=Main.mainClient.getServerController().getProfessor(id);
-        return (professor==null);
+
+    private boolean checkSupervisor(String id) {
+        Professor professor = Main.mainClient.getServerController().getProfessor(id);
+        return (professor == null);
     }
+
     public void saveImage(Image image, String name) {
         String path = System.getProperty("user.dir") +
                 "\\src\\main\\resources\\eData\\test\\" + name + ".png";
@@ -67,21 +70,24 @@ public class SignUpLogic {
             log.error(e.getMessage());
         }
         String imageString = ImageSender.encode(path);
-        Main.mainClient.getServerController().sendUserImage(imageString,name);
+        Main.mainClient.getServerController().sendUserImage(imageString, name);
         file.delete();
     }
 
     private void createStudent(String username, String password, String melicode, String phoneNumber,
-                               String email, String department, String degree, Image image,String supervisorId) {
-        //TODO: send the request to Server
-        Student student = new Student(username, password, Role.Student, melicode, phoneNumber, email, degree, department, "nothing",supervisorId);
+                               String email, String department, String degree, Image image, String supervisorId) {
+        Student student = Main.mainClient.getServerController().makeStudent(username, password, Role.Student,
+                melicode, phoneNumber, email, degree, department, "nothing", supervisorId);
+
         saveImage(image, student.getId());
         log.info("student created");
     }
 
     private void createProfessor(String username, String password, String profession, String melicode, String phoneNumber, String email, String department, String degree, Image image) {
         //TODO: send the request to Server
-        Professor professor = new Professor(username, password, GetRole(profession), melicode, phoneNumber, email, degree, department, "nothing");
+        Professor professor = Main.mainClient.getServerController().makeProfessor(username, password, profession,
+                melicode, phoneNumber, email, department, degree);
+
         saveImage(image, professor.getId());
         log.info("professor created");
     }

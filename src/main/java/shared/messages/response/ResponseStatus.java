@@ -11,5 +11,5 @@ public enum ResponseStatus {
     FinalGradeStatus,
     CourseList,
     ProfessorList,
-    UserInfo, DepartmentList, Login
+    UserInfo, DepartmentList, sendNewUser, Login
 }

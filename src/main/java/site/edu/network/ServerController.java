@@ -2,6 +2,7 @@ package site.edu.network;
 
 import elements.courses.Course;
 import elements.people.Professor;
+import elements.people.Role;
 import elements.people.Student;
 import elements.people.User;
 import elements.university.Department;
@@ -249,5 +250,37 @@ public class ServerController {
         message.addData("image",imageString);
         message.addData("name",name);
         sendMessage(Message.toJson(message));
+    }
+
+    public Student makeStudent(String username, String password, Role student, String melicode, String phoneNumber,
+                               String email, String degree, String department, String nothing, String supervisorId) {
+        Message message = new Message(MessageStatus.CreateStudent,client.getAuthToken());
+        message.addData("username",username);
+        message.addData("password",password);
+        message.addData("melicode",melicode);
+        message.addData("phoneNumber",phoneNumber);
+        message.addData("email",email);
+        message.addData("degree",degree);
+        message.addData("department",department);
+        message.addData("supervisorId",supervisorId);
+        sendMessage(Message.toJson(message));
+        Response response = Response.fromJson(receiveMessage());
+        return JsonCaster.studentCaster((String) response.getData("student"));
+    }
+
+    public Professor makeProfessor(String username, String password, String profession, String melicode,
+                                   String phoneNumber, String email, String department, String degree) {
+        Message message = new Message(MessageStatus.CreateProfessor,client.getAuthToken());
+        message.addData("username",username);
+        message.addData("password",password);
+        message.addData("melicode",melicode);
+        message.addData("phoneNumber",phoneNumber);
+        message.addData("email",email);
+        message.addData("degree",degree);
+        message.addData("department",department);
+        message.addData("profession",profession);
+        sendMessage(Message.toJson(message));
+        Response response = Response.fromJson(receiveMessage());
+        return JsonCaster.professorCaster((String) response.getData("professor"));
     }
 }

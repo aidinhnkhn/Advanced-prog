@@ -2,6 +2,7 @@ package elements.university;
 
 import elements.people.Professor;
 import elements.people.Student;
+import server.university.University;
 
 import java.util.ArrayList;
 
@@ -22,6 +23,7 @@ public class Department {
         professors=new ArrayList<>();
         courses=new ArrayList<>();
         //TODO: add new departments to the University
+        University.getInstance().getDepartments().add(this);
     }
 
     public String getName() {

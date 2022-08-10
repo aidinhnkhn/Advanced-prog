@@ -3,6 +3,7 @@ package server.network;
 import elements.courses.Course;
 import elements.courses.Grade;
 import elements.people.Professor;
+import elements.people.Role;
 import elements.people.Student;
 import elements.people.User;
 import elements.university.Department;
@@ -273,11 +274,9 @@ public class Handler {
         String imageString = (String)message.getData("image");
         byte[] bytes = ImageSender.decode(imageString);
         Image image = new Image(new ByteArrayInputStream(bytes));
-        System.out.println("I am here 2");
         saveImage(image,(String)message.getData("name"));
     }
     public void saveImage(Image image, String name) {
-        System.out.println("I am here");
         String path = System.getProperty("user.dir") +
                 "\\src\\main\\resources\\eData\\users\\pictures\\" + name + ".png";
         File file = new File(path);
@@ -287,5 +286,44 @@ public class Handler {
         } catch (IOException e) {
             log.error(e.getMessage());
         }
+    }
+
+    public void createStudent(Message message) {
+        String username = (String)message.getData("username");
+        String password = (String)message.getData("password");
+        String melicode = (String)message.getData("melicode");
+        String phoneNumber = (String)message.getData("phoneNumber");
+        String email = (String)message.getData("email");
+        String degree = (String)message.getData("degree");
+        String department = (String)message.getData("department");
+        String supervisorId = (String)message.getData("supervisorId");
+        Student student = new Student(username, password, Role.Student, melicode,
+                phoneNumber, email, degree, department, "nothing",supervisorId);
+        Response response = new Response(ResponseStatus.sendNewUser);
+        response.addData("student",JsonCaster.objectToJson(student));
+        Server.getServer().sendMessageToClient(message.getAuthToken(), Response.toJson(response));
+        log.warn(student.getId()+ " was added to edu!");
+    }
+    private Role GetRole(String profession) {
+        if (profession.equals("Professor")) return Role.Professor;
+        else if (profession.equals("HeadDepartment")) return Role.HeadDepartment;
+        else return Role.EducationalAssistant;
+    }
+
+    public void createProfessor(Message message) {
+        String username = (String)message.getData("username");
+        String password = (String)message.getData("password");
+        String melicode = (String)message.getData("melicode");
+        String phoneNumber = (String)message.getData("phoneNumber");
+        String email = (String)message.getData("email");
+        String degree = (String)message.getData("degree");
+        String department = (String)message.getData("department");
+        String profession = (String)message.getData("profession");
+        Professor professor = new Professor(username, password, GetRole(profession),
+                melicode, phoneNumber, email, degree, department, "nothing");
+        Response response = new Response(ResponseStatus.sendNewUser);
+        response.addData("professor",JsonCaster.objectToJson(professor));
+        Server.getServer().sendMessageToClient(message.getAuthToken(), Response.toJson(response));
+        log.warn(professor.getId()+ " was added to edu!");
     }
 }

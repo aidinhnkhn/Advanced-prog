@@ -3,6 +3,7 @@ package elements.people;
 import elements.courses.Course;
 import elements.courses.Grade;
 import elements.university.Department;
+import server.university.University;
 
 import java.util.ArrayList;
 
@@ -24,7 +25,8 @@ public class Student extends User {
         this.enrollHour="8:00";
         this.enrollPermission=true;
         //TODO: fix this
-        //Department.getDepartment(this.departmentId).getStudents().add(this.id);
+        University.getInstance().getDepartmentById(this.departmentId).getStudents().add(this.id);
+        University.getInstance().getStudents().add(this);
     }
 
     public String getEnrollHour() {
