@@ -246,4 +246,12 @@ public class Handler {
         Server.getServer().sendMessageToClient(message.getAuthToken(), Response.toJson(response));
         log.info(student.getId() + " picked the course " + course.getId());
     }
+
+    public void sendDepartmentList(Message message) {
+        Response response = new Response(ResponseStatus.DepartmentList);
+        String list = JsonCaster.objectToJson(University.getInstance().getDepartments());
+        response.addData("list",list);
+        Server.getServer().sendMessageToClient(message.getAuthToken(), Response.toJson(response));
+        log.info("send the Department list");
+    }
 }

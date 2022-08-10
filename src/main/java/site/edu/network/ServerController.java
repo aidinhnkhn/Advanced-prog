@@ -228,4 +228,11 @@ public class ServerController {
         String studentString = (String) response.getData("student");
         return JsonCaster.studentCaster(studentString);
     }
+
+    public Response getDepartments() {
+        Message message = new Message(MessageStatus.DepartmentList, client.getAuthToken());
+        sendMessage(Message.toJson(message));
+        Response response = Response.fromJson(receiveMessage());
+        return response;
+    }
 }

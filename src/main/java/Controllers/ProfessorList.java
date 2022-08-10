@@ -4,6 +4,7 @@ import elements.courses.Course;
 import elements.people.Professor;
 import elements.people.Role;
 import elements.people.Student;
+import elements.university.Department;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,8 +19,12 @@ import javafx.scene.layout.AnchorPane;
 import logic.LogicalAgent;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import shared.messages.response.Response;
+import shared.util.JsonCaster;
+import site.edu.Main;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ProfessorList implements Initializable {
@@ -57,10 +62,12 @@ public class ProfessorList implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setupTable(getItems());
-        departmentBox.getItems().addAll("Chemical Eng", "Computer Eng", "Physics", "Mathematics", "Chemistry");
+        ArrayList<Department> departments = requestDepartments();
+        for (Department department1:departments)
+            departmentBox.getItems().add(department1.getName());
         degreeBox.getItems().addAll("Assistant Professor", "Associate Professor", "full Professor");
         roleBox.getItems().addAll(Role.Professor,Role.EducationalAssistant,Role.HeadDepartment);
-        if (LogicalAgent.getInstance().getUser().isTheme()) {
+        if (Main.mainClient.getUser().isTheme()) {
             anchorPane.setStyle("    -fx-background-color:\n" +
                     "            linear-gradient(#4568DC, #B06AB3),\n" +
                     "            repeating-image-pattern(\"Stars_128.png\"),\n" +
@@ -71,7 +78,8 @@ public class ProfessorList implements Initializable {
     }
     public ObservableList<Professor> getItems(){
         ObservableList<Professor> professors= FXCollections.observableArrayList();
-        for (Professor professor:Professor.getProfessors())
+        ArrayList<Professor> professorArrayList = requestProfessors();
+        for (Professor professor:professorArrayList)
             professors.add(professor);
         return professors;
     }
@@ -86,7 +94,7 @@ public class ProfessorList implements Initializable {
         professorId.setCellValueFactory(new PropertyValueFactory<Professor,String>("id"));
     }
     public void homePage(ActionEvent actionEvent) {
-        if (LogicalAgent.getInstance().getUser() instanceof Student)
+        if (Main.mainClient.getUser() instanceof Student)
             SceneLoader.getInstance().changeScene("StudentHomePage.fxml",actionEvent);
         else
             SceneLoader.getInstance().changeScene("ProfessorHomePage.fxml",actionEvent);
@@ -94,7 +102,8 @@ public class ProfessorList implements Initializable {
 
     public void filter(ActionEvent actionEvent) {
         ObservableList<Professor> professors= FXCollections.observableArrayList();
-        for (Professor professor:Professor.getProfessors()){
+        ArrayList<Professor> professorArrayList = requestProfessors();
+        for (Professor professor:professorArrayList){
             boolean canAdd=true;
             if (departmentCheck.isSelected() && departmentBox.getValue()!=null)
                 if (!professor.getDepartmentId().equals(departmentBox.getValue()))
@@ -108,7 +117,19 @@ public class ProfessorList implements Initializable {
             if (canAdd)
                 professors.add(professor);
         }
-        log.info(LogicalAgent.getInstance().getUser().getId()+" changed the filters!");
+        log.info(Main.mainClient.getUser().getId()+" changed the filters!");
         setupTable(professors);
+    }
+
+    private ArrayList<Professor> requestProfessors() {
+        Response response= Main.mainClient.getServerController().getProfessors();
+        String listString = (String)response.getData("list");
+        return JsonCaster.professorArrayListCaster(listString);
+    }
+
+    private ArrayList<Department> requestDepartments() {
+        Response response= Main.mainClient.getServerController().getDepartments();
+        String listString = (String)response.getData("list");
+        return JsonCaster.departmentArrayListCaster(listString);
     }
 }

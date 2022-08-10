@@ -6,6 +6,7 @@ import com.google.gson.reflect.TypeToken;
 import elements.courses.Course;
 import elements.people.Professor;
 import elements.people.Student;
+import elements.university.Department;
 import shared.gsonSerializers.LocalDateTimeDeserializer;
 import shared.gsonSerializers.LocalDateTimeSerializer;
 
@@ -85,4 +86,12 @@ public class JsonCaster {
     }
 
 
+    public static ArrayList<Department> departmentArrayListCaster(String data) {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
+        Gson gson = gsonBuilder.create();
+        ArrayList<Department> arrayList = gson.fromJson(data,new TypeToken<ArrayList<Department>>(){}.getType());
+        return  arrayList;
+    }
 }

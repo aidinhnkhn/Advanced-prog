@@ -51,5 +51,7 @@ public class Analyser {
             Handler.getInstance().sendProfessorList(message);
         else if (message.getStatus() == MessageStatus.PickCourse)
             Handler.getInstance().pickCourse(message);
+        else if (message.getStatus() == MessageStatus.DepartmentList)
+            Handler.getInstance().sendDepartmentList(message);
     }
 }
