@@ -18,6 +18,8 @@ import site.edu.Main;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -282,5 +284,21 @@ public class ServerController {
         sendMessage(Message.toJson(message));
         Response response = Response.fromJson(receiveMessage());
         return JsonCaster.professorCaster((String) response.getData("professor"));
+    }
+
+    public void createCourse(String name, String professorId, String departmentId, String unit, ArrayList<String> days,
+                             String hour, String length, LocalDateTime localDateTime, String degree) {
+
+        Message message = new Message(MessageStatus.CreateCourse,client.getAuthToken());
+        message.addData("name",name);
+        message.addData("professorId",professorId);
+        message.addData("departmentId",departmentId);
+        message.addData("days",JsonCaster.objectToJson(days));
+        message.addData("hour",hour);
+        message.addData("length",length);
+        message.addData("localDateTime",JsonCaster.objectToJson(localDateTime));
+        message.addData("degree",degree);
+        message.addData("unit",unit);
+        sendMessage(Message.toJson(message));
     }
 }

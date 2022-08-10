@@ -10,6 +10,7 @@ import elements.university.Department;
 import shared.gsonSerializers.LocalDateTimeDeserializer;
 import shared.gsonSerializers.LocalDateTimeSerializer;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -85,7 +86,6 @@ public class JsonCaster {
         return course1;
     }
 
-
     public static ArrayList<Department> departmentArrayListCaster(String data) {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();
@@ -94,7 +94,14 @@ public class JsonCaster {
         ArrayList<Department> arrayList = gson.fromJson(data,new TypeToken<ArrayList<Department>>(){}.getType());
         return  arrayList;
     }
-
+    public static ArrayList<String> StringArrayListCaster(String data) {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
+        Gson gson = gsonBuilder.create();
+        ArrayList<String> arrayList = gson.fromJson(data,new TypeToken<ArrayList<String>>(){}.getType());
+        return  arrayList;
+    }
     public static Department departmentCaster(String department) {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();

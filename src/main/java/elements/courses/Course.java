@@ -22,7 +22,7 @@ public class Course {
     private String professorName;
     private String degree;
     public Course(String name, String professorId, String departmentId, int unit, ArrayList<String> days,
-                  int hour, int length, LocalDate examDate, int examHour,String degree) {
+                  int hour, int length, LocalDateTime examDate,String degree) {
         this.name = name;
         this.professorId = professorId;
         this.departmentId=departmentId;
@@ -31,10 +31,10 @@ public class Course {
         this.days=days;
         this.hour=hour;
         this.length=length;
-        this.examDate=examDate.atTime(examHour,0);
+        this.examDate=examDate;
         this.degree=degree;
         // TODO: fix these lines
-        Courses.add(this);
+        University.getInstance().getCourses().add(this);
         University.getInstance().getDepartmentById(departmentId).getCourses().add(this.id);
         University.getInstance().getProfessorById(professorId).getCoursesId().add(this.id);
         professorName= University.getInstance().getProfessorById(professorId).getUsername();
@@ -119,9 +119,9 @@ public class Course {
 
     public void setProfessorId(String professorId) {
         //TODO: fix this
-        Professor.getProfessor(this.professorId).getCoursesId().remove(this.id);
+        University.getInstance().getProfessorById(this.professorId).getCoursesId().remove(this.id);
         this.professorId = professorId;
-        Professor.getProfessor(this.professorId).getCoursesId().add(this.id);
+        University.getInstance().getProfessorById(this.professorId).getCoursesId().add(this.id);
     }
 
     public String getDepartmentId() {
@@ -169,10 +169,5 @@ public class Course {
                 return course;
         return null;
     }
-    public static void deleteCourse(String id){
-        Course.getCourses().remove(Course.getCourse(id));
-        File file = new File(System.getProperty("user.dir") +
-                "\\src\\main\\resources\\eData\\course\\"+id+".txt");
-        file.delete();
-    }
+
 }

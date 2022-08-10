@@ -8,9 +8,11 @@ import elements.people.Student;
 import elements.university.Department;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import site.edu.Main;
 
 import java.io.File;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class EditCourseLogic {
@@ -30,19 +32,23 @@ public class EditCourseLogic {
                                 String hour, ArrayList<String> days,LocalDate localDate,String examHour,String degree) {
         if (!checkCourse(name, professorId, departmentId, unit, length, hour, days,localDate,examHour,degree))
             return false;
-        Course course = new Course(name, professorId, departmentId, Integer.parseInt(unit), days,
-                Integer.parseInt(hour), Integer.parseInt(length),localDate,Integer.parseInt(examHour),degree);
-        Saver.getInstance().saveCourse(course);
-        log.info(LogicalAgent.getInstance().getUser().getId()+" created: "+course.getId());
+
+        LocalDateTime localDateTime = localDate.atTime(Integer.parseInt(examHour),0);
+
+        Main.mainClient.getServerController().createCourse(name, professorId, departmentId, unit, days,
+                hour, length,localDateTime,degree);
+
+        //log.info(Main.mainClient.getUser().getId()+" created: "+course.getId());
         return true;
     }
 
     public boolean editCourse(String name, String professorId,  String unit, String length, String hour, ArrayList<String> days,
                               String id,LocalDate localDate,String examHour,String degree) {
+        //TODO: send a request to server to edit a course
         if (!doesCourseExist(id))
             return false;
-        Course course = Course.getCourse(id);
-        if (!LogicalAgent.getInstance().getUser().getDepartmentId().equals(course.getDepartmentId()))
+        Course course = Main.mainClient.getServerController().getCourseById(id);
+        if (!Main.mainClient.getUser().getDepartmentId().equals(course.getDepartmentId()))
             return false;
         if (!name.equals(""))
             course.setName(name);
@@ -60,7 +66,7 @@ public class EditCourseLogic {
             course.setExamDate(localDate,Integer.parseInt(examHour));
         if (!degree.equals(""))
             course.setDegree(degree);
-        log.info(LogicalAgent.getInstance().getUser().getId()+" edited: "+course.getId());
+        log.info(Main.mainClient.getUser().getId()+" edited: "+course.getId());
         return true;
     }
 
@@ -73,7 +79,7 @@ public class EditCourseLogic {
         if (length.equals("")) return false;
         if (hour.equals("")) return false;
         if (days.size() == 0) return false;
-        if (!LogicalAgent.getInstance().getUser().getDepartmentId().equals(departmentId)) return false;
+        if (!Main.mainClient.getUser().getDepartmentId().equals(departmentId)) return false;
         if (localdate==null) return false;
         if (examHour.equals("")) return false;
         if (degree==null) return false;
@@ -81,10 +87,11 @@ public class EditCourseLogic {
     }
 
     public boolean deleteCourse(String id){
+        //TODO: send the request to Server to delete a course
         if (!doesCourseExist(id))
             return false;
-        Course course = Course.getCourse(id);
-        if (!LogicalAgent.getInstance().getUser().getDepartmentId().equals(course.getDepartmentId()))
+        Course course = Main.mainClient.getServerController().getCourseById(id);
+        if (!Main.mainClient.getUser().getDepartmentId().equals(course.getDepartmentId()))
             return false;
         Professor professor=Professor.getProfessor(course.getProfessorId());
         professor.getCoursesId().remove(id);
@@ -110,7 +117,7 @@ public class EditCourseLogic {
         return true;
     }
     public boolean doesCourseExist(String id) {
-        Course course = Course.getCourse(id);
+        Course course = Main.mainClient.getServerController().getCourseById(id);
         if (course == null) return false;
         return true;
     }

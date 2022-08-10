@@ -17,5 +17,5 @@ public enum MessageStatus {
     CourseList,
     ProfessorList,
     PickCourse,
-    DepartmentList, Department, SendUserImage, CreateStudent, CreateProfessor, Captcha
+    DepartmentList, Department, SendUserImage, CreateStudent, CreateProfessor, CreateCourse, Captcha
 }

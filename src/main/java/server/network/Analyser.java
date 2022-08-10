@@ -61,5 +61,7 @@ public class Analyser {
             Handler.getInstance().createStudent(message);
         else if (message.getStatus() == MessageStatus.CreateProfessor)
             Handler.getInstance().createProfessor(message);
+        else if (message.getStatus() == MessageStatus.CreateCourse)
+            Handler.getInstance().createCourse(message);
     }
 }

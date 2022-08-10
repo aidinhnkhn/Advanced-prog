@@ -24,6 +24,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Handler {
@@ -325,5 +326,21 @@ public class Handler {
         response.addData("professor",JsonCaster.objectToJson(professor));
         Server.getServer().sendMessageToClient(message.getAuthToken(), Response.toJson(response));
         log.warn(professor.getId()+ " was added to edu!");
+    }
+
+    public void createCourse(Message message) {
+        String name = (String) message.getData("name");
+        String professorId = (String) message.getData("professorId");
+        String departmentId = (String) message.getData("departmentId");
+        ArrayList<String> days = JsonCaster.StringArrayListCaster((String) message.getData("days"));
+        String hour = (String) message.getData("hour");
+        String length = (String) message.getData("length");
+        LocalDateTime localDateTime = JsonCaster.dateCaster((String) message.getData("localDateTime"));
+        String degree = (String) message.getData("degree");
+        String unit = (String) message.getData("unit");
+        Course course = new Course(name, professorId, departmentId, Integer.parseInt(unit), days,
+        Integer.parseInt(hour), Integer.parseInt(length),localDateTime,degree);
+
+        log.warn(course.getId()+ " was added to courses.");
     }
 }

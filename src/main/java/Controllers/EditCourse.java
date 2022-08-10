@@ -10,6 +10,8 @@ import logic.EditCourseLogic;
 import logic.LogicalAgent;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import shared.util.JsonCaster;
+import site.edu.Main;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -35,7 +37,7 @@ public class EditCourse implements Initializable {
     @FXML
     ComboBox<String> degreeBox;
     public void goBack(ActionEvent actionEvent) {
-        if (LogicalAgent.getInstance().getUser() instanceof Student)
+        if (Main.mainClient.getUser() instanceof Student)
             SceneLoader.getInstance().changeScene("StudentHomePage.fxml", actionEvent);
         else
             SceneLoader.getInstance().changeScene("ProfessorHomePage.fxml", actionEvent);
@@ -106,7 +108,7 @@ public class EditCourse implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         degreeBox.getItems().addAll("Bachelor", "Masters", "PHD");
-        if (LogicalAgent.getInstance().getUser().isTheme()) {
+        if (Main.mainClient.getUser().isTheme()) {
             anchorPane.setStyle("    -fx-background-color:\n" +
                     "            linear-gradient(#4568DC, #B06AB3),\n" +
                     "            repeating-image-pattern(\"Stars_128.png\"),\n" +
