@@ -14,6 +14,7 @@ import logic.LogicalAgent;
 import logic.SignUpLogic;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import site.edu.Main;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -44,7 +45,7 @@ public class SingUp implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         choiceBox.getItems().addAll("Student", "Professor", "HeadDepartment", "EducationalAssistant");
         department.getItems().addAll("Chemical Eng", "Computer Eng", "Physics", "Mathematics", "Chemistry");
-        if (LogicalAgent.getInstance().getUser().isTheme()) {
+        if (Main.mainClient.getUser().isTheme()) {
             anchorPane.setStyle("    -fx-background-color:\n" +
                     "            linear-gradient(#4568DC, #B06AB3),\n" +
                     "            repeating-image-pattern(\"Stars_128.png\"),\n" +
@@ -103,7 +104,7 @@ public class SingUp implements Initializable {
     }
 
     public void goBack(ActionEvent actionEvent) {
-        if (LogicalAgent.getInstance().getUser() instanceof Student)
+        if (Main.mainClient.getUser() instanceof Student)
             SceneLoader.getInstance().changeScene("StudentHomePage.fxml",actionEvent);
         else
             SceneLoader.getInstance().changeScene("ProfessorHomePage.fxml",actionEvent);

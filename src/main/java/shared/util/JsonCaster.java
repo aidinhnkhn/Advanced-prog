@@ -94,4 +94,13 @@ public class JsonCaster {
         ArrayList<Department> arrayList = gson.fromJson(data,new TypeToken<ArrayList<Department>>(){}.getType());
         return  arrayList;
     }
+
+    public static Department departmentCaster(String department) {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
+        Gson gson = gsonBuilder.create();
+        Department department1 = gson.fromJson(department, Department.class);
+        return department1;
+    }
 }

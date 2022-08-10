@@ -53,5 +53,9 @@ public class Analyser {
             Handler.getInstance().pickCourse(message);
         else if (message.getStatus() == MessageStatus.DepartmentList)
             Handler.getInstance().sendDepartmentList(message);
+        else if (message.getStatus() == MessageStatus.Department)
+            Handler.getInstance().sendDepartment(message);
+        else if (message.getStatus() == MessageStatus.SendUserImage)
+            Handler.getInstance().saveUserImage(message);
     }
 }

@@ -10,6 +10,8 @@ import javafx.scene.image.Image;
 import javafx.embed.swing.SwingFXUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import shared.util.ImageSender;
+import site.edu.Main;
 
 import javax.imageio.ImageIO;
 import java.io.File;
@@ -33,6 +35,7 @@ public class SignUpLogic {
     public boolean SignUp(String username, String password, String confirmPass,
                           String melicode, String phoneNumber, String email, String profession,
                           String department, String degree, Image image,String supervisorId) {
+        System.out.println("here");
         if (!allChecked(username, password, confirmPass, melicode, phoneNumber
                 , email, profession, department, degree, image)) return false;
         if (profession.equals("Student") && checkSupervisor(supervisorId)) return false;
@@ -40,6 +43,7 @@ public class SignUpLogic {
         String sha256hex = Hashing.sha256()
                 .hashString(password, StandardCharsets.UTF_8)
                 .toString();
+        //TODO: add this fucking shit to server
         if (profession.equals("Student"))
             createStudent(username, sha256hex, melicode, phoneNumber, email, department, degree, image,supervisorId);
 
@@ -49,32 +53,36 @@ public class SignUpLogic {
         return true;
     }
     private boolean checkSupervisor(String id){
-        Professor professor=Professor.getProfessor(id);
+        Professor professor=Main.mainClient.getServerController().getProfessor(id);
         return (professor==null);
     }
     public void saveImage(Image image, String name) {
-        File file = new File(System.getProperty("user.dir") +
-                "\\src\\main\\resources\\eData\\users\\pictures\\" + name + ".png");
+        String path = System.getProperty("user.dir") +
+                "\\src\\main\\resources\\eData\\test\\" + name + ".png";
+        File file = new File(path);
         try {
             ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
             log.info("image saved");
         } catch (IOException e) {
             log.error(e.getMessage());
         }
+        String imageString = ImageSender.encode(path);
+        Main.mainClient.getServerController().sendUserImage(imageString,name);
+        file.delete();
     }
 
     private void createStudent(String username, String password, String melicode, String phoneNumber,
                                String email, String department, String degree, Image image,String supervisorId) {
+        //TODO: send the request to Server
         Student student = new Student(username, password, Role.Student, melicode, phoneNumber, email, degree, department, "nothing",supervisorId);
         saveImage(image, student.getId());
-        Saver.getInstance().saveStudent(student);
         log.info("student created");
     }
 
     private void createProfessor(String username, String password, String profession, String melicode, String phoneNumber, String email, String department, String degree, Image image) {
+        //TODO: send the request to Server
         Professor professor = new Professor(username, password, GetRole(profession), melicode, phoneNumber, email, degree, department, "nothing");
         saveImage(image, professor.getId());
-        Saver.getInstance().saveProfessor(professor);
         log.info("professor created");
     }
 
@@ -107,9 +115,11 @@ public class SignUpLogic {
 
         if (image == null) return false;
 
-        if (Department.getDepartment(department).getEducationalAssistantId().equals("")) return false;
+        Department department1 = Main.mainClient.getServerController().getDepartmentById(department);
 
-        if (Department.getDepartment(department).getHeadDepartmentId().equals("")) return false;
+        if (department1.getEducationalAssistantId().equals("")) return false;
+
+        if (department1.getHeadDepartmentId().equals("")) return false;
         return true;
     }
 }

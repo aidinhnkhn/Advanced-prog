@@ -5,6 +5,9 @@ import elements.courses.Grade;
 import elements.people.Professor;
 import elements.people.Student;
 import elements.people.User;
+import elements.university.Department;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.image.Image;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import server.Server;
@@ -15,7 +18,10 @@ import shared.messages.response.ResponseStatus;
 import shared.util.ImageSender;
 import shared.util.JsonCaster;
 
+import javax.imageio.ImageIO;
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Random;
 
@@ -253,5 +259,33 @@ public class Handler {
         response.addData("list",list);
         Server.getServer().sendMessageToClient(message.getAuthToken(), Response.toJson(response));
         log.info("send the Department list");
+    }
+
+    public void sendDepartment(Message message) {
+        Response response = new Response(ResponseStatus.Student);
+        Department department = University.getInstance().getDepartmentById((String)message.getData("id"));
+        response.addData("department",JsonCaster.objectToJson(department));
+        Server.getServer().sendMessageToClient(message.getAuthToken(), Response.toJson(response));
+        log.info("sent the department");
+    }
+
+    public void saveUserImage(Message message) {
+        String imageString = (String)message.getData("image");
+        byte[] bytes = ImageSender.decode(imageString);
+        Image image = new Image(new ByteArrayInputStream(bytes));
+        System.out.println("I am here 2");
+        saveImage(image,(String)message.getData("name"));
+    }
+    public void saveImage(Image image, String name) {
+        System.out.println("I am here");
+        String path = System.getProperty("user.dir") +
+                "\\src\\main\\resources\\eData\\users\\pictures\\" + name + ".png";
+        File file = new File(path);
+        try {
+            ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
+            log.info("image saved");
+        } catch (IOException e) {
+            log.error(e.getMessage());
+        }
     }
 }

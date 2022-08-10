@@ -4,12 +4,12 @@ import elements.courses.Course;
 import elements.people.Professor;
 import elements.people.Student;
 import elements.people.User;
+import elements.university.Department;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import shared.messages.message.Message;
 import shared.messages.message.MessageStatus;
 import shared.messages.response.Response;
-import shared.util.ImageSender;
 import shared.util.JsonCaster;
 import site.edu.Client;
 import site.edu.Main;
@@ -17,7 +17,6 @@ import site.edu.Main;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
-import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -234,5 +233,21 @@ public class ServerController {
         sendMessage(Message.toJson(message));
         Response response = Response.fromJson(receiveMessage());
         return response;
+    }
+
+    public Department getDepartmentById(String id) {
+        Message message = new Message(MessageStatus.Department, client.getAuthToken());
+        message.addData("id", id);
+        sendMessage(Message.toJson(message));
+        Response response = Response.fromJson(receiveMessage());
+        Department department = JsonCaster.departmentCaster((String) response.getData("department"));
+        return department;
+    }
+
+    public void sendUserImage(String imageString, String name) {
+        Message message = new Message(MessageStatus.SendUserImage,client.getAuthToken());
+        message.addData("image",imageString);
+        message.addData("name",name);
+        sendMessage(Message.toJson(message));
     }
 }
