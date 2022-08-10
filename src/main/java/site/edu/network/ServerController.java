@@ -204,4 +204,18 @@ public class ServerController {
         message.addData("courseId",courseId);
         sendMessage(Message.toJson(message));
     }
+
+    public Response getCourses() {
+        Message message = new Message(MessageStatus.CourseList,client.getAuthToken());
+        sendMessage(Message.toJson(message));
+        Response response = Response.fromJson(receiveMessage());
+        return response;
+    }
+
+    public Response getProfessors() {
+        Message message = new Message(MessageStatus.ProfessorList,client.getAuthToken());
+        sendMessage(Message.toJson(message));
+        Response response = Response.fromJson(receiveMessage());
+        return response;
+    }
 }

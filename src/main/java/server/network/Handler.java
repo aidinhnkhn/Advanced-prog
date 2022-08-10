@@ -219,4 +219,20 @@ public class Handler {
         grade.setAnswerText((String)message.getData("text"));
         log.info("objection answer submitted");
     }
+
+    public void sendCourseList(Message message) {
+        Response response = new Response(ResponseStatus.CourseList);
+        String list = JsonCaster.objectToJson(University.getInstance().getCourses());
+        response.addData("list",list);
+        Server.getServer().sendMessageToClient(message.getAuthToken(), Response.toJson(response));
+        log.info("send the course List");
+    }
+
+    public void sendProfessorList(Message message) {
+        Response response = new Response(ResponseStatus.ProfessorList);
+        String list = JsonCaster.objectToJson(University.getInstance().getProfessors());
+        response.addData("list",list);
+        Server.getServer().sendMessageToClient(message.getAuthToken(), Response.toJson(response));
+        log.info("send the professor list");
+    }
 }

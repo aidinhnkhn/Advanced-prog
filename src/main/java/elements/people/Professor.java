@@ -87,4 +87,9 @@ public class Professor extends User {
                 return professor;
         return null;
     }
+
+    @Override
+    public String toString() {
+        return this.getUsername();
+    }
 }

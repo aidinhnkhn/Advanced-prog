@@ -48,6 +48,24 @@ public class JsonCaster {
         ArrayList<Student> arrayList = gson.fromJson(data,new TypeToken<ArrayList<Student>>(){}.getType());
         return  arrayList;
     }
+
+    public static ArrayList<Course> courseArrayListCaster(String data){
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
+        Gson gson = gsonBuilder.create();
+        ArrayList<Course> arrayList = gson.fromJson(data,new TypeToken<ArrayList<Course>>(){}.getType());
+        return  arrayList;
+    }
+
+    public static ArrayList<Professor> professorArrayListCaster(String data) {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
+        Gson gson = gsonBuilder.create();
+        ArrayList<Professor> arrayList = gson.fromJson(data,new TypeToken<ArrayList<Professor>>(){}.getType());
+        return  arrayList;
+    }
     public static String objectToJson(Object object){
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();
@@ -65,4 +83,6 @@ public class JsonCaster {
         Course course1 = gson.fromJson(course,Course.class);
         return course1;
     }
+
+
 }

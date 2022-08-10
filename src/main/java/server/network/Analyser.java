@@ -45,5 +45,9 @@ public class Analyser {
             Handler.getInstance().finalizeGrades(message);
         else if (message.getStatus() == MessageStatus.AnswerObjection)
             Handler.getInstance().AnswerObjection(message);
+        else if (message.getStatus() == MessageStatus.CourseList)
+            Handler.getInstance().sendCourseList(message);
+        else if (message.getStatus() == MessageStatus.ProfessorList)
+            Handler.getInstance().sendProfessorList(message);
     }
 }

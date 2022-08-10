@@ -17,11 +17,15 @@ import javafx.stage.Stage;
 import logic.LogicalAgent;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import shared.messages.response.Response;
+import shared.util.JsonCaster;
+import site.edu.Main;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class EducationalGrades implements Initializable {
@@ -43,7 +47,7 @@ public class EducationalGrades implements Initializable {
     TextArea showText;
     private static Logger log = LogManager.getLogger(EducationalGrades.class);
     public void HomePage(ActionEvent actionEvent) {
-        if (LogicalAgent.getInstance().getUser() instanceof Student)
+        if (Main.mainClient.getUser() instanceof Student)
             SceneLoader.getInstance().changeScene("StudentHomePage.fxml", actionEvent);
         else
             SceneLoader.getInstance().changeScene("ProfessorHomePage.fxml", actionEvent);
@@ -51,11 +55,14 @@ public class EducationalGrades implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        for (Student student : Student.getStudents())
+
+        ArrayList <Student> students = requestStudents();
+        for (Student student : students)
             studentBox.getItems().add(student.getId());
-        for (Course course : Course.getCourses())
+        ArrayList <Course> courses = requestCourses();
+        for (Course course : courses)
             courseBox.getItems().add(course.getId());
-        if (LogicalAgent.getInstance().getUser().isTheme()) {
+        if (Main.mainClient.getUser().isTheme()) {
             anchorPane.setStyle("    -fx-background-color:\n" +
                     "            linear-gradient(#4568DC, #B06AB3),\n" +
                     "            repeating-image-pattern(\"Stars_128.png\"),\n" +
@@ -64,6 +71,7 @@ public class EducationalGrades implements Initializable {
         else
             anchorPane.setStyle("-fx-background-color: CORNFLOWERBLUE");
     }
+
 
     public void saveTextFile(String sampleText) {
         Text sample = new Text(sampleText);
@@ -96,7 +104,8 @@ public class EducationalGrades implements Initializable {
     }
 
     public void studentFile(ActionEvent actionEvent) {
-        Student student = Student.getStudent(studentBox.getValue());
+        String id = studentBox.getValue();
+        Student student = Main.mainClient.getServerController().getStudentById(id);
         StringBuilder gradeText = new StringBuilder(student.getUsername() + " grades:\n");
         for (Grade grade : student.getGrades()) {
             if (grade.isFinalGrade()) continue;
@@ -104,7 +113,7 @@ public class EducationalGrades implements Initializable {
             gradeText.append("Objection: " + grade.getObjectionText() + "\n");
             gradeText.append("answered Objection: " + grade.getAnswerText() + "\n");
         }
-        log.info(student.getId()+ " information were requested! by :"+LogicalAgent.getInstance().getUser().getId());
+        log.info(student.getId()+ " information were requested! by :"+Main.mainClient.getUser().getId());
         saveTextFile(gradeText.toString());
         showText.setText(gradeText.toString());
     }
@@ -112,20 +121,23 @@ public class EducationalGrades implements Initializable {
     public void search(ActionEvent actionEvent) {
         String name = nameField.getText();
         professorBox.getItems().clear();
-        for (Professor professor : Professor.getProfessors()) {
+        //TODO: get professor list
+        ArrayList<Professor> professors = requestProfessors();
+        for (Professor professor : professors) {
+            if (professor == null) System.out.println("chera nunll mide");
             if (professor.getUsername().contains(name))
                 professorBox.getItems().add(professor);
         }
-        log.info(LogicalAgent.getInstance().getUser().getId()+ "filtered professor by name!");
+        log.info(Main.mainClient.getUser().getId()+ "filtered professor by name!");
     }
 
     public void courseFile(ActionEvent actionEvent) {
         int studentNumber=0,passedStudentNumber=0;
         double gradeSum=0,passedGradeSum=0;
-        Course course = Course.getCourse(courseBox.getValue());
+        Course course = Main.mainClient.getServerController().getCourseById(courseBox.getValue());
         StringBuilder gradeText = new StringBuilder(course.getName() + " grades:\n");
         for (String id : course.getStudentId()) {
-            Student student = Student.getStudent(id);
+            Student student = Main.mainClient.getServerController().getStudentById(id);
             if (student == null) continue;
             Grade grade = student.getFinalGrades(course.getId());
             if (grade == null) continue;
@@ -148,7 +160,7 @@ public class EducationalGrades implements Initializable {
             gradeText.append("passed number: "+ passedStudentNumber+"\n");
             gradeText.append("failed number: "+(studentNumber-passedStudentNumber)+"\n");
         }
-        log.info(course.getId()+ " information were requested! by :"+LogicalAgent.getInstance().getUser().getId());
+        log.info(course.getId()+ " information were requested! by :"+Main.mainClient.getUser().getId());
         saveTextFile(gradeText.toString());
         showText.setText(gradeText.toString());
     }
@@ -157,11 +169,11 @@ public class EducationalGrades implements Initializable {
         Professor professor = professorBox.getValue();
         StringBuilder gradeText = new StringBuilder(professor.getUsername() + " grades:\n");
         for (String courseId : professor.getCoursesId()) {
-            Course course = Course.getCourse(courseId);
+            Course course = Main.mainClient.getServerController().getCourseById(courseId);
             if (course == null) continue;
             gradeText.append(course.getName() + " has this final grades:\n");
             for (String studentId : course.getStudentId()) {
-                Student student = Student.getStudent(studentId);
+                Student student = Main.mainClient.getServerController().getStudentById(studentId);
                 if (student == null) continue;
                 Grade grade = student.getFinalGrades(courseId);
                 if (grade == null) continue;
@@ -171,8 +183,26 @@ public class EducationalGrades implements Initializable {
                 gradeText.append("answered Objection: " + grade.getAnswerText() + "\n");
             }
         }
-        log.info(professor.getId()+ " information were requested! by :"+LogicalAgent.getInstance().getUser().getId());
+        log.info(professor.getId()+ " information were requested! by :"+Main.mainClient.getUser().getId());
         saveTextFile(gradeText.toString());
         showText.setText(gradeText.toString());
+    }
+
+    private ArrayList<Student> requestStudents(){
+        Response response=Main.mainClient.getServerController().getStudents();
+        String listString = (String)response.getData("list");
+        return JsonCaster.studentArrayListCaster(listString);
+    }
+
+    private ArrayList<Course> requestCourses() {
+        Response response=Main.mainClient.getServerController().getCourses();
+        String listString = (String)response.getData("list");
+        return JsonCaster.courseArrayListCaster(listString);
+    }
+
+    private ArrayList<Professor> requestProfessors() {
+        Response response=Main.mainClient.getServerController().getProfessors();
+        String listString = (String)response.getData("list");
+        return JsonCaster.professorArrayListCaster(listString);
     }
 }
