@@ -18,6 +18,7 @@ import shared.messages.response.Response;
 import shared.messages.response.ResponseStatus;
 import shared.util.ImageSender;
 import shared.util.JsonCaster;
+import site.edu.Main;
 
 import javax.imageio.ImageIO;
 import java.io.ByteArrayInputStream;
@@ -342,5 +343,46 @@ public class Handler {
         Integer.parseInt(hour), Integer.parseInt(length),localDateTime,degree);
 
         log.warn(course.getId()+ " was added to courses.");
+    }
+
+    public void editCourse(Message message) {
+        String courseString = (String) message.getData("course");
+        Course receivedCourse = JsonCaster.courseCaster(courseString);
+        Course course = University.getInstance().getCourseById(receivedCourse.getId());
+        course.setName(receivedCourse.getName());
+        course.setProfessorId(receivedCourse.getProfessorId());
+        course.setUnit(receivedCourse.getUnit());
+        course.setLength(receivedCourse.getLength());
+        course.setHour(receivedCourse.getHour());
+        course.setDays(receivedCourse.getDays());
+        course.setExamDate(receivedCourse.getExamDate());
+        course.setDegree(receivedCourse.getDegree());
+        log.info(course.getId()+" was edited!");
+    }
+
+    public void deleteCourse(Message message) {
+        String id = (String)message.getData("id");
+        Course course = Main.mainClient.getServerController().getCourseById(id);
+        Professor professor=University.getInstance().getProfessorById(course.getProfessorId());
+        professor.getCoursesId().remove(id);
+        Department department=University.getInstance().getDepartmentById(course.getDepartmentId());
+        department.getCourses().remove(id);
+        University.getInstance().getCourses().remove(course);
+        for (String studentId:course.getStudentId()){
+            Student student=University.getInstance().getStudentById(studentId);
+            Grade grade=student.getGrade(id);
+            if (grade==null) continue;
+            if (grade.showGrade().equals("N/A") || !grade.isFinalGrade()) {
+                grade.setGrade(20);
+                grade.setFinished(true);
+                grade.setFinalGrade(true);
+            }
+        }
+        File file = new File(System.getProperty("user.dir") +
+                "\\src\\main\\resources\\eData\\course\\"+course.getId()+".txt");
+        if (file.delete())
+            log.info(file.getName()+ " got deleted.");
+        else
+            log.warn(" couldn't delete "+file.getName() );
     }
 }

@@ -60,7 +60,7 @@ public class Department {
     }
 
     public void setEducationalAssistantId(String educationalAssistantId) {
-        Professor.getProfessor(educationalAssistantId).setEducationalAssistant(true);
+        University.getInstance().getProfessorById(educationalAssistantId).setEducationalAssistant(true);
         this.educationalAssistantId = educationalAssistantId;
     }
 

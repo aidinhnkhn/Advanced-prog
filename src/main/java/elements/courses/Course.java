@@ -118,7 +118,6 @@ public class Course {
     }
 
     public void setProfessorId(String professorId) {
-        //TODO: fix this
         University.getInstance().getProfessorById(this.professorId).getCoursesId().remove(this.id);
         this.professorId = professorId;
         University.getInstance().getProfessorById(this.professorId).getCoursesId().add(this.id);
@@ -170,4 +169,7 @@ public class Course {
         return null;
     }
 
+    public void setProfessorIdInClient(String professorId) {
+        this.professorId = professorId;
+    }
 }

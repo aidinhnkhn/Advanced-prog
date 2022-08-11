@@ -301,4 +301,16 @@ public class ServerController {
         message.addData("unit",unit);
         sendMessage(Message.toJson(message));
     }
+
+    public void editCourse(Course course) {
+        Message message = new Message(MessageStatus.EditCourse,client.getAuthToken());
+        message.addData("course",JsonCaster.objectToJson(course));
+        sendMessage(Message.toJson(message));
+    }
+
+    public void deleteCourse(String id) {
+        Message message = new Message(MessageStatus.DeleteCourse,client.getAuthToken());
+        message.addData("id",id);
+        sendMessage(Message.toJson(message));
+    }
 }

@@ -63,5 +63,9 @@ public class Analyser {
             Handler.getInstance().createProfessor(message);
         else if (message.getStatus() == MessageStatus.CreateCourse)
             Handler.getInstance().createCourse(message);
+        else if (message.getStatus() == MessageStatus.EditCourse)
+            Handler.getInstance().editCourse(message);
+        else if (message.getStatus() == MessageStatus.DeleteCourse)
+            Handler.getInstance().deleteCourse(message);
     }
 }

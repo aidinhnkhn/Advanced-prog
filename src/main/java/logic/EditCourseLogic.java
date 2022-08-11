@@ -53,7 +53,7 @@ public class EditCourseLogic {
         if (!name.equals(""))
             course.setName(name);
         if (!professorId.equals(""))
-            course.setProfessorId(professorId);
+            course.setProfessorIdInClient(professorId);
         if (!unit.equals(""))
             course.setUnit(Integer.parseInt(unit));
         if (!length.equals(""))
@@ -66,6 +66,7 @@ public class EditCourseLogic {
             course.setExamDate(localDate,Integer.parseInt(examHour));
         if (!degree.equals(""))
             course.setDegree(degree);
+        Main.mainClient.getServerController().editCourse(course);
         log.info(Main.mainClient.getUser().getId()+" edited: "+course.getId());
         return true;
     }
@@ -93,27 +94,8 @@ public class EditCourseLogic {
         Course course = Main.mainClient.getServerController().getCourseById(id);
         if (!Main.mainClient.getUser().getDepartmentId().equals(course.getDepartmentId()))
             return false;
-        Professor professor=Professor.getProfessor(course.getProfessorId());
-        professor.getCoursesId().remove(id);
-        Department department=Department.getDepartment(course.getDepartmentId());
-        department.getCourses().remove(id);
-        Course.getCourses().remove(course);
-        for (String studentId:course.getStudentId()){
-            Student student=Student.getStudent(studentId);
-            Grade grade=student.getGrade(id);
-            if (grade==null) continue;
-            if (grade.showGrade().equals("N/A")) {
-                grade.setGrade(20);
-                grade.setFinished(true);
-                grade.setFinalGrade(true);
-            }
-        }
-        File file = new File(System.getProperty("user.dir") +
-                "\\src\\main\\resources\\eData\\course\\"+course.getId()+".txt");
-        if (file.delete())
-            log.info(file.getName()+ " got deleted.");
-        else
-            log.warn(" couldn't delete "+file.getName() );
+        Main.mainClient.getServerController().deleteCourse(id);
+
         return true;
     }
     public boolean doesCourseExist(String id) {
