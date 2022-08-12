@@ -37,6 +37,7 @@ public class CertificateStudentPage implements Initializable {
     }
 
     public void getCertificate(ActionEvent actionEvent) {
+        //TODO: send the request to Server and get the certificate back
         CertificateStudentRequest certificateStudentRequest=new CertificateStudentRequest
                 (LogicalAgent.getInstance().getUser().getId(),LogicalAgent.getInstance().getUser().getDepartmentId());
         certificateText.setText(certificateStudentRequest.getAcceptedText());

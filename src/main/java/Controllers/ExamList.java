@@ -17,6 +17,7 @@ import javafx.scene.layout.AnchorPane;
 import logic.LogicalAgent;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import site.edu.Main;
 
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -43,7 +44,7 @@ public class ExamList implements Initializable {
     TableColumn<Course, LocalDateTime> dateColumn;
 
     public void HomePage(ActionEvent actionEvent) {
-        if (LogicalAgent.getInstance().getUser() instanceof Student)
+        if (Main.mainClient.getUser() instanceof Student)
             SceneLoader.getInstance().changeScene("StudentHomePage.fxml",actionEvent);
         else
             SceneLoader.getInstance().changeScene("ProfessorHomePage.fxml",actionEvent);
@@ -54,7 +55,7 @@ public class ExamList implements Initializable {
 
         setupTable(getItems());
 
-        if (LogicalAgent.getInstance().getUser().isTheme()) {
+        if (Main.mainClient.getUser().isTheme()) {
             anchorPane.setStyle("    -fx-background-color:\n" +
                     "            linear-gradient(#4568DC, #B06AB3),\n" +
                     "            repeating-image-pattern(\"Stars_128.png\"),\n" +
@@ -71,15 +72,19 @@ public class ExamList implements Initializable {
     public ObservableList<Course> getItems(){
         ObservableList<Course> courses= FXCollections.observableArrayList();
         List<Course> courseList = new ArrayList();
-        if (LogicalAgent.getInstance().getUser() instanceof Student) {
-            Student student=(Student)(LogicalAgent.getInstance().getUser());
+        if (Main.mainClient.getUser() instanceof Student) {
+            Student student=(Student)(Main.mainClient.getUser());
             for (Grade grade:student.getGrades())
-                courseList.add(Course.getCourse(grade.getCourseId()));
+                if (!grade.isFinalGrade())
+                    courseList.add(Main.mainClient.getServerController().getCourseById(grade.getCourseId()));
         }
         else{
-            Professor professor=(Professor) (LogicalAgent.getInstance().getUser());
-            for (String courseId:professor.getCoursesId())
-                courseList.add(Course.getCourse(courseId));
+            Professor professor=(Professor) (Main.mainClient.getUser());
+            for (String courseId:professor.getCoursesId()) {
+                Course course = Main.mainClient.getServerController().getCourseById(courseId);
+                if (!course.isFinished())
+                    courseList.add(course);
+            }
         }
         courseList.sort(Comparator.comparing(Course::getExamDate));
         courses.addAll(courseList);

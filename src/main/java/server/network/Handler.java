@@ -215,6 +215,7 @@ public class Handler {
                 grade.setFinalGrade(true);
             }
             log.info((String) message.getData("courseId") + " grades finalized.");
+            course.setFinished(true);
         }
         Response response = new Response(ResponseStatus.FinalGradeStatus);
         response.addData("check",check);

@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.Socket;
 
 public class Main extends Application {
@@ -23,11 +24,10 @@ public class Main extends Application {
 
             //init the client:
             Integer port = Config.getConfig().getProperty(Integer.class, "serverPort");
-            Socket socket = new Socket("localhost", port);
+            Socket socket = new Socket(InetAddress.getLocalHost(), port);
             Client client = new Client(socket);
             Thread ClientThread = new Thread(client);
             ClientThread.start();
-//            client.init();
             mainClient= client;
             //init the fxml:
             FXMLLoader loader=new FXMLLoader(Main.class.getResource("SignIn.fxml"));

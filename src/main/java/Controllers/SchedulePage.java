@@ -18,6 +18,7 @@ import javafx.scene.layout.AnchorPane;
 import logic.LogicalAgent;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import site.edu.Main;
 
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -47,7 +48,7 @@ public class SchedulePage implements Initializable {
 
     private static Logger log = LogManager.getLogger(SchedulePage.class);
     public void HomePage(ActionEvent actionEvent) {
-        if (LogicalAgent.getInstance().getUser() instanceof Student)
+        if (Main.mainClient.getUser() instanceof Student)
             SceneLoader.getInstance().changeScene("StudentHomePage.fxml", actionEvent);
         else
             SceneLoader.getInstance().changeScene("ProfessorHomePage.fxml", actionEvent);
@@ -56,7 +57,7 @@ public class SchedulePage implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setupTable(getItems());
-        if (LogicalAgent.getInstance().getUser().isTheme()) {
+        if (Main.mainClient.getUser().isTheme()) {
             anchorPane.setStyle("    -fx-background-color:\n" +
                     "            linear-gradient(#4568DC, #B06AB3),\n" +
                     "            repeating-image-pattern(\"Stars_128.png\"),\n" +
@@ -78,15 +79,20 @@ public class SchedulePage implements Initializable {
 
     public ObservableList<CourseSchedule> getItems() {
         ObservableList<CourseSchedule> courses = FXCollections.observableArrayList();
-        if (LogicalAgent.getInstance().getUser() instanceof Student) {
-            Student student = (Student) (LogicalAgent.getInstance().getUser());
+        if (Main.mainClient.getUser() instanceof Student) {
+            Student student = (Student) (Main.mainClient.getUser());
+            // check if server is online if it isn't use another method
             for (Grade grade : student.getGrades())
                 if (!grade.isFinished())
-                    courses.add(new CourseSchedule(Course.getCourse(grade.getCourseId())));
+                    courses.add(new CourseSchedule(Main.mainClient.getServerController().getCourseById(grade.getCourseId())));
         } else {
-            Professor professor = (Professor) (LogicalAgent.getInstance().getUser());
-            for (String courseId : professor.getCoursesId())
-                courses.add(new CourseSchedule(Course.getCourse(courseId)));
+            Professor professor = (Professor) (Main.mainClient.getUser());
+            // check if server is online if it isn't use another method
+            for (String courseId : professor.getCoursesId()) {
+                Course course = Main.mainClient.getServerController().getCourseById(courseId);
+                if (!course.isFinished())
+                    courses.add(new CourseSchedule(course));
+            }
         }
         return courses;
     }

@@ -21,6 +21,8 @@ public class Course {
     private LocalDateTime examDate;
     private String professorName;
     private String degree;
+
+    private boolean finished;
     public Course(String name, String professorId, String departmentId, int unit, ArrayList<String> days,
                   int hour, int length, LocalDateTime examDate,String degree) {
         this.name = name;
@@ -38,6 +40,14 @@ public class Course {
         University.getInstance().getDepartmentById(departmentId).getCourses().add(this.id);
         University.getInstance().getProfessorById(professorId).getCoursesId().add(this.id);
         professorName= University.getInstance().getProfessorById(professorId).getUsername();
+    }
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
     }
 
     public String getDegree() {
