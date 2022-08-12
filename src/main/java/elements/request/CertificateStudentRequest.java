@@ -1,6 +1,7 @@
 package elements.request;
 
 import elements.people.Student;
+import server.university.University;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -15,7 +16,7 @@ public class CertificateStudentRequest extends Request{
         this.deniedText="it seems this university doesn't want you to get a certificate.";
         this.requestText="Give this Student whatever he/she likes!(Certificate)";
         //TODO: fix this line
-        certificateStudentRequests.add(this);
+        University.getInstance().getCertificateStudentRequests().add(this);
         this.pending=false;
         this.accepted=true;
     }
@@ -35,10 +36,10 @@ public class CertificateStudentRequest extends Request{
 
     @Override
     protected String makeAcceptedText() {
-        StringBuilder res=new StringBuilder("this student");
-        res.append(Student.getStudent(studentId).getUsername());
-        res.append("is educating in Sharif University of nothing in department of ");
-        res.append(Student.getStudent(studentId).getDepartmentId());
+        StringBuilder res=new StringBuilder("this student ");
+        res.append(University.getInstance().getStudentById(studentId).getUsername());
+        res.append(" is educating in Sharif University of nothing in department of ");
+        res.append(University.getInstance().getStudentById(studentId).getDepartmentId());
         res.append("\n Expiration date: ");
         res.append((LocalDate.now().plusMonths(6)));
         return res.toString();

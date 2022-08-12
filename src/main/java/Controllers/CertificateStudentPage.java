@@ -12,6 +12,7 @@ import javafx.scene.layout.AnchorPane;
 import logic.LogicalAgent;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import site.edu.Main;
 
 
 import java.net.URL;
@@ -30,23 +31,21 @@ public class CertificateStudentPage implements Initializable {
     @FXML
     TextArea certificateText;
     public void HomePage(ActionEvent actionEvent) {
-        if (LogicalAgent.getInstance().getUser() instanceof Student)
+        if (Main.mainClient.getUser() instanceof Student)
             SceneLoader.getInstance().changeScene("StudentHomePage.fxml", actionEvent);
         else
             SceneLoader.getInstance().changeScene("ProfessorHomePage.fxml", actionEvent);
     }
 
     public void getCertificate(ActionEvent actionEvent) {
-        //TODO: send the request to Server and get the certificate back
-        CertificateStudentRequest certificateStudentRequest=new CertificateStudentRequest
-                (LogicalAgent.getInstance().getUser().getId(),LogicalAgent.getInstance().getUser().getDepartmentId());
+        CertificateStudentRequest certificateStudentRequest = Main.mainClient.getServerController().getCertificate
+                (Main.mainClient.getUser().getId(),Main.mainClient.getUser().getDepartmentId());
         certificateText.setText(certificateStudentRequest.getAcceptedText());
-        log.info(LogicalAgent.getInstance().getUser().getId()+ " request a certificate");
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        if (LogicalAgent.getInstance().getUser().isTheme()) {
+        if (Main.mainClient.getUser().isTheme()) {
             anchorPane.setStyle("    -fx-background-color:\n" +
                     "            linear-gradient(#4568DC, #B06AB3),\n" +
                     "            repeating-image-pattern(\"Stars_128.png\"),\n" +

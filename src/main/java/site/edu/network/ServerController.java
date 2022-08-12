@@ -5,6 +5,7 @@ import elements.people.Professor;
 import elements.people.Role;
 import elements.people.Student;
 import elements.people.User;
+import elements.request.CertificateStudentRequest;
 import elements.university.Department;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -311,6 +312,87 @@ public class ServerController {
     public void deleteCourse(String id) {
         Message message = new Message(MessageStatus.DeleteCourse,client.getAuthToken());
         message.addData("id",id);
+        sendMessage(Message.toJson(message));
+    }
+
+    public Response getRecommendations() {
+        Message message = new Message(MessageStatus.RecommendationList, client.getAuthToken());
+        sendMessage(Message.toJson(message));
+        Response response = Response.fromJson(receiveMessage());
+        return response;
+    }
+
+    public void requestRecommendation(String id, String text) {
+        Message message = new Message(MessageStatus.Recommendation,client.getAuthToken());
+        message.addData("studentId",id);
+        message.addData("professorId",text);
+        sendMessage(Message.toJson(message));
+    }
+
+    public CertificateStudentRequest getCertificate(String id, String departmentId) {
+        Message message = new Message(MessageStatus.Certificate,client.getAuthToken());
+        message.addData("studentId",id);
+        message.addData("departmentId",departmentId);
+        sendMessage(Message.toJson(message));
+        Response response = Response.fromJson(receiveMessage());
+        return JsonCaster.certificateCaster((String)response.getData("certificate"));
+    }
+
+    public Response getFreedoms() {
+        Message message = new Message(MessageStatus.FreedomList, client.getAuthToken());
+        sendMessage(Message.toJson(message));
+        Response response = Response.fromJson(receiveMessage());
+        return response;
+    }
+
+    public void requestFreedom(String id, String departmentId) {
+        Message message = new Message(MessageStatus.Freedom,client.getAuthToken());
+        message.addData("studentId",id);
+        message.addData("departmentId",departmentId);
+        sendMessage(Message.toJson(message));
+    }
+
+    public Response getDorms() {
+        Message message = new Message(MessageStatus.DormList, client.getAuthToken());
+        sendMessage(Message.toJson(message));
+        Response response = Response.fromJson(receiveMessage());
+        return response;
+    }
+
+    public void createDorm(String id, String departmentId) {
+        Message message = new Message(MessageStatus.Dorm,client.getAuthToken());
+        message.addData("studentId",id);
+        message.addData("departmentId",departmentId);
+        sendMessage(Message.toJson(message));
+    }
+
+    public Response getMinors() {
+        Message message = new Message(MessageStatus.MinorList, client.getAuthToken());
+        sendMessage(Message.toJson(message));
+        Response response = Response.fromJson(receiveMessage());
+        return response;
+    }
+
+    public void createMinor(String id, String departmentId, String secondDepartmentId) {
+        Message message = new Message(MessageStatus.Minor,client.getAuthToken());
+        message.addData("studentId",id);
+        message.addData("departmentId",departmentId);
+        message.addData("secondDepartmentId",secondDepartmentId);
+        sendMessage(Message.toJson(message));
+    }
+
+    public Response getThesisDefenses() {
+        Message message = new Message(MessageStatus.ThesisList, client.getAuthToken());
+        sendMessage(Message.toJson(message));
+        Response response = Response.fromJson(receiveMessage());
+        return response;
+    }
+
+    public void createThesis(String id, String departmentId, LocalDateTime finalDate) {
+        Message message = new Message(MessageStatus.Thesis,client.getAuthToken());
+        message.addData("studentId",id);
+        message.addData("departmentId",departmentId);
+        message.addData("date",JsonCaster.objectToJson(finalDate));
         sendMessage(Message.toJson(message));
     }
 }

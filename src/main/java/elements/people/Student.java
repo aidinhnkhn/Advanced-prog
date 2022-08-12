@@ -113,7 +113,7 @@ public class Student extends User {
         for (Grade grade:this.grades){
             if (!grade.getProfessorId().equals(professorId)) continue;
             StringBuilder courseResult=new StringBuilder();
-            courseResult.append(grade.getName());
+            courseResult.append(grade.getName()).append(": ");
             courseResult.append(grade.getGrade());
             coursesWithProfessor.add(courseResult.toString());
         }

@@ -1,6 +1,7 @@
 package elements.request;
 
 import elements.people.Student;
+import server.university.University;
 
 import java.util.ArrayList;
 
@@ -16,8 +17,8 @@ public class MinorRequest extends Request{
         this.deniedText="Rejected";
         this.secondDepartmentId = secondDepartmentId;
         this.secondAccepted=false;
-        //TODO: fix this line
-        minorRequests.add(this);
+
+        University.getInstance().getMinorRequests().add(this);
     }
 
     public String getSecondDepartmentId() {
@@ -39,7 +40,7 @@ public class MinorRequest extends Request{
         if (this.secondAccepted && this.accepted)
             pending=false;
         if (getTotalAccepted())
-            Student.getStudent(studentId).setMinorDepartment(secondDepartmentId);
+            University.getInstance().getStudentById(studentId).setMinorDepartment(secondDepartmentId);
     }
 
     public static ArrayList<MinorRequest> getMinorRequests() {
@@ -58,7 +59,7 @@ public class MinorRequest extends Request{
         if (this.secondAccepted && this.accepted)
             pending=false;
         if (getTotalAccepted())
-            Student.getStudent(studentId).setMinorDepartment(secondDepartmentId);
+            University.getInstance().getStudentById(studentId).setMinorDepartment(secondDepartmentId);
     }
 
     @Override

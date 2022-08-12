@@ -67,5 +67,27 @@ public class Analyser {
             Handler.getInstance().editCourse(message);
         else if (message.getStatus() == MessageStatus.DeleteCourse)
             Handler.getInstance().deleteCourse(message);
+        else if (message.getStatus() == MessageStatus.RecommendationList)
+            Handler.getInstance().sendRecommendationList(message);
+        else if (message.getStatus() == MessageStatus.Recommendation)
+            Handler.getInstance().createRecommendation(message);
+        else if (message.getStatus() == MessageStatus.Certificate)
+            Handler.getInstance().createCertificate(message);
+        else if (message.getStatus() == MessageStatus.FreedomList)
+            Handler.getInstance().sendFreedomList(message);
+        else if (message.getStatus() == MessageStatus.Freedom)
+            Handler.getInstance().setHimFree(message);
+        else if (message.getStatus() == MessageStatus.DormList)
+            Handler.getInstance().sendDormList(message);
+        else if (message.getStatus() == MessageStatus.Dorm)
+            Handler.getInstance().createDorm(message);
+        else if (message.getStatus() == MessageStatus.MinorList)
+            Handler.getInstance().sendMinorList(message);
+        else if (message.getStatus() == MessageStatus.Minor)
+            Handler.getInstance().createMinor(message);
+        else if (message.getStatus() == MessageStatus.ThesisList)
+            Handler.getInstance().sendThesisList(message);
+        else if (message.getStatus() == MessageStatus.Thesis)
+            Handler.getInstance().createThesis(message);
     }
 }

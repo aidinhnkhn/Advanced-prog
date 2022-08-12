@@ -2,6 +2,7 @@ package Controllers;
 
 import elements.people.Student;
 import elements.request.DormRequest;
+import elements.request.FreedomRequest;
 import elements.request.MinorRequest;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,8 +18,12 @@ import javafx.scene.layout.AnchorPane;
 import logic.LogicalAgent;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import shared.messages.response.Response;
+import shared.util.JsonCaster;
+import site.edu.Main;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class DormRequestPage implements Initializable {
@@ -34,39 +39,39 @@ public class DormRequestPage implements Initializable {
     @FXML
     Button homePageButton,dormButton;
     public void HomePage(ActionEvent actionEvent) {
-        if (LogicalAgent.getInstance().getUser() instanceof Student)
+        if (Main.mainClient.getUser() instanceof Student)
             SceneLoader.getInstance().changeScene("StudentHomePage.fxml",actionEvent);
         else
             SceneLoader.getInstance().changeScene("ProfessorHomePage.fxml",actionEvent);
     }
 
     public void requestDorm(ActionEvent actionEvent) {
-        Student student=(Student) (LogicalAgent.getInstance().getUser());
+        Student student=(Student) (Main.mainClient.getUser());
         boolean check=false;
         Alert alert=new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Dorm request status");
         alert.setTitle("Dorm");
-        for (DormRequest dormRequest:DormRequest.getDormRequests()){
+        for (DormRequest dormRequest:getDorms()){
             if (dormRequest.getTotalAccepted()) check=true;
         }
         if (check)
             alert.setContentText("you already have a dorm");
         else{
-            DormRequest dormRequest=new DormRequest(student.getId(),student.getDepartmentId());
+            //send the request to server
+            Main.mainClient.getServerController().createDorm(student.getId(),student.getDepartmentId());
             alert.setContentText("you applied!");
             setupTable();
             log.info(student.getId()+ " requested to have dorm!");
-            log.info(student.getId()+ "dorm request was accepted status: "+dormRequest.getTotalAccepted());
         }
         alert.show();
     }
     public void setupTable(){
-        Student student=(Student) (LogicalAgent.getInstance().getUser());
+        Student student=(Student) (Main.mainClient.getUser());
         ObservableList<DormRequest> dormRequests= FXCollections.observableArrayList();
-        for (DormRequest dormRequest:DormRequest.getDormRequests()) {
+        for (DormRequest dormRequest:getDorms()) {
             dormRequest.setStatusText();
             if ( dormRequest.getStudentId().equals(student.getId())) {
-                dormRequests.add( dormRequest);
+                dormRequests.add(dormRequest);
             }
         }
         tableView.setItems(dormRequests);
@@ -76,7 +81,7 @@ public class DormRequestPage implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        if (LogicalAgent.getInstance().getUser().isTheme()) {
+        if (Main.mainClient.getUser().isTheme()) {
             anchorPane.setStyle("    -fx-background-color:\n" +
                     "            linear-gradient(#4568DC, #B06AB3),\n" +
                     "            repeating-image-pattern(\"Stars_128.png\"),\n" +
@@ -84,5 +89,11 @@ public class DormRequestPage implements Initializable {
         }
         else
             anchorPane.setStyle("-fx-background-color: CORNFLOWERBLUE");
+    }
+
+    private ArrayList<DormRequest> getDorms() {
+        Response response= Main.mainClient.getServerController().getDorms();
+        String listString = (String)response.getData("list");
+        return JsonCaster.dormArrayListCaster(listString);
     }
 }

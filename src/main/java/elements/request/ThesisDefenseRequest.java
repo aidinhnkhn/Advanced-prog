@@ -1,5 +1,7 @@
 package elements.request;
 
+import server.university.University;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -13,7 +15,7 @@ public class ThesisDefenseRequest extends Request{
         this.pending=false;
         this.accepted=true;
         this.acceptedText=makeAcceptedText();
-        thesisDefenseRequests.add(this);
+        University.getInstance().getThesisDefenseRequests().add(this);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package elements.request;
 
 import elements.people.Student;
+import server.university.University;
 
 import java.util.ArrayList;
 
@@ -11,8 +12,7 @@ public class FreedomRequest extends Request{
         this.acceptedText="Congrats you are free now!";
         this.deniedText="you are gonna be here for a while!";
         this.requestText="let me out please!";
-        //TODO: fix this line:
-        freedomRequests.add(this);
+        University.getInstance().getFreedomRequests().add(this);
     }
 
     public static ArrayList<FreedomRequest> getFreedomRequests() {
@@ -28,7 +28,7 @@ public class FreedomRequest extends Request{
         this.pending=false;
         this.accepted=accepted;
         if (accepted){
-            Student.getStudent(studentId).setEducating(false);
+            University.getInstance().getStudentById(studentId).setEducating(false);
         }
     }
 

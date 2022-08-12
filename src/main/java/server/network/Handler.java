@@ -6,6 +6,7 @@ import elements.people.Professor;
 import elements.people.Role;
 import elements.people.Student;
 import elements.people.User;
+import elements.request.*;
 import elements.university.Department;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
@@ -385,5 +386,89 @@ public class Handler {
             log.info(file.getName()+ " got deleted.");
         else
             log.warn(" couldn't delete "+file.getName() );
+    }
+
+    public void sendRecommendationList(Message message) {
+        Response response = new Response(ResponseStatus.RecommendationList);
+        String list = JsonCaster.objectToJson(University.getInstance().getRecommendationRequests());
+        response.addData("list",list);
+        Server.getServer().sendMessageToClient(message.getAuthToken(), Response.toJson(response));
+        log.info("send the Recommendation list");
+    }
+
+    public void createRecommendation(Message message) {
+        String studentId = (String) message.getData("studentId");
+        String professorId = (String) message.getData("professorId");
+        RecommendationRequest recommendationRequest=new RecommendationRequest(studentId,professorId);
+        log.info(studentId+" requested a Recommendation to professor: "+professorId);
+    }
+
+    public void createCertificate(Message message) {
+        String studentId = (String) message.getData("studentId");
+        String departmentId= (String) message.getData("departmentId");
+        CertificateStudentRequest certificateStudentRequest=new CertificateStudentRequest(studentId,departmentId);
+        Response response = new Response(ResponseStatus.Certificate);
+        response.addData("certificate",JsonCaster.objectToJson(certificateStudentRequest));
+        Server.getServer().sendMessageToClient(message.getAuthToken(), Response.toJson(response));
+        log.info("created certifcate for:" + studentId);
+    }
+
+    public void sendFreedomList(Message message) {
+        Response response = new Response(ResponseStatus.FreedomList);
+        String list = JsonCaster.objectToJson(University.getInstance().getFreedomRequests());
+        response.addData("list",list);
+        Server.getServer().sendMessageToClient(message.getAuthToken(), Response.toJson(response));
+        log.info("send the FreeDom list");
+    }
+
+    public void setHimFree(Message message) {
+        String studentId = (String) message.getData("studentId");
+        String departmentId= (String) message.getData("departmentId");
+        FreedomRequest freedomRequest=new FreedomRequest(studentId,departmentId);
+    }
+
+    public void sendDormList(Message message) {
+        Response response = new Response(ResponseStatus.DormList);
+        String list = JsonCaster.objectToJson(University.getInstance().getDormRequests());
+        response.addData("list",list);
+        Server.getServer().sendMessageToClient(message.getAuthToken(), Response.toJson(response));
+        log.info("send the Dorm list");
+    }
+
+    public void createDorm(Message message) {
+        String studentId = (String) message.getData("studentId");
+        String departmentId= (String) message.getData("departmentId");
+        DormRequest dormRequest=new DormRequest(studentId,departmentId);
+        log.info(studentId+ " requested a dorm");
+    }
+
+    public void sendMinorList(Message message) {
+        Response response = new Response(ResponseStatus.MinorList);
+        String list = JsonCaster.objectToJson(University.getInstance().getMinorRequests());
+        response.addData("list",list);
+        Server.getServer().sendMessageToClient(message.getAuthToken(), Response.toJson(response));
+        log.info("send the Minor list");
+    }
+
+    public void createMinor(Message message) {
+        String studentId = (String) message.getData("studentId");
+        String departmentId= (String) message.getData("departmentId");
+        String secondDepartmentId= (String) message.getData("secondDepartmentId");
+        MinorRequest minorRequest = new MinorRequest(studentId,departmentId,secondDepartmentId);
+    }
+
+    public void sendThesisList(Message message) {
+        Response response = new Response(ResponseStatus.ThesisList);
+        String list = JsonCaster.objectToJson(University.getInstance().getThesisDefenseRequests());
+        response.addData("list",list);
+        Server.getServer().sendMessageToClient(message.getAuthToken(), Response.toJson(response));
+        log.info("send the Thesis Defenses list");
+    }
+
+    public void createThesis(Message message) {
+        String studentId = (String) message.getData("studentId");
+        String departmentId= (String) message.getData("departmentId");
+        LocalDateTime date = JsonCaster.dateCaster((String)message.getData("date"));
+        ThesisDefenseRequest thesisDefenseRequest = new ThesisDefenseRequest(studentId,departmentId,date);
     }
 }

@@ -1,6 +1,7 @@
 package Controllers;
 
 import elements.people.Student;
+import elements.request.MinorRequest;
 import elements.request.ThesisDefenseRequest;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,10 +11,14 @@ import javafx.scene.layout.AnchorPane;
 import logic.LogicalAgent;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import shared.messages.response.Response;
+import shared.util.JsonCaster;
+import site.edu.Main;
 
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ThesisDefensePage implements Initializable {
@@ -31,7 +36,7 @@ public class ThesisDefensePage implements Initializable {
     Label status;
     private static Logger log = LogManager.getLogger(ThesisDefensePage.class);
     public void HomePage(ActionEvent actionEvent) {
-        if (LogicalAgent.getInstance().getUser() instanceof Student)
+        if (Main.mainClient.getUser() instanceof Student)
             SceneLoader.getInstance().changeScene("StudentHomePage.fxml",actionEvent);
         else
             SceneLoader.getInstance().changeScene("ProfessorHomePage.fxml",actionEvent);
@@ -39,11 +44,11 @@ public class ThesisDefensePage implements Initializable {
 
     public void apply(ActionEvent actionEvent) {
         ThesisDefenseRequest thesis=null;
-        Student student=(Student) (LogicalAgent.getInstance().getUser());
+        Student student=(Student) (Main.mainClient.getUser());
         Alert alert=new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Defense status");
         alert.setTitle("Defense request");
-        for (ThesisDefenseRequest thesisDefenseRequest:ThesisDefenseRequest.getThesisDefenseRequests())
+        for (ThesisDefenseRequest thesisDefenseRequest:requestThesisDefenses())
             if (thesisDefenseRequest.getStudentId().equals(student.getId()))
                 thesis=thesisDefenseRequest;
         if (thesis!=null)
@@ -59,9 +64,11 @@ public class ThesisDefensePage implements Initializable {
             if (LocalDateTime.now().isAfter(finalDate))
                 alert.setContentText("pick a right date!");
             else {
-                ThesisDefenseRequest thesisDefenseRequest = new ThesisDefenseRequest(student.getId(), student.getDepartmentId(), finalDate);
+                //send the request to the server
+                Main.mainClient.getServerController().createThesis(student.getId(),student.getDepartmentId(),finalDate);
+                //ThesisDefenseRequest thesisDefenseRequest = new ThesisDefenseRequest(student.getId(), student.getDepartmentId(), finalDate);
                 alert.setContentText("successful");
-                log.info(LogicalAgent.getInstance().getUser().getId()+" requested a thesis defense.");
+                log.info(Main.mainClient.getUser().getId()+" requested a thesis defense.");
             }
         }
         alert.show();
@@ -69,15 +76,15 @@ public class ThesisDefensePage implements Initializable {
     }
     public void setupLabel(){
         status.setText("you haven't picked a date");
-        Student student=(Student) (LogicalAgent.getInstance().getUser());
-        for (ThesisDefenseRequest thesisDefenseRequest:ThesisDefenseRequest.getThesisDefenseRequests())
+        Student student=(Student) (Main.mainClient.getUser());
+        for (ThesisDefenseRequest thesisDefenseRequest:requestThesisDefenses())
             if (thesisDefenseRequest.getStudentId().equals(student.getId()))
                 status.setText(thesisDefenseRequest.getAcceptedText());
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setupLabel();
-        if (LogicalAgent.getInstance().getUser().isTheme()) {
+        if (Main.mainClient.getUser().isTheme()) {
             anchorPane.setStyle("    -fx-background-color:\n" +
                     "            linear-gradient(#4568DC, #B06AB3),\n" +
                     "            repeating-image-pattern(\"Stars_128.png\"),\n" +
@@ -85,5 +92,11 @@ public class ThesisDefensePage implements Initializable {
         }
         else
             anchorPane.setStyle("-fx-background-color: CORNFLOWERBLUE");
+    }
+
+    private ArrayList<ThesisDefenseRequest> requestThesisDefenses(){
+        Response response= Main.mainClient.getServerController().getThesisDefenses();
+        String listString = (String)response.getData("list");
+        return JsonCaster.thesisArrayListCaster(listString);
     }
 }

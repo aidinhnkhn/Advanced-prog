@@ -6,6 +6,7 @@ import com.google.gson.reflect.TypeToken;
 import elements.courses.Course;
 import elements.people.Professor;
 import elements.people.Student;
+import elements.request.*;
 import elements.university.Department;
 import shared.gsonSerializers.LocalDateTimeDeserializer;
 import shared.gsonSerializers.LocalDateTimeSerializer;
@@ -21,16 +22,14 @@ public class JsonCaster {
         gsonBuilder.setPrettyPrinting();
         gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
         Gson gson = gsonBuilder.create();
-        Professor professor = gson.fromJson(professorString, Professor.class);
-        return professor;
+        return gson.fromJson(professorString, Professor.class);
     }
     public static Student studentCaster(String studentString){
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();
         gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
         Gson gson = gsonBuilder.create();
-        Student student = gson.fromJson(studentString, Student.class);
-        return student;
+        return gson.fromJson(studentString, Student.class);
     }
 
     public static LocalDateTime dateCaster(String date){
@@ -38,8 +37,7 @@ public class JsonCaster {
         gsonBuilder.setPrettyPrinting();
         gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
         Gson gson = gsonBuilder.create();
-        LocalDateTime localDate = gson.fromJson(date,LocalDateTime.class);
-        return localDate;
+        return gson.fromJson(date,LocalDateTime.class);
     }
 
     public static ArrayList<Student> studentArrayListCaster(String data){
@@ -47,8 +45,7 @@ public class JsonCaster {
         gsonBuilder.setPrettyPrinting();
         gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
         Gson gson = gsonBuilder.create();
-        ArrayList<Student> arrayList = gson.fromJson(data,new TypeToken<ArrayList<Student>>(){}.getType());
-        return  arrayList;
+        return gson.fromJson(data,new TypeToken<ArrayList<Student>>(){}.getType());
     }
 
     public static ArrayList<Course> courseArrayListCaster(String data){
@@ -56,8 +53,7 @@ public class JsonCaster {
         gsonBuilder.setPrettyPrinting();
         gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
         Gson gson = gsonBuilder.create();
-        ArrayList<Course> arrayList = gson.fromJson(data,new TypeToken<ArrayList<Course>>(){}.getType());
-        return  arrayList;
+        return gson.fromJson(data,new TypeToken<ArrayList<Course>>(){}.getType());
     }
 
     public static ArrayList<Professor> professorArrayListCaster(String data) {
@@ -65,16 +61,14 @@ public class JsonCaster {
         gsonBuilder.setPrettyPrinting();
         gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
         Gson gson = gsonBuilder.create();
-        ArrayList<Professor> arrayList = gson.fromJson(data,new TypeToken<ArrayList<Professor>>(){}.getType());
-        return  arrayList;
+        return gson.fromJson(data,new TypeToken<ArrayList<Professor>>(){}.getType());
     }
     public static String objectToJson(Object object){
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();
         gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
         Gson gson = gsonBuilder.create();
-        String objectJson = gson.toJson(object);
-        return objectJson;
+        return gson.toJson(object);
     }
 
     public static Course courseCaster(String course) {
@@ -82,8 +76,7 @@ public class JsonCaster {
         gsonBuilder.setPrettyPrinting();
         gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
         Gson gson = gsonBuilder.create();
-        Course course1 = gson.fromJson(course,Course.class);
-        return course1;
+        return gson.fromJson(course,Course.class);
     }
 
     public static ArrayList<Department> departmentArrayListCaster(String data) {
@@ -91,23 +84,102 @@ public class JsonCaster {
         gsonBuilder.setPrettyPrinting();
         gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
         Gson gson = gsonBuilder.create();
-        ArrayList<Department> arrayList = gson.fromJson(data,new TypeToken<ArrayList<Department>>(){}.getType());
-        return  arrayList;
+        return gson.fromJson(data,new TypeToken<ArrayList<Department>>(){}.getType());
     }
     public static ArrayList<String> StringArrayListCaster(String data) {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();
         gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
         Gson gson = gsonBuilder.create();
-        ArrayList<String> arrayList = gson.fromJson(data,new TypeToken<ArrayList<String>>(){}.getType());
-        return  arrayList;
+        return gson.fromJson(data,new TypeToken<ArrayList<String>>(){}.getType());
     }
     public static Department departmentCaster(String department) {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();
         gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
         Gson gson = gsonBuilder.create();
-        Department department1 = gson.fromJson(department, Department.class);
-        return department1;
+        return gson.fromJson(department, Department.class);
+    }
+
+    public static ArrayList<RecommendationRequest> RecommendationArrayListCaster(String data) {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
+        Gson gson = gsonBuilder.create();
+        return gson.fromJson(data,new TypeToken<ArrayList<RecommendationRequest>>(){}.getType());
+    }
+
+    public static CertificateStudentRequest certificateCaster(String data) {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
+        Gson gson = gsonBuilder.create();
+        System.out.println("i am here");
+        return gson.fromJson(data, CertificateStudentRequest.class);
+    }
+
+    public static ArrayList<FreedomRequest> freedomArrayListCaster(String data) {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
+        Gson gson = gsonBuilder.create();
+        return gson.fromJson(data,new TypeToken<ArrayList<FreedomRequest>>(){}.getType());
+    }
+
+    public static FreedomRequest freedomCaster(String data) {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
+        Gson gson = gsonBuilder.create();
+        return gson.fromJson(data, FreedomRequest.class);
+    }
+
+    public static ArrayList<MinorRequest> minorRequestArrayListCaster(String data) {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
+        Gson gson = gsonBuilder.create();
+        return gson.fromJson(data,new TypeToken<ArrayList<MinorRequest>>(){}.getType());
+    }
+
+    public static MinorRequest minorCaster(String data) {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
+        Gson gson = gsonBuilder.create();
+        return gson.fromJson(data, MinorRequest.class);
+    }
+
+    public static ArrayList<DormRequest> dormArrayListCaster(String data) {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
+        Gson gson = gsonBuilder.create();
+        return gson.fromJson(data,new TypeToken<ArrayList<DormRequest>>(){}.getType());
+    }
+
+    public static DormRequest DormCaster(String data) {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
+        Gson gson = gsonBuilder.create();
+        return gson.fromJson(data, DormRequest.class);
+    }
+
+
+    public static ArrayList<ThesisDefenseRequest> thesisArrayListCaster(String data) {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
+        Gson gson = gsonBuilder.create();
+        return gson.fromJson(data,new TypeToken<ArrayList<ThesisDefenseRequest>>(){}.getType());
+    }
+
+    public static ThesisDefenseRequest thesisCaster(String data) {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
+        Gson gson = gsonBuilder.create();
+        return gson.fromJson(data, ThesisDefenseRequest.class);
     }
 }

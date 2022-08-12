@@ -19,11 +19,15 @@ import javafx.stage.Stage;
 import logic.LogicalAgent;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import shared.messages.response.Response;
+import shared.util.JsonCaster;
+import site.edu.Main;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 
@@ -45,7 +49,7 @@ public class RecomPage implements Initializable {
 
     private static Logger log = LogManager.getLogger(RecomPage.class);
     public void HomePage(ActionEvent actionEvent) {
-        if (LogicalAgent.getInstance().getUser() instanceof Student)
+        if (Main.mainClient.getUser() instanceof Student)
             SceneLoader.getInstance().changeScene("StudentHomePage.fxml",actionEvent);
         else
             SceneLoader.getInstance().changeScene("ProfessorHomePage.fxml",actionEvent);
@@ -55,9 +59,9 @@ public class RecomPage implements Initializable {
         Alert alert=new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Recommendation apply status");
         alert.setTitle("Recommendation");
-        Student student=(Student) (LogicalAgent.getInstance().getUser());
+        Student student=(Student) (Main.mainClient.getUser());
         RecommendationRequest studentRecommendation=null;
-        for (RecommendationRequest recommendationRequest:RecommendationRequest.getRecommendationRequests())
+        for (RecommendationRequest recommendationRequest:getRecommendations())
             if (recommendationRequest.getStudentId().equals(student.getId()) && recommendationRequest.isPending())
                 studentRecommendation=recommendationRequest;
         if (isProfessorIdInCorrect(professorId.getText()))
@@ -65,17 +69,18 @@ public class RecomPage implements Initializable {
         else if (studentRecommendation!=null)
             alert.setContentText("you have already requested a Recommendation");
         else{
+            //send this to server
+            Main.mainClient.getServerController().requestRecommendation(student.getId(),professorId.getText());
             alert.setContentText("we sent your request");
-            RecommendationRequest recommendationRequest=new RecommendationRequest(student.getId(),professorId.getText());
             log.info(student.getId()+" requested a Recommendation to professor: "+professorId.getText());
             setupTable();
         }
         alert.show();
     }
     private void setupTable(){
-        Student student=(Student) (LogicalAgent.getInstance().getUser());
+        Student student=(Student) (Main.mainClient.getUser());
         ObservableList<RecommendationRequest> recommendationRequests= FXCollections.observableArrayList();
-        for (RecommendationRequest recommendationRequest:RecommendationRequest.getRecommendationRequests()) {
+        for (RecommendationRequest recommendationRequest:getRecommendations()) {
             recommendationRequest.setStatusText();
             if (recommendationRequest.getStudentId().equals(student.getId())) {
                 recommendationRequests.add(recommendationRequest);
@@ -87,13 +92,13 @@ public class RecomPage implements Initializable {
         idColumn.setCellValueFactory(new PropertyValueFactory<RecommendationRequest,String>("id"));
     }
     private boolean isProfessorIdInCorrect(String id){
-        return Professor.getProfessor(id)==null;
+        return Main.mainClient.getServerController().getProfessor(id)==null;
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setupTable();
-        if (LogicalAgent.getInstance().getUser().isTheme()) {
+        if (Main.mainClient.getUser().isTheme()) {
             anchorPane.setStyle("    -fx-background-color:\n" +
                     "            linear-gradient(#4568DC, #B06AB3),\n" +
                     "            repeating-image-pattern(\"Stars_128.png\"),\n" +
@@ -104,8 +109,8 @@ public class RecomPage implements Initializable {
     }
 
     public void download(ActionEvent actionEvent) {
-        Student student=(Student) (LogicalAgent.getInstance().getUser());
-       for (RecommendationRequest recommendationRequest:RecommendationRequest.getRecommendationRequests()){
+        Student student=(Student) (Main.mainClient.getUser());
+       for (RecommendationRequest recommendationRequest:getRecommendations()){
            if (recommendationRequest.getStudentId().equals(student.getId()) && recommendationRequest.getTotalAccepted()){
                String sampleText = recommendationRequest.getAcceptedText();
                Text sample = new Text(sampleText);
@@ -135,5 +140,11 @@ public class RecomPage implements Initializable {
         } catch (IOException ex) {
             log.error("couldn't save the file"+file.getName());
         }
+    }
+
+    private ArrayList<RecommendationRequest> getRecommendations() {
+        Response response= Main.mainClient.getServerController().getRecommendations();
+        String listString = (String)response.getData("list");
+        return JsonCaster.RecommendationArrayListCaster(listString);
     }
 }
