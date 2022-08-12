@@ -24,7 +24,7 @@ public class Student extends User {
         this.supervisorId=supervisorId;
         this.enrollHour="8:00";
         this.enrollPermission=true;
-        //TODO: fix this
+
         University.getInstance().getDepartmentById(this.departmentId).getStudents().add(this.id);
         University.getInstance().getStudents().add(this);
     }

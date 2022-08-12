@@ -44,7 +44,7 @@ public class SignUpLogic {
         String sha256hex = Hashing.sha256()
                 .hashString(password, StandardCharsets.UTF_8)
                 .toString();
-        //TODO: add this fucking shit to server
+
         if (profession.equals("Student"))
             createStudent(username, sha256hex, melicode, phoneNumber, email, department, degree, image, supervisorId);
 
@@ -84,7 +84,6 @@ public class SignUpLogic {
     }
 
     private void createProfessor(String username, String password, String profession, String melicode, String phoneNumber, String email, String department, String degree, Image image) {
-        //TODO: send the request to Server
         Professor professor = Main.mainClient.getServerController().makeProfessor(username, password, profession,
                 melicode, phoneNumber, email, department, degree);
 

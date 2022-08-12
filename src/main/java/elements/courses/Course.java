@@ -35,7 +35,7 @@ public class Course {
         this.length=length;
         this.examDate=examDate;
         this.degree=degree;
-        // TODO: fix these lines
+
         University.getInstance().getCourses().add(this);
         University.getInstance().getDepartmentById(departmentId).getCourses().add(this.id);
         University.getInstance().getProfessorById(professorId).getCoursesId().add(this.id);

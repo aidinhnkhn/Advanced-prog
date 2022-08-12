@@ -21,7 +21,7 @@ public class Grade {
         this.finalGrade=false;
         this.objection=false;
         this.answered=false;
-        //TODO: fix this
+
         this.unit= University.getInstance().getCourseById(courseId).getUnit();
         this.name=University.getInstance().getCourseById(courseId).getName();
         this.professorId=University.getInstance().getCourseById(courseId).getProfessorId();

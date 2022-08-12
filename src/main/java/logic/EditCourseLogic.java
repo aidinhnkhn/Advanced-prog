@@ -44,7 +44,7 @@ public class EditCourseLogic {
 
     public boolean editCourse(String name, String professorId,  String unit, String length, String hour, ArrayList<String> days,
                               String id,LocalDate localDate,String examHour,String degree) {
-        //TODO: send a request to server to edit a course
+
         if (!doesCourseExist(id))
             return false;
         Course course = Main.mainClient.getServerController().getCourseById(id);
@@ -88,7 +88,7 @@ public class EditCourseLogic {
     }
 
     public boolean deleteCourse(String id){
-        //TODO: send the request to Server to delete a course
+
         if (!doesCourseExist(id))
             return false;
         Course course = Main.mainClient.getServerController().getCourseById(id);
