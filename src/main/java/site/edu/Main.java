@@ -1,6 +1,8 @@
 package site.edu;
 
-import server.Savers.Saver;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+
 import shared.util.Config;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -11,6 +13,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+
+import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -35,7 +39,13 @@ public class Main extends Application {
             Scene scene=new Scene(root);
             stage.setScene(scene);
             stage.show();
-
+//            Platform.runLater(() -> {
+//                String musicFile = System.getProperty("user.dir")+"\\src\\main\\resources\\cache\\05. Shayea - Telo.mp3";     // For example
+//
+//                Media sound = new Media(new File(musicFile).toURI().toString());
+//                MediaPlayer mediaPlayer = new MediaPlayer(sound);
+//                mediaPlayer.play();
+//            });
             stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
                 @Override
                 public void handle(WindowEvent e) {

@@ -2,6 +2,7 @@ package server.Savers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import elements.chat.Chat;
 import elements.courses.Course;
 import elements.people.Professor;
 import elements.people.Student;
@@ -11,6 +12,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import server.university.University;
 import shared.gsonSerializers.LocalDateTimeSerializer;
+import shared.util.Config;
 
 
 import java.io.File;
@@ -203,7 +205,22 @@ public class Saver implements Runnable {
             log.error("couldn't save the file!");
         }
     }
-
+    private void saveChat(Chat chat) {
+        File file = new File(System.getProperty("user.dir") +
+                Config.getConfig().getProperty(String.class,"chatPath") + chat.getId() + ".txt");
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
+        Gson gson = gsonBuilder.create();
+        String courseJson = gson.toJson(chat);
+        try {
+            FileWriter writer = new FileWriter(file, false);
+            writer.write(courseJson);
+            writer.close();
+        } catch (IOException e) {
+            log.error("couldn't save the file!");
+        }
+    }
     public void saveChanges() {
         for (Department department : University.getInstance().getDepartments())
             Saver.getInstance().saveDepartment(department);
@@ -235,7 +252,11 @@ public class Saver implements Runnable {
         for (ThesisDefenseRequest thesisDefenseRequest : University.getInstance().getThesisDefenseRequests())
             Saver.getInstance().saveThesisDefenseRequest(thesisDefenseRequest);
 
+        for (Chat chat : University.getInstance().getChats())
+            Saver.getInstance().saveChat(chat);
     }
+
+
 
     @Override
     public void run() {

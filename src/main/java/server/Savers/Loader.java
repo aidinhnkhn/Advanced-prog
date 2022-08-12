@@ -2,6 +2,7 @@ package server.Savers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import elements.chat.Chat;
 import elements.courses.Course;
 import elements.people.Professor;
 import elements.people.Student;
@@ -12,6 +13,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import server.university.University;
 import shared.gsonSerializers.LocalDateTimeDeserializer;
+import shared.util.Config;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -34,16 +36,6 @@ public class Loader {
     }
 
     public void initializeEdu() {
-//        Department.setDepartments(Loader.getInstance().loadDepartments());
-//        Student.setStudents(Loader.getInstance().loadStudents());
-//        Professor.setProfessors(Loader.getInstance().loadProfessors());
-//        Course.setCourses(Loader.getInstance().loadCourses());
-//        MinorRequest.setMinorRequests(Loader.getInstance().loadMinorRequests());
-//        DormRequest.setDormRequests(Loader.getInstance().loadDormRequests());
-//        RecommendationRequest.setRecommendationRequests(Loader.getInstance().loadRecommendationRequests());
-//        FreedomRequest.setFreedomRequests(Loader.getInstance().loadFreedomRequests());
-//        CertificateStudentRequest.setCertificateStudentRequests(Loader.getInstance().loadCertificates());
-//        ThesisDefenseRequest.setThesisDefenseRequests(Loader.getInstance().loadThesisDefenseRequests());
 
         University.getInstance().setDepartments(loadDepartments());
         University.getInstance().setStudents(loadStudents());
@@ -55,7 +47,35 @@ public class Loader {
         University.getInstance().setFreedomRequests(loadFreedomRequests());
         University.getInstance().setCertificateStudentRequests(loadCertificates());
         University.getInstance().setThesisDefenseRequests(loadThesisDefenseRequests());
+        University.getInstance().setChats(loadChats());
         log.info("edu Initialized");
+    }
+
+    private ArrayList<Chat> loadChats() {
+        File chatDirectory = new File(System.getProperty("user.dir") +
+                Config.getConfig().getProperty(String.class,"chatPath"));
+        ArrayList<Chat> chats = new ArrayList<>();
+        for (File file:chatDirectory.listFiles())
+            chats.add(loadChat(file));
+        log.info("chats loaded");
+        return chats;
+    }
+
+    private Chat loadChat(File file) {
+        try {
+            Scanner scanner = new Scanner(file);
+            String userJson = "";
+            while (scanner.hasNext())
+                userJson += scanner.nextLine();
+            GsonBuilder gsonBuilder = new GsonBuilder();
+            gsonBuilder.setPrettyPrinting();
+            gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
+            Gson gson = gsonBuilder.create();
+            return gson.fromJson(userJson, Chat.class);
+        } catch (FileNotFoundException e) {
+            log.error("file not Found!");
+        }
+        return null;
     }
 
     public void deleteFile(File file){

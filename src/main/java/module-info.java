@@ -1,6 +1,7 @@
 module site.edu {
     requires javafx.controls;
     requires javafx.fxml;
+    requires javafx.media;
 
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;
@@ -15,6 +16,7 @@ module site.edu {
     exports site.edu;
     exports Controllers;
     opens Controllers to javafx.fxml;
+
     opens elements.people to com.google.gson, javafx.base;
     opens elements.courses to com.google.gson, javafx.base;
     opens elements.university to com.google.gson;

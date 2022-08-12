@@ -3,6 +3,7 @@ package shared.util;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import elements.chat.Chat;
 import elements.courses.Course;
 import elements.people.Professor;
 import elements.people.Student;
@@ -181,5 +182,21 @@ public class JsonCaster {
         gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
         Gson gson = gsonBuilder.create();
         return gson.fromJson(data, ThesisDefenseRequest.class);
+    }
+
+    public static ArrayList<Chat> chatArrayListCaster(String data) {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
+        Gson gson = gsonBuilder.create();
+        return gson.fromJson(data,new TypeToken<ArrayList<Chat>>(){}.getType());
+    }
+
+    public static Chat chatCaster(String data) {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
+        Gson gson = gsonBuilder.create();
+        return gson.fromJson(data, Chat.class);
     }
 }

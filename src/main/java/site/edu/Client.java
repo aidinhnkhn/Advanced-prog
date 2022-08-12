@@ -17,6 +17,7 @@ public class Client implements Runnable{
     private Image image;
     private Professor professor;
     private String authToken;
+
     public Client(Socket socket){
         this.socket = socket;
     }

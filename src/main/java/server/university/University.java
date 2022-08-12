@@ -1,5 +1,6 @@
 package server.university;
 
+import elements.chat.Chat;
 import elements.courses.Course;
 import elements.people.Professor;
 import elements.people.Student;
@@ -21,6 +22,8 @@ public class University {
     private ArrayList<FreedomRequest> freedomRequests=new ArrayList<>();
     private ArrayList<CertificateStudentRequest> certificateStudentRequests=new ArrayList<>();
     private ArrayList<ThesisDefenseRequest> thesisDefenseRequests=new ArrayList<>();
+
+    private ArrayList<Chat> chats = new ArrayList<>();
     private University(){
 
     }
@@ -105,6 +108,14 @@ public class University {
         this.thesisDefenseRequests = thesisDefenseRequests;
     }
 
+    public ArrayList<Chat> getChats() {
+        return chats;
+    }
+
+    public void setChats(ArrayList<Chat> chats) {
+        this.chats = chats;
+    }
+
     public static University getInstance(){
         if (university==null)
             university=new University();
@@ -157,6 +168,13 @@ public class University {
         for (FreedomRequest freedomRequest : freedomRequests)
             if (freedomRequest.getId().equals(id))
                 return freedomRequest;
+        return null;
+    }
+
+    public Chat getChatById(String id){
+        for (Chat chat : chats)
+            if (chat.getId().equals(id))
+                return chat;
         return null;
     }
 }

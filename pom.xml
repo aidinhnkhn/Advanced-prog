@@ -92,7 +92,12 @@
             <artifactId>javafx-swing</artifactId>
             <version>11-ea+24</version>
         </dependency>
-
+        <!-- media -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-media</artifactId>
+            <version>18.0.2</version>
+        </dependency>
     </dependencies>
 
     <build>
