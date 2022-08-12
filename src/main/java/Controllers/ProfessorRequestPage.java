@@ -16,8 +16,12 @@ import javafx.scene.layout.AnchorPane;
 import logic.LogicalAgent;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import shared.messages.response.Response;
+import shared.util.JsonCaster;
+import site.edu.Main;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ProfessorRequestPage implements Initializable {
@@ -34,9 +38,13 @@ public class ProfessorRequestPage implements Initializable {
     TextArea textArea;
     @FXML
     ComboBox<String> requestBox;
+
+    private MinorRequest selectedMinor;
+    private FreedomRequest selectedFreedom;
+    private RecommendationRequest selectedRecommendation;
     private static Logger log = LogManager.getLogger(ProfessorRequestPage.class);
     public void HomePage(ActionEvent actionEvent) {
-        if (LogicalAgent.getInstance().getUser() instanceof Student)
+        if (Main.mainClient.getUser() instanceof Student)
             SceneLoader.getInstance().changeScene("StudentHomePage.fxml", actionEvent);
         else
             SceneLoader.getInstance().changeScene("ProfessorHomePage.fxml", actionEvent);
@@ -45,13 +53,16 @@ public class ProfessorRequestPage implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         requestBox.getItems().addAll("Recommendations");
-        Professor professor = (Professor) (LogicalAgent.getInstance().getUser());
+        Professor professor = (Professor) (Main.mainClient.getUser());
         if (professor.getRole() == Role.EducationalAssistant)
             requestBox.getItems().addAll("Minors", "Freedoms");
         minorId = 0;
         recommendationId = 0;
         freedomId = 0;
-        if (LogicalAgent.getInstance().getUser().isTheme()) {
+        selectedRecommendation = null;
+        selectedMinor=null;
+        selectedFreedom=null;
+        if (Main.mainClient.getUser().isTheme()) {
             anchorPane.setStyle("    -fx-background-color:\n" +
                     "            linear-gradient(#4568DC, #B06AB3),\n" +
                     "            repeating-image-pattern(\"Stars_128.png\"),\n" +
@@ -81,113 +92,162 @@ public class ProfessorRequestPage implements Initializable {
             goNext(new ActionEvent());
         }
     }
-
+    private ArrayList<MinorRequest> requestMinors(){
+        Response response= Main.mainClient.getServerController().getMinors();
+        String listString = (String)response.getData("list");
+        return JsonCaster.minorRequestArrayListCaster(listString);
+    }
     private void getNextMinorId() {
-        Professor professor = (Professor) (LogicalAgent.getInstance().getUser());
+        Professor professor = (Professor) (Main.mainClient.getUser());
         if (minorId < 0) minorId = 0;
-        while (minorId < MinorRequest.getMinorRequests().size()) {
-            MinorRequest minorRequest = MinorRequest.getMinorRequests().get(minorId);
+        ArrayList<MinorRequest> minorRequests = requestMinors();
+        while (minorId < minorRequests.size()) {
+            MinorRequest minorRequest = minorRequests.get(minorId);
             if (minorRequest.isPending()) {
-                if (professor.getDepartmentId().equals(minorRequest.getDepartmentId()))
+                if (professor.getDepartmentId().equals(minorRequest.getDepartmentId())) {
+                    selectedMinor = minorRequests.get(minorId);
                     break;
-                if (professor.getDepartmentId().equals(minorRequest.getSecondDepartmentId()))
+                }
+                if (professor.getDepartmentId().equals(minorRequest.getSecondDepartmentId())) {
+                    selectedMinor = minorRequests.get(minorId);
                     break;
+                }
             }
             minorId++;
         }
+
     }
 
     private void getPreviousMinorId() {
-        Professor professor = (Professor) (LogicalAgent.getInstance().getUser());
+        Professor professor = (Professor) (Main.mainClient.getUser());
         if (minorId >= MinorRequest.getMinorRequests().size()) minorId = MinorRequest.getMinorRequests().size() - 1;
+        ArrayList<MinorRequest> minorRequests = requestMinors();
         while (minorId >= 0) {
-            MinorRequest minorRequest = MinorRequest.getMinorRequests().get(minorId);
+            MinorRequest minorRequest = minorRequests.get(minorId);
             if (minorRequest.isPending()) {
-                if (professor.getDepartmentId().equals(minorRequest.getDepartmentId()))
+                if (professor.getDepartmentId().equals(minorRequest.getDepartmentId())) {
+                    selectedMinor = minorRequest;
                     break;
-                if (professor.getDepartmentId().equals(minorRequest.getSecondDepartmentId()))
+                }
+                if (professor.getDepartmentId().equals(minorRequest.getSecondDepartmentId())) {
+                    selectedMinor = minorRequest;
                     break;
+                }
             }
             minorId--;
         }
     }
-
+    private ArrayList<FreedomRequest> getFreedoms() {
+        Response response= Main.mainClient.getServerController().getFreedoms();
+        String listString = (String)response.getData("list");
+        return JsonCaster.freedomArrayListCaster(listString);
+    }
     private void getNextFreedomId() {
-        Professor professor = (Professor) (LogicalAgent.getInstance().getUser());
+        Professor professor = (Professor) (Main.mainClient.getUser());
         if (freedomId < 0) freedomId = 0;
-        while (freedomId < FreedomRequest.getFreedomRequests().size()) {
-            FreedomRequest freedomRequest = FreedomRequest.getFreedomRequests().get(freedomId);
+        ArrayList<FreedomRequest> freedomRequests = getFreedoms();
+        while (freedomId < freedomRequests.size()) {
+            FreedomRequest freedomRequest = freedomRequests.get(freedomId);
             if (freedomRequest.isPending())
-                if (professor.getDepartmentId().equals(freedomRequest.getDepartmentId()))
+                if (professor.getDepartmentId().equals(freedomRequest.getDepartmentId())) {
+                    selectedFreedom = freedomRequest;
                     break;
+                }
             freedomId++;
         }
     }
 
     private void getPreviousFreedomId() {
-        Professor professor = (Professor) (LogicalAgent.getInstance().getUser());
+        Professor professor = (Professor) (Main.mainClient.getUser());
         if (freedomId >= FreedomRequest.getFreedomRequests().size())
             freedomId = FreedomRequest.getFreedomRequests().size() - 1;
+        ArrayList<FreedomRequest> freedomRequests = getFreedoms();
         while (freedomId >= 0) {
-            FreedomRequest freedomRequest = FreedomRequest.getFreedomRequests().get(freedomId);
+            FreedomRequest freedomRequest = freedomRequests.get(freedomId);
             if (freedomRequest.isPending())
-                if (professor.getDepartmentId().equals(freedomRequest.getDepartmentId()))
+                if (professor.getDepartmentId().equals(freedomRequest.getDepartmentId())){
+                    selectedFreedom = freedomRequest;
                     break;
+                }
             freedomId--;
         }
     }
-
+    private ArrayList<RecommendationRequest> getRecommendations() {
+        Response response= Main.mainClient.getServerController().getRecommendations();
+        String listString = (String)response.getData("list");
+        return JsonCaster.RecommendationArrayListCaster(listString);
+    }
     private void getNextRecommendationId() {
-        Professor professor = (Professor) (LogicalAgent.getInstance().getUser());
+        Professor professor = (Professor) (Main.mainClient.getUser());
         if (recommendationId < 0) recommendationId = 0;
-        while (recommendationId < RecommendationRequest.getRecommendationRequests().size()) {
-            RecommendationRequest recommendationRequest = RecommendationRequest.getRecommendationRequests().get(recommendationId);
+        ArrayList<RecommendationRequest> recommendations = getRecommendations();
+        while (recommendationId < recommendations.size()) {
+            RecommendationRequest recommendationRequest = recommendations.get(recommendationId);
             if (recommendationRequest.isPending())
-                if (professor.getId().equals(recommendationRequest.getDepartmentId()))
+                if (professor.getId().equals(recommendationRequest.getDepartmentId())) {
+                    selectedRecommendation = recommendationRequest;
                     break;
+                }
             recommendationId++;
         }
     }
 
     private void getPreviousRecommendationId() {
-        Professor professor = (Professor) (LogicalAgent.getInstance().getUser());
+        Professor professor = (Professor) (Main.mainClient.getUser());
         if (recommendationId >= RecommendationRequest.getRecommendationRequests().size())
             recommendationId = RecommendationRequest.getRecommendationRequests().size() - 1;
+        ArrayList<RecommendationRequest> recommendations = getRecommendations();
         while (recommendationId >= 0) {
-            RecommendationRequest recommendationRequest = RecommendationRequest.getRecommendationRequests().get(recommendationId);
+            RecommendationRequest recommendationRequest = recommendations.get(recommendationId);
             if (recommendationRequest.isPending())
-                if (professor.getId().equals(recommendationRequest.getDepartmentId()))
+                if (professor.getId().equals(recommendationRequest.getDepartmentId())){
+                    selectedRecommendation = recommendationRequest;
                     break;
+                }
             recommendationId--;
         }
     }
 
+    private String minorString(MinorRequest minorRequest){
+        StringBuilder requestMessage = new StringBuilder();
+        requestMessage.append("student Id: " + minorRequest.getStudentId() + "\n");
+        requestMessage.append("first department: " + minorRequest.getDepartmentId() + "\n");
+        requestMessage.append("second department: " + minorRequest.getSecondDepartmentId() + "\n");
+        requestMessage.append(minorRequest.getRequestText());
+        return requestMessage.toString();
+    }
+
+    private String RecommendationString (RecommendationRequest recommendationRequest){
+        StringBuilder requestMessage = new StringBuilder();
+        requestMessage.append("student Id: " + recommendationRequest.getStudentId() + "\n");
+        requestMessage.append(recommendationRequest.getRequestText() + "\n");
+        requestMessage.append("your Recommendation text is:\n" + recommendationRequest.getAcceptedText());
+        return requestMessage.toString();
+    }
+
+    private String freedomString(FreedomRequest freedomRequest){
+        StringBuilder requestMessage = new StringBuilder();
+        requestMessage.append("student Id: " + freedomRequest.getStudentId() + "\n");
+        requestMessage.append(freedomRequest.getRequestText());
+        return requestMessage.toString();
+    }
     private void setRequestString() {
         StringBuilder requestMessage = new StringBuilder();
-        Professor professor = (Professor) (LogicalAgent.getInstance().getUser());
+        Professor professor = (Professor) (Main.mainClient.getUser());
         if (isMinor) {
-            if (minorId >= MinorRequest.getMinorRequests().size() || minorId < 0)
+            if (selectedMinor == null)
                 return;
-            MinorRequest minorRequest = MinorRequest.getMinorRequests().get(minorId);
-            requestMessage.append("student Id: " + minorRequest.getStudentId() + "\n");
-            requestMessage.append("first department: " + minorRequest.getDepartmentId() + "\n");
-            requestMessage.append("second department: " + minorRequest.getSecondDepartmentId() + "\n");
-            requestMessage.append(minorRequest.getRequestText());
+            requestMessage.append(minorString(selectedMinor));
         }
         if (isRecommendation) {
-            if (recommendationId < 0 || recommendationId >= RecommendationRequest.getRecommendationRequests().size())
+            if (selectedRecommendation == null)
                 return;
-            RecommendationRequest recommendationRequest = RecommendationRequest.getRecommendationRequests().get(recommendationId);
-            requestMessage.append("student Id: " + recommendationRequest.getStudentId() + "\n");
-            requestMessage.append(recommendationRequest.getRequestText() + "\n");
-            requestMessage.append("your Recommendation text is:\n" + recommendationRequest.getAcceptedText());
+            requestMessage.append(RecommendationString(selectedRecommendation));
         }
         if (isFreedom) {
-            if (freedomId < 0 || freedomId >= FreedomRequest.getFreedomRequests().size())
+            if (selectedFreedom == null)
                 return;
-            FreedomRequest freedomRequest = FreedomRequest.getFreedomRequests().get(freedomId);
-            requestMessage.append("student Id: " + freedomRequest.getStudentId() + "\n");
-            requestMessage.append(freedomRequest.getRequestText());
+            requestMessage.append(freedomString(selectedFreedom));
         }
         textArea.setText(requestMessage.toString());
     }
@@ -223,73 +283,79 @@ public class ProfessorRequestPage implements Initializable {
     }
 
     public void accept(ActionEvent actionEvent) {
-        Professor professor = (Professor) (LogicalAgent.getInstance().getUser());
+        Professor professor = (Professor) (Main.mainClient.getUser());
         if (isMinor) {
-            if (minorId >= MinorRequest.getMinorRequests().size() || minorId < 0)
+            if (selectedMinor == null)
                 return;
-            MinorRequest minorRequest = MinorRequest.getMinorRequests().get(minorId);
-            if (minorRequest.isPending()) {
-                if (professor.getDepartmentId().equals(minorRequest.getDepartmentId()))
-                    minorRequest.setAccepted(true);
-                if (professor.getDepartmentId().equals(minorRequest.getSecondDepartmentId()))
-                    minorRequest.setSecondAccepted(true);
-                log.info(professor.getId()+" accepted a minor request. "+ minorRequest.getId());
+            //send the accept minor request to the server:
+            if (selectedMinor.isPending()) {
+                if (professor.getDepartmentId().equals(selectedMinor.getDepartmentId()))
+                    Main.mainClient.getServerController().acceptMinor1st(selectedMinor.getId(),true);
+
+                if (professor.getDepartmentId().equals(selectedMinor.getSecondDepartmentId()))
+                    Main.mainClient.getServerController().acceptMinor2nd(selectedMinor.getId(),true);
+
+                log.info(professor.getId()+" accepted a minor request. "+ selectedMinor.getId());
             }
         }
         if (isRecommendation) {
-            if (recommendationId < 0 || recommendationId >= RecommendationRequest.getRecommendationRequests().size())
+            if (selectedRecommendation == null)
                 return;
-            RecommendationRequest recommendationRequest = RecommendationRequest.getRecommendationRequests().get(recommendationId);
-            if (recommendationRequest.isPending())
-                if (professor.getId().equals(recommendationRequest.getDepartmentId())){
-                    recommendationRequest.setAccepted(true);
-                    log.info(professor.getId()+" accepted a Recommendation request. "+recommendationRequest.getId());
+
+            if (selectedRecommendation.isPending())
+                if (professor.getId().equals(selectedRecommendation.getDepartmentId())){
+                    Main.mainClient.getServerController().acceptRecommendation(selectedRecommendation.getId(),true);
+                    //recommendationRequest.setAccepted(true);
+                    log.info(professor.getId()+" accepted a Recommendation request. "+selectedRecommendation.getId());
                 }
         }
         if (isFreedom) {
-            if (freedomId < 0 || freedomId >= FreedomRequest.getFreedomRequests().size())
+            if (selectedFreedom == null)
                 return;
-            FreedomRequest freedomRequest = FreedomRequest.getFreedomRequests().get(freedomId);
-            if (freedomRequest.isPending())
-                if (professor.getDepartmentId().equals(freedomRequest.getDepartmentId())) {
-                    freedomRequest.setAccepted(true);
-                    log.info(professor.getId()+" accepted a freedom request. "+freedomRequest.getId());
+            if (selectedFreedom.isPending())
+                if (professor.getDepartmentId().equals(selectedFreedom.getDepartmentId())) {
+                    Main.mainClient.getServerController().acceptFreedom(selectedFreedom.getId(),false);
+
+                    log.info(professor.getId()+" accepted a freedom request. "+selectedFreedom.getId());
                 }
         }
     }
 
     public void reject(ActionEvent actionEvent) {
-        Professor professor = (Professor) (LogicalAgent.getInstance().getUser());
+        Professor professor = (Professor) (Main.mainClient.getUser());
         if (isMinor) {
-            if (minorId >= MinorRequest.getMinorRequests().size() || minorId < 0)
+            if (selectedMinor == null)
                 return;
-            MinorRequest minorRequest = MinorRequest.getMinorRequests().get(minorId);
-            if (minorRequest.isPending()) {
-                if (professor.getDepartmentId().equals(minorRequest.getDepartmentId()))
-                    minorRequest.setAccepted(false);
-                if (professor.getDepartmentId().equals(minorRequest.getSecondDepartmentId()))
-                    minorRequest.setSecondAccepted(false);
-                log.info(professor.getId()+" rejected a minor request. "+ minorRequest.getId());
+
+            if (selectedMinor.isPending()) {
+                if (professor.getDepartmentId().equals(selectedMinor.getDepartmentId()))
+                    Main.mainClient.getServerController().acceptMinor1st(selectedMinor.getId(),false);
+
+                if (professor.getDepartmentId().equals(selectedMinor.getSecondDepartmentId()))
+                    Main.mainClient.getServerController().acceptMinor2nd(selectedMinor.getId(),false);
+
+                log.info(professor.getId()+" accepted a minor request. "+ selectedMinor.getId());
             }
         }
         if (isRecommendation) {
-            if (recommendationId < 0 || recommendationId >= RecommendationRequest.getRecommendationRequests().size())
+            if (selectedRecommendation == null)
                 return;
-            RecommendationRequest recommendationRequest = RecommendationRequest.getRecommendationRequests().get(recommendationId);
-            if (recommendationRequest.isPending())
-                if (professor.getId().equals(recommendationRequest.getDepartmentId())) {
-                    recommendationRequest.setAccepted(false);
-                    log.info(professor.getId()+" rejected a Recommendation request. "+recommendationRequest.getId());
+
+            if (selectedRecommendation.isPending())
+                if (professor.getId().equals(selectedRecommendation.getDepartmentId())){
+                    Main.mainClient.getServerController().acceptRecommendation(selectedRecommendation.getId(),false);
+
+                    log.info(professor.getId()+" rejected a Recommendation request. "+selectedRecommendation.getId());
                 }
         }
         if (isFreedom) {
-            if (freedomId < 0 || freedomId >= FreedomRequest.getFreedomRequests().size())
+            if (selectedFreedom == null)
                 return;
-            FreedomRequest freedomRequest = FreedomRequest.getFreedomRequests().get(freedomId);
-            if (freedomRequest.isPending())
-                if (professor.getDepartmentId().equals(freedomRequest.getDepartmentId())) {
-                    freedomRequest.setAccepted(false);
-                    log.info(professor.getId()+" rejected a freedom request. "+freedomRequest.getId());
+            if (selectedFreedom.isPending())
+                if (professor.getDepartmentId().equals(selectedFreedom.getDepartmentId())) {
+                    Main.mainClient.getServerController().acceptFreedom(selectedFreedom.getId(),false);
+                    //freedomRequest.setAccepted(false);
+                    log.info(professor.getId()+" rejected a freedom request. "+selectedFreedom.getId());
                 }
         }
     }

@@ -138,4 +138,25 @@ public class University {
                 return department;
         return null;
     }
+
+    public MinorRequest getMinorById(String id){
+        for (MinorRequest minorRequest : minorRequests)
+            if (minorRequest.getId().equals(id))
+                return minorRequest;
+        return null;
+    }
+
+    public RecommendationRequest getRecommendationById(String id){
+        for (RecommendationRequest recommendationRequest : recommendationRequests)
+            if (recommendationRequest.getId().equals(id))
+                return recommendationRequest;
+        return null;
+    }
+
+    public FreedomRequest getFreedomById(String id){
+        for (FreedomRequest freedomRequest : freedomRequests)
+            if (freedomRequest.getId().equals(id))
+                return freedomRequest;
+        return null;
+    }
 }

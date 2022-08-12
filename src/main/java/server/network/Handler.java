@@ -471,4 +471,32 @@ public class Handler {
         LocalDateTime date = JsonCaster.dateCaster((String)message.getData("date"));
         ThesisDefenseRequest thesisDefenseRequest = new ThesisDefenseRequest(studentId,departmentId,date);
     }
+
+    public void acceptMinor1st(Message message) {
+        String id = (String) message.getData("id");
+        boolean accept = (Boolean)message.getData("accept");
+        University.getInstance().getMinorById(id).setAccepted(accept);
+        log.info(id + " 1st accepted: "+ accept);
+    }
+
+    public void acceptMinor2nd(Message message) {
+        String id = (String) message.getData("id");
+        boolean accept = (Boolean)message.getData("accept");
+        University.getInstance().getMinorById(id).setSecondAccepted(accept);
+        log.info(id + " 2nd accepted: "+ accept);
+    }
+
+    public void acceptRecommendation(Message message) {
+        String id = (String) message.getData("id");
+        boolean accept = (Boolean)message.getData("accept");
+        University.getInstance().getRecommendationById(id).setAccepted(accept);
+        log.info(id + " accepted: "+ accept);
+    }
+
+    public void acceptFreedom(Message message) {
+        String id = (String) message.getData("id");
+        boolean accept = (Boolean)message.getData("accept");
+        University.getInstance().getFreedomById(id).setAccepted(accept);
+        log.info(id + " accepted: "+ accept);
+    }
 }

@@ -89,5 +89,13 @@ public class Analyser {
             Handler.getInstance().sendThesisList(message);
         else if (message.getStatus() == MessageStatus.Thesis)
             Handler.getInstance().createThesis(message);
+        else if (message.getStatus() == MessageStatus.Minor1stAccept)
+            Handler.getInstance().acceptMinor1st(message);
+        else if (message.getStatus() == MessageStatus.Minor2ndAccept)
+            Handler.getInstance().acceptMinor2nd(message);
+        else if (message.getStatus() == MessageStatus.RecommendationAccept)
+            Handler.getInstance().acceptRecommendation(message);
+        else if (message.getStatus() == MessageStatus.FreedomAccept)
+            Handler.getInstance().acceptFreedom(message);
     }
 }

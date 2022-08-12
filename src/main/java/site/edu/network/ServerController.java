@@ -395,4 +395,32 @@ public class ServerController {
         message.addData("date",JsonCaster.objectToJson(finalDate));
         sendMessage(Message.toJson(message));
     }
+
+    public void acceptMinor1st(String id,Boolean accept) {
+        Message message = new Message(MessageStatus.Minor1stAccept,client.getAuthToken());
+        message.addData("id",id);
+        message.addData("accept",accept);
+        sendMessage(Message.toJson(message));
+    }
+
+    public void acceptMinor2nd(String id, boolean accept) {
+        Message message = new Message(MessageStatus.Minor2ndAccept,client.getAuthToken());
+        message.addData("id",id);
+        message.addData("accept",accept);
+        sendMessage(Message.toJson(message));
+    }
+
+    public void acceptRecommendation(String id, boolean accept) {
+        Message message = new Message(MessageStatus.RecommendationAccept,client.getAuthToken());
+        message.addData("id",id);
+        message.addData("accept",accept);
+        sendMessage(Message.toJson(message));
+    }
+
+    public void acceptFreedom(String id, boolean accept) {
+        Message message = new Message(MessageStatus.FreedomAccept,client.getAuthToken());
+        message.addData("id",id);
+        message.addData("accept",accept);
+        sendMessage(Message.toJson(message));
+    }
 }
