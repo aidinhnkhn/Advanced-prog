@@ -48,10 +48,10 @@
             </CheckBox>
          </children>
       </VBox>
-      <ComboBox fx:id="departmentBox" layoutX="257.0" layoutY="409.0" prefWidth="150.0" promptText="department" />
+      <ComboBox fx:id="departmentBox" layoutX="257.0" layoutY="409.0" prefWidth="150.0" promptText="department" stylesheets="@../../styles.css" />
       <ComboBox fx:id="dayBox" layoutX="450.0" layoutY="409.0" prefWidth="150.0" promptText="day" />
       <ComboBox fx:id="unitBox" layoutX="257.0" layoutY="451.0" prefWidth="150.0" promptText="unit" />
-      <Button fx:id="filterButton" layoutX="450.0" layoutY="451.0" mnemonicParsing="false" onAction="#filter" prefHeight="25.0" prefWidth="150.0" text="filter" />
+      <Button fx:id="filterButton" layoutX="450.0" layoutY="451.0" mnemonicParsing="false" onAction="#filter" prefHeight="25.0" prefWidth="150.0" stylesheets="@../../styles.css" text="filter" />
       <TextField fx:id="coursePickerId" layoutX="258.0" layoutY="498.0" promptText="enter course Id" visible="false" />
       <Button fx:id="coursePicker" layoutX="450.0" layoutY="498.0" mnemonicParsing="false" onAction="#pickCourse" prefHeight="25.0" prefWidth="150.0" text="Oh the misery! take it :((" visible="false" />
    </children>
