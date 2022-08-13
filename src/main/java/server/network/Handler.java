@@ -499,4 +499,20 @@ public class Handler {
         University.getInstance().getFreedomById(id).setAccepted(accept);
         log.info(id + " accepted: "+ accept);
     }
+
+    public void sendUpdate(Message message) {
+        Response response = new Response(ResponseStatus.Update);
+        String id = (String)message.getData("id");
+        if (id.charAt(0)=='s'){
+            Student student = University.getInstance().getStudentById(id);
+            response.addData("student",JsonCaster.objectToJson(student));
+        }
+        else {
+            Professor professor =University.getInstance().getProfessorById(id);
+            response.addData("professor",JsonCaster.objectToJson(professor));
+        }
+        response.addData("chats",University.getInstance().getUserChats(id));
+
+        Server.getServer().sendMessageToClient(message.getAuthToken(), Response.toJson(response));
+    }
 }

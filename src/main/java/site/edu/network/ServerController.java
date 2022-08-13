@@ -39,6 +39,10 @@ public class ServerController {
         this.serverOnline = true;
     }
 
+    public void setServerOnline(boolean serverOnline) {
+        this.serverOnline = serverOnline;
+    }
+
     public boolean isServerOnline() {
         return serverOnline;
     }
@@ -76,10 +80,7 @@ public class ServerController {
             //log.info(messageFromServer);
             return messageFromServer;
         } catch (NoSuchElementException e) {
-            if (serverOnline) {
                 log.info("Server is offline.");
-            }
-            serverOnline = false;
         }
         return "";
     }
@@ -105,7 +106,7 @@ public class ServerController {
         Message message = new Message(MessageStatus.Login, client.getAuthToken());
         message.addData("id", id);
         message.addData("password", password);
-        Main.mainClient.getServerController().sendMessage(Message.toJson(message));
+        sendMessage(Message.toJson(message));
         Response response = Response.fromJson(receiveMessage());
         log.info("received login response");
         return response;

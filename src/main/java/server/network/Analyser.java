@@ -97,5 +97,7 @@ public class Analyser {
             Handler.getInstance().acceptRecommendation(message);
         else if (message.getStatus() == MessageStatus.FreedomAccept)
             Handler.getInstance().acceptFreedom(message);
+        else if (message.getStatus() == MessageStatus.Update)
+            Handler.getInstance().sendUpdate(message);
     }
 }

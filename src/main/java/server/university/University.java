@@ -6,6 +6,7 @@ import elements.people.Professor;
 import elements.people.Student;
 import elements.request.*;
 import elements.university.Department;
+import shared.util.JsonCaster;
 
 import java.util.ArrayList;
 
@@ -176,5 +177,15 @@ public class University {
             if (chat.getId().equals(id))
                 return chat;
         return null;
+    }
+
+    public String getUserChats(String id) {
+        ArrayList<Chat> sendChat = new ArrayList<>();
+        for (Chat chat:this.chats){
+            if (!chat.isAccepted()) continue;
+            if (chat.getStudentId1().equals(id) || chat.getStudentId2().equals(id))
+                sendChat.add(chat);
+        }
+        return JsonCaster.objectToJson(sendChat);
     }
 }

@@ -12,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import site.edu.network.Updater;
 
 
 import java.io.File;
@@ -29,9 +30,13 @@ public class Main extends Application {
             //init the client:
             Integer port = Config.getConfig().getProperty(Integer.class, "serverPort");
             Socket socket = new Socket(InetAddress.getLocalHost(), port);
+            Socket updaterSocket = new Socket(InetAddress.getLocalHost(), port);
+            Updater updater = new Updater(updaterSocket);
             Client client = new Client(socket);
             Thread ClientThread = new Thread(client);
+            Thread updaterThread = new Thread(updater);
             ClientThread.start();
+            updaterThread.start();
             mainClient= client;
             //init the fxml:
             FXMLLoader loader=new FXMLLoader(Main.class.getResource("SignIn.fxml"));

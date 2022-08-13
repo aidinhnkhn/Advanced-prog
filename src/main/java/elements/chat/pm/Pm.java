@@ -3,11 +3,12 @@ package elements.chat.pm;
 import shared.util.Config;
 import shared.util.ImageSender;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 
-public class Pm {
+public class Pm implements Serializable {
 
     public static String path =
             System.getProperty("user.dir")+Config.getConfig().getProperty(String.class,"cachePath");
@@ -18,14 +19,6 @@ public class Pm {
     private String id;
     private PmType type;
 
-    public Pm(String content, PmType type,String username) {
-        this.type = type;
-        if (type != PmType.Text)
-            this.content=ImageSender.encode(content);
-        this.id = createId();
-        this.date=LocalDateTime.now();
-        this.username = username;
-    }
 
     public Pm(PmType type,String username){
         this.type = type;

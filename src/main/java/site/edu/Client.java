@@ -1,12 +1,14 @@
 package site.edu;
 
 
+import elements.chat.Chat;
 import elements.people.Professor;
 import elements.people.User;
 import javafx.scene.image.Image;
 import site.edu.network.ServerController;
 
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class Client implements Runnable{
     private ServerController serverController;
@@ -18,13 +20,24 @@ public class Client implements Runnable{
     private Professor professor;
     private String authToken;
 
+    private ArrayList<Chat> chats;
+
     public Client(Socket socket){
+        chats = new ArrayList<>();
         this.socket = socket;
     }
 
     public void init(){
         serverController = new ServerController(socket,this);
         serverController.connectToServer();
+    }
+
+    public ArrayList<Chat> getChats() {
+        return chats;
+    }
+
+    public void setChats(ArrayList<Chat> chats) {
+        this.chats = chats;
     }
 
     public ServerController getServerController() {

@@ -17,5 +17,5 @@ public enum MessageStatus {
     CourseList,
     ProfessorList,
     PickCourse,
-    DepartmentList, Department, SendUserImage, CreateStudent, CreateProfessor, CreateCourse, EditCourse, DeleteCourse, RecommendationList, Recommendation, Certificate, FreedomList, Freedom, DormList, Dorm, MinorList, Minor, ThesisList, Thesis, Minor1stAccept, Minor2ndAccept, RecommendationAccept, FreedomAccept, Captcha
+    DepartmentList, Department, SendUserImage, CreateStudent, CreateProfessor, CreateCourse, EditCourse, DeleteCourse, RecommendationList, Recommendation, Certificate, FreedomList, Freedom, DormList, Dorm, MinorList, Minor, ThesisList, Thesis, Minor1stAccept, Minor2ndAccept, RecommendationAccept, FreedomAccept, Update, Captcha
 }
