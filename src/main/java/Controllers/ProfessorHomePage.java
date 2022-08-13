@@ -35,6 +35,8 @@ public class ProfessorHomePage implements Initializable {
     @FXML
     public AnchorPane anchorPane;
     @FXML
+    public MenuItem signOut;
+    @FXML
     ImageView imageView;
     @FXML
     Label dateTime, lastEnter, email, name;
@@ -42,7 +44,10 @@ public class ProfessorHomePage implements Initializable {
     MenuItem educationalStatus,signUp,editCourse,editProfessor,educationalAssistancePage;
     @FXML
     MenuItem professorList,examlistItem,provisionalItem;
-
+    @FXML
+    public MenuItem chatsItem;
+    @FXML
+    public MenuItem createChatPage;
     @FXML
     MenuItem profileItem;
     private static Logger log = LogManager.getLogger(ProfessorHomePage.class);
@@ -153,5 +158,15 @@ public class ProfessorHomePage implements Initializable {
 
     public void openProfilePage(ActionEvent actionEvent) {
         SceneLoader.getInstance().ChangeSceneByNode("ProfilePage.fxml",dateTime);
+    }
+
+    public void openChatPage(ActionEvent actionEvent) {
+        if (Main.mainClient.getServerController().isServerOnline())
+            SceneLoader.getInstance().ChangeSceneByNode("ChatPage.fxml",dateTime);
+    }
+
+    public void openCreateChatPage(ActionEvent actionEvent) {
+        if (Main.mainClient.getServerController().isServerOnline())
+            SceneLoader.getInstance().ChangeSceneByNode("CreateChatPage.fxml",dateTime);
     }
 }

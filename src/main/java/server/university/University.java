@@ -181,11 +181,9 @@ public class University {
 
     public String getUserChats(String id) {
         ArrayList<Chat> sendChat = new ArrayList<>();
-        for (Chat chat:this.chats){
-            if (!chat.isAccepted()) continue;
+        for (Chat chat:this.chats)
             if (chat.getStudentId1().equals(id) || chat.getStudentId2().equals(id))
                 sendChat.add(chat);
-        }
         return JsonCaster.objectToJson(sendChat);
     }
 }

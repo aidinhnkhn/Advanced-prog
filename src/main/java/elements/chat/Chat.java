@@ -19,7 +19,7 @@ public class Chat {
     public Chat(String studentId1,String studentName1){
         this.studentId1 = studentId1;
         this.studentName1 = studentName1;
-        accepted = false;
+        accepted = true;
         messages = new ArrayList<>();
         this.id = createId();
     }

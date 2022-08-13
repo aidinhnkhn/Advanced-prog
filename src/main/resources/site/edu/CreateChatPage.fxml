@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane fx:id="anchorPane" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: CORNFLOWERBLUE;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.CreateChatPage">
+   <children>
+      <Button fx:id="homePageButton" layoutX="773.0" layoutY="561.0" mnemonicParsing="false" onAction="#goHomePage" prefHeight="25.0" prefWidth="113.0" text="Home Page" />
+   </children>
+</AnchorPane>

@@ -12,13 +12,16 @@ import org.apache.log4j.Logger;
 import shared.messages.message.Message;
 import shared.messages.message.MessageStatus;
 import shared.messages.response.Response;
+import shared.util.Config;
 import shared.util.JsonCaster;
 import site.edu.Client;
 import site.edu.Main;
 
 import java.io.IOException;
 import java.io.PrintStream;
+import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
@@ -31,7 +34,7 @@ public class ServerController {
 
     private boolean serverOnline;
     private Client client;
-    private final Socket socket;
+    private  Socket socket;
 
     public ServerController(Socket socket, Client client) {
         this.socket = socket;
@@ -41,6 +44,14 @@ public class ServerController {
 
     public void setServerOnline(boolean serverOnline) {
         this.serverOnline = serverOnline;
+        if (serverOnline){
+            try {
+                this.socket = new Socket(InetAddress.getLocalHost(), Config.getConfig().getProperty(Integer.class,"serverPort"));
+                //TODO: send the user id to server for offline mode
+            } catch (IOException e) {
+                log.fatal("server controller could not reconnect");
+            }
+        }
     }
 
     public boolean isServerOnline() {

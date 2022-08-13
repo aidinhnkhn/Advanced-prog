@@ -71,6 +71,12 @@
                   <MenuItem fx:id="signOut" mnemonicParsing="false" onAction="#exit" text="Sign out" />
               </items>
             </Menu>
+            <Menu mnemonicParsing="false" text="Chat Menu">
+              <items>
+                <MenuItem fx:id="chatsItem" mnemonicParsing="false" onAction="#openChatPage" text="Chats" />
+                  <MenuItem fx:id="createChatPage" mnemonicParsing="false" onAction="#openCreateChatPage" text="Create a chat" />
+              </items>
+            </Menu>
         </menus>
       </MenuBar>
    </children>

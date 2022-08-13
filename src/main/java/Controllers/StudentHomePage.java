@@ -34,6 +34,10 @@ public class StudentHomePage implements Initializable {
     @FXML
     public AnchorPane anchorPane;
     @FXML
+    public MenuItem chatsItem;
+    @FXML
+    public MenuItem createChatPage;
+    @FXML
     Label dateTime,lastEnter,email,name;
     @FXML
     Label education,supervisor,permission,enrollTime;
@@ -186,5 +190,15 @@ public class StudentHomePage implements Initializable {
 
     public void openProfilePage(ActionEvent actionEvent) {
         SceneLoader.getInstance().ChangeSceneByNode("ProfilePage.fxml",dateTime);
+    }
+
+    public void openChatPage(ActionEvent actionEvent) {
+        if (Main.mainClient.getServerController().isServerOnline())
+            SceneLoader.getInstance().ChangeSceneByNode("ChatPage.fxml",dateTime);
+    }
+
+    public void openCreateChatPage(ActionEvent actionEvent) {
+        if (Main.mainClient.getServerController().isServerOnline())
+            SceneLoader.getInstance().ChangeSceneByNode("CreateChatPage.fxml",dateTime);
     }
 }
