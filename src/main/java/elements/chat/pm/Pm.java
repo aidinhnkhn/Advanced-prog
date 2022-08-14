@@ -33,7 +33,7 @@ public class Pm implements Serializable {
     public String getMessage() {
         StringBuilder pmContent = new StringBuilder();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        pmContent.append(date.format(dateTimeFormatter)+ username + ": ");
+        pmContent.append(date.format(dateTimeFormatter)+ " "+ username + ": ");
         if (type == PmType.Text) pmContent.append(content);
         else pmContent.append(type+ ": "+id);
         return pmContent.toString();
@@ -45,6 +45,10 @@ public class Pm implements Serializable {
         if (type == PmType.Pdf) return "pdf";
         int min = Math.min(content.length(),10);
         return this.content.substring(0,min)+(min == content.length()?"":"...");
+    }
+
+    public String getFile(){
+        return this.content;
     }
     public PmType getType() {
         return type;

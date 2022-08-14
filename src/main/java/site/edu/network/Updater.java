@@ -19,10 +19,7 @@ import java.io.PrintWriter;
 import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
+import java.util.*;
 
 public class Updater implements Runnable {
     private Socket socket;
@@ -109,11 +106,12 @@ public class Updater implements Runnable {
         else
             setProfessor(response);
         chats.sort(Comparator.comparing(Chat::getDate));
+        Collections.reverse(chats);
         for (Chat chat : chats){
             if (Main.mainClient.getUser().getId().equals(chat.getStudentId1()))
                 chat.setName(chat.getStudentName2());
             else
-                chat.setName(chat.getStudentName2());
+                chat.setName(chat.getStudentName1());
         }
         Main.mainClient.setChats(chats);
         log.info("information Updated");

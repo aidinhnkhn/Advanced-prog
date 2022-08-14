@@ -26,6 +26,6 @@
   "degree": "PHD",
   "departmentId": "Chemistry",
   "role": "Student",
-  "lastEnter": "13::Aug::2022 21::22::40",
+  "lastEnter": "14::Aug::2022 20::07::47",
   "theme": false
 }
