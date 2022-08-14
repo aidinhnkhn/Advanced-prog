@@ -1,0 +1,18 @@
+{
+  "id": "C2022424125753",
+  "name": "data Structure",
+  "professorId": "p2242320293",
+  "departmentId": "Computer Eng",
+  "studentId": [],
+  "unit": 3,
+  "days": [
+    "Thursday",
+    "Thursday"
+  ],
+  "hour": 16,
+  "length": 1,
+  "examDate": "7::Jul::2022 02::00::00",
+  "professorName": "hemmati",
+  "degree": "Bachelor",
+  "finished": false
+}

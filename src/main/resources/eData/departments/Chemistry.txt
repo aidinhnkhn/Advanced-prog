@@ -1,0 +1,14 @@
+{
+  "name": "Chemistry",
+  "students": [
+    "s22429205337",
+    "s22429205354"
+  ],
+  "professors": [
+    "p22423203434",
+    "p22423203833"
+  ],
+  "courses": [],
+  "headDepartmentId": "p22423203434",
+  "educationalAssistantId": "p22423203833"
+}

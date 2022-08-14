@@ -1,0 +1,16 @@
+{
+  "headDepartment": true,
+  "educationalAssistant": false,
+  "supervisor": false,
+  "username": "shahnaz",
+  "password": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+  "id": "p22423203434",
+  "melicode": "12412412",
+  "phoneNumber": "421412",
+  "email": "dgnemidunam@gmail.com",
+  "degree": "full Professor",
+  "departmentId": "Chemistry",
+  "role": "HeadDepartment",
+  "lastEnter": "23::Apr::2022 20::34::34",
+  "theme": false
+}

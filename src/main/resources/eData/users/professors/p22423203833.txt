@@ -1,0 +1,16 @@
+{
+  "headDepartment": false,
+  "educationalAssistant": true,
+  "supervisor": false,
+  "username": "eweqe",
+  "password": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+  "id": "p22423203833",
+  "melicode": "3213",
+  "phoneNumber": "31231",
+  "email": "tamumshod@gmail.com",
+  "degree": "full Professor",
+  "departmentId": "Chemistry",
+  "role": "EducationalAssistant",
+  "lastEnter": "29::Apr::2022 20::53::10",
+  "theme": false
+}

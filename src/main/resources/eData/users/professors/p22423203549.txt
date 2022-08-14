@@ -1,0 +1,20 @@
+{
+  "headDepartment": false,
+  "educationalAssistant": true,
+  "supervisor": false,
+  "coursesId": [
+    "C202242413429",
+    "C2022810193416"
+  ],
+  "username": "hamzeh",
+  "password": "961b6dd3ede3cb8ecbaacbd68de040cd78eb2ed5889130cceb4c49268ea4d506",
+  "id": "p22423203549",
+  "melicode": "412412",
+  "phoneNumber": "124124",
+  "email": "thamzeh@sharif.edu",
+  "degree": "Associate Professor",
+  "departmentId": "Chemical Eng",
+  "role": "EducationalAssistant",
+  "lastEnter": "10::Aug::2022 19::34::21",
+  "theme": true
+}

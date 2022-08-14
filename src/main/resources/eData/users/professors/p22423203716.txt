@@ -1,0 +1,20 @@
+{
+  "headDepartment": false,
+  "educationalAssistant": true,
+  "supervisor": false,
+  "coursesId": [
+    "C2022429203859",
+    "C2022429203931"
+  ],
+  "username": "fgfg",
+  "password": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+  "id": "p22423203716",
+  "melicode": "dawd",
+  "phoneNumber": "dawwda",
+  "email": "ada@gmail.com",
+  "degree": "Associate Professor",
+  "departmentId": "Physics",
+  "role": "EducationalAssistant",
+  "lastEnter": "29::Apr::2022 20::39::44",
+  "theme": false
+}

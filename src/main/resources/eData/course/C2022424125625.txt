@@ -1,0 +1,21 @@
+{
+  "id": "C2022424125625",
+  "name": "Advance Prog",
+  "professorId": "p22423203628",
+  "departmentId": "Computer Eng",
+  "studentId": [
+    "s22423135453",
+    "s22429205337"
+  ],
+  "unit": 4,
+  "days": [
+    "Monday",
+    "Wednesday"
+  ],
+  "hour": 17,
+  "length": 2,
+  "examDate": "7::Jul::2022 02::00::00",
+  "professorName": "awh",
+  "degree": "Bachelor",
+  "finished": false
+}

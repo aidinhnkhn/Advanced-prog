@@ -1,0 +1,16 @@
+{
+  "name": "Physics",
+  "students": [
+    "s22429205419"
+  ],
+  "professors": [
+    "p22423203120",
+    "p22423203716"
+  ],
+  "courses": [
+    "C2022429203859",
+    "C2022429203931"
+  ],
+  "headDepartmentId": "p22423203120",
+  "educationalAssistantId": "p22423203716"
+}

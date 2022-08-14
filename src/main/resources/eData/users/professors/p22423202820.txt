@@ -1,0 +1,17 @@
+{
+  "headDepartment": true,
+  "educationalAssistant": false,
+  "supervisor": false,
+  "coursesId": [],
+  "username": "molayi",
+  "password": "961b6dd3ede3cb8ecbaacbd68de040cd78eb2ed5889130cceb4c49268ea4d506",
+  "id": "p22423202820",
+  "melicode": "1234",
+  "phoneNumber": "1234",
+  "email": "email@gmail.com",
+  "degree": "Associate Professor",
+  "departmentId": "Chemical Eng",
+  "role": "HeadDepartment",
+  "lastEnter": "9::Aug::2022 17::48::03",
+  "theme": true
+}

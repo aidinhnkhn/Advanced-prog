@@ -1,0 +1,19 @@
+{
+  "headDepartment": true,
+  "educationalAssistant": false,
+  "supervisor": false,
+  "coursesId": [
+    "C2022424125753"
+  ],
+  "username": "hemmati",
+  "password": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+  "id": "p2242320293",
+  "melicode": "2345",
+  "phoneNumber": "2345",
+  "email": "email@yahoo.com",
+  "degree": "full Professor",
+  "departmentId": "Computer Eng",
+  "role": "HeadDepartment",
+  "lastEnter": "28::Apr::2022 16::17::05",
+  "theme": false
+}

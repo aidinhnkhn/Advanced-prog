@@ -1,0 +1,63 @@
+{
+  "supervisorId": "p22423131225",
+  "minorDepartment": "Chemical Eng",
+  "grades": [
+    {
+      "courseId": "C20224241358",
+      "grade": 18.0,
+      "W": false,
+      "finished": true,
+      "finalGrade": true,
+      "objection": true,
+      "answered": false,
+      "objectionText": "baba yekam nomre bede torokhoda",
+      "answerText": "",
+      "unit": 3,
+      "name": "Mat balance",
+      "professorId": "p22423131225",
+      "gradeStatus": "18.0"
+    },
+    {
+      "courseId": "C202242413429",
+      "grade": 17.5,
+      "W": false,
+      "finished": true,
+      "finalGrade": false,
+      "objection": false,
+      "answered": false,
+      "answerText": "",
+      "unit": 3,
+      "name": "Thermo1",
+      "professorId": "p22423203549",
+      "gradeStatus": "17.5"
+    },
+    {
+      "courseId": "C2022424125625",
+      "grade": 0.0,
+      "W": false,
+      "finished": false,
+      "finalGrade": false,
+      "objection": false,
+      "answered": false,
+      "answerText": "",
+      "unit": 4,
+      "name": "Advance Prog",
+      "professorId": "p22423203628",
+      "gradeStatus": "N/A"
+    }
+  ],
+  "enrollHour": "8:00",
+  "enrollPermission": true,
+  "educating": true,
+  "username": "a",
+  "password": "961b6dd3ede3cb8ecbaacbd68de040cd78eb2ed5889130cceb4c49268ea4d506",
+  "id": "s22423135453",
+  "melicode": "a",
+  "phoneNumber": "09212222222",
+  "email": "aidin.khoshneghad@gmail.com",
+  "degree": "Bachelor",
+  "departmentId": "Computer Eng",
+  "role": "Student",
+  "lastEnter": "12::Aug::2022 12::54::35",
+  "theme": true
+}

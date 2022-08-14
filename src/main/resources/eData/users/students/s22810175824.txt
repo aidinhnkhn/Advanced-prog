@@ -1,0 +1,18 @@
+{
+  "supervisorId": "p22423203549",
+  "grades": [],
+  "enrollHour": "8:00",
+  "enrollPermission": true,
+  "educating": true,
+  "username": "parsa khosravi",
+  "password": "961b6dd3ede3cb8ecbaacbd68de040cd78eb2ed5889130cceb4c49268ea4d506",
+  "id": "s22810175824",
+  "melicode": "1241",
+  "phoneNumber": "21412",
+  "email": "parsa.khosravi@gmail.com",
+  "degree": "Bachelor",
+  "departmentId": "Chemical Eng",
+  "role": "Student",
+  "lastEnter": "14::Aug::2022 14::10::13",
+  "theme": false
+}

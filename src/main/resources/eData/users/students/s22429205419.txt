@@ -1,0 +1,18 @@
+{
+  "supervisorId": "p22423203716",
+  "grades": [],
+  "enrollHour": "8:00",
+  "enrollPermission": true,
+  "educating": true,
+  "username": "dsadawdwsas",
+  "password": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+  "id": "s22429205419",
+  "melicode": "wawdsa",
+  "phoneNumber": "dasdwa",
+  "email": "dawsw",
+  "degree": "Masters",
+  "departmentId": "Physics",
+  "role": "Student",
+  "lastEnter": "29::Apr::2022 20::54::19",
+  "theme": false
+}

@@ -1,0 +1,9 @@
+{
+  "defenseDate": "19::Aug::2023 13::00::00",
+  "studentId": "s2242319255",
+  "departmentId": "Chemical Eng",
+  "acceptedText": "you can defend your thesis in: 2023-08-19 13:00:00",
+  "pending": false,
+  "accepted": true,
+  "id": "R202281218353"
+}

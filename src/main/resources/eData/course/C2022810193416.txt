@@ -1,0 +1,17 @@
+{
+  "id": "C2022810193416",
+  "name": "Numeric Calc",
+  "professorId": "p22423203549",
+  "departmentId": "Chemical Eng",
+  "studentId": [],
+  "unit": 3,
+  "days": [
+    "Friday"
+  ],
+  "hour": 18,
+  "length": 2,
+  "examDate": "7::Aug::2024 09::00::00",
+  "professorName": "hamzeh",
+  "degree": "Bachelor",
+  "finished": false
+}

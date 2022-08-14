@@ -1,0 +1,17 @@
+{
+  "headDepartment": true,
+  "educationalAssistant": false,
+  "supervisor": false,
+  "coursesId": [],
+  "username": "naderi",
+  "password": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+  "id": "p22423203120",
+  "melicode": "235324",
+  "phoneNumber": "412412",
+  "email": "email@hotmail.com",
+  "degree": "Assistant Professor",
+  "departmentId": "Physics",
+  "role": "HeadDepartment",
+  "lastEnter": "23::Apr::2022 20::31::20",
+  "theme": false
+}

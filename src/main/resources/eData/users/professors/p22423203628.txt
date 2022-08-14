@@ -1,0 +1,19 @@
+{
+  "headDepartment": false,
+  "educationalAssistant": true,
+  "supervisor": false,
+  "coursesId": [
+    "C2022424125625"
+  ],
+  "username": "awh",
+  "password": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+  "id": "p22423203628",
+  "melicode": "21313",
+  "phoneNumber": "32131",
+  "email": "awh@gmail.com",
+  "degree": "Associate Professor",
+  "departmentId": "Computer Eng",
+  "role": "EducationalAssistant",
+  "lastEnter": "28::Apr::2022 23::09::56",
+  "theme": false
+}

@@ -1,0 +1,20 @@
+{
+  "id": "C202242413429",
+  "name": "Thermo1",
+  "professorId": "p22423203549",
+  "departmentId": "Chemical Eng",
+  "studentId": [
+    "s22423135453"
+  ],
+  "unit": 3,
+  "days": [
+    "Monday",
+    "Friday"
+  ],
+  "hour": 8,
+  "length": 1,
+  "examDate": "1::Jun::2022 12::00::00",
+  "professorName": "hamzeh",
+  "degree": "Bachelor",
+  "finished": false
+}

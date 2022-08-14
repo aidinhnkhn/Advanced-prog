@@ -1,0 +1,10 @@
+{
+  "studentId": "s2242319255",
+  "departmentId": "Chemical Eng",
+  "acceptedText": "Congrats you are free now!",
+  "deniedText": "you are gonna be here for a while!",
+  "requestText": "let me out please!",
+  "pending": true,
+  "accepted": false,
+  "id": "R202281218529"
+}

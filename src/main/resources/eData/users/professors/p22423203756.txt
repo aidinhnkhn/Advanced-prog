@@ -1,0 +1,20 @@
+{
+  "headDepartment": false,
+  "educationalAssistant": true,
+  "supervisor": true,
+  "coursesId": [
+    "C2022429204151",
+    "C2022429204211"
+  ],
+  "username": "dsa",
+  "password": "961b6dd3ede3cb8ecbaacbd68de040cd78eb2ed5889130cceb4c49268ea4d506",
+  "id": "p22423203756",
+  "melicode": "232",
+  "phoneNumber": "3213",
+  "email": "51352@aidin.com",
+  "degree": "full Professor",
+  "departmentId": "Mathematics",
+  "role": "EducationalAssistant",
+  "lastEnter": "9::Aug::2022 19::02::31",
+  "theme": false
+}
