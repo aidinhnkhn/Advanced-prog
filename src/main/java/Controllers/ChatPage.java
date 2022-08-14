@@ -1,5 +1,7 @@
 package Controllers;
 
+import Controllers.voice.VoicePlayback;
+import Controllers.voice.VoiceRecorder;
 import elements.chat.Chat;
 import elements.chat.pm.Pm;
 import elements.chat.pm.PmType;
@@ -17,15 +19,18 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import shared.util.Config;
 import shared.util.ImageSender;
 import site.edu.Main;
+import Controllers.voice.VoiceUtil;
 
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -80,14 +85,17 @@ public class ChatPage implements Initializable {
 
     @FXML
     public ImageView userImage;
-
+    @FXML
+    public ImageView microphoneActiveImage;
     @FXML
     public Label fileSelected;
     private Chat chat;
     private boolean running;
     private static Logger log = LogManager.getLogger(ChatPage.class);
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        microphoneActiveImage.setVisible(false);
         running = true;
         chat = null;
         new Thread( ()-> {
@@ -134,10 +142,40 @@ public class ChatPage implements Initializable {
         String id = pmId.getText();
         for (Pm pm : chat.getMessages()){
             if (pm.getId().equals(id)) {
-                setupPmImage(pm);
+                if (pm.getType() == PmType.Image)
+                    setupPmImage(pm);
+                else if (pm.getType() == PmType.Audio)
+                    playAudio(pm);
+                else if (pm.getType() == PmType.Pdf)
+                    savePdf(pm);
                 break;
             }
         }
+    }
+
+    private void savePdf(Pm pm) {
+        byte[] bytes = ImageSender.decode(pm.getFile());
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        File selectedDirectory = directoryChooser.showDialog(usernameLabel.getScene().getWindow());
+
+        if(selectedDirectory != null){
+            try {
+                FileUtils.writeByteArrayToFile(new File(selectedDirectory.getPath()+"\\download.pdf"), bytes);
+            } catch (IOException e) {
+                log.info("file saved");
+            }
+            fileSelected.setText("file saved");
+            fileSelected.setStyle("-fx-text-fill: green");
+            log.info("user sent an Image!");
+        } else {
+            fileSelected.setText("file status: failed!");
+            fileSelected.setStyle("-fx-text-fill: red");
+        }
+    }
+
+    private void playAudio(Pm pm) {
+        byte[] bytes = ImageSender.decode(pm.getFile());
+        VoicePlayback.playAudio(bytes);
     }
 
     private void setupPmImage(Pm pm) {
@@ -156,6 +194,21 @@ public class ChatPage implements Initializable {
 
     public void record(ActionEvent actionEvent) {
         if (chat == null) return;
+        if (VoiceUtil.isRecording()) {
+            Platform.runLater(() -> {
+                        microphoneImage.setVisible(true);
+                        microphoneActiveImage.setVisible(false);
+                    }
+            );
+            VoiceUtil.setRecording(false);
+        } else {
+            Platform.runLater(() -> {
+                        microphoneImage.setVisible(false);
+                        microphoneActiveImage.setVisible(true);
+                    }
+            );
+            VoiceRecorder.captureAudio(chat.getId());
+        }
     }
 
     public void sendImage(ActionEvent actionEvent)  {
@@ -169,17 +222,11 @@ public class ChatPage implements Initializable {
 
         if (selectedFile != null) {
 
-            String imageFile = null;
-            try {
-                imageFile = selectedFile.toURI().toURL().toString();
-                String encoded = ImageSender.encode(selectedFile.getPath());
-                Pm pm = new Pm(PmType.Image,Main.mainClient.getUser().getUsername());
-                pm.setContent(encoded);
-                Main.mainClient.getServerController().sendPm(pm,chat.getId());
 
-            } catch (MalformedURLException e) {
-                throw new RuntimeException(e);
-            }
+            String encoded = ImageSender.encode(selectedFile.getPath());
+            Pm pm = new Pm(PmType.Image,Main.mainClient.getUser().getUsername());
+            pm.setContent(encoded);
+            Main.mainClient.getServerController().sendPm(pm,chat.getId());
 
             fileSelected.setText("file status: Image selected");
             fileSelected.setStyle("-fx-text-fill: green");
@@ -192,6 +239,28 @@ public class ChatPage implements Initializable {
 
     public void sendFile(ActionEvent actionEvent) {
         if (chat == null) return;
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select Image File");
+        File selectedFile = fileChooser.showOpenDialog(usernameLabel.getScene().getWindow());
+
+        if (selectedFile != null) {
+            if ((double) selectedFile.length() / (1024 * 1024) > 10.0){
+                fileSelected.setText("file size limit exceeded!");
+                fileSelected.setStyle("-fx-text-fill: red");
+                return;
+            }
+            String encoded = ImageSender.encode(selectedFile.getPath());
+            Pm pm = new Pm(PmType.Pdf,Main.mainClient.getUser().getUsername());
+            pm.setContent(encoded);
+            Main.mainClient.getServerController().sendPm(pm,chat.getId());
+
+            fileSelected.setText("file status: Image selected");
+            fileSelected.setStyle("-fx-text-fill: green");
+            log.info("user sent an Image!");
+        } else {
+            fileSelected.setText("file status: failed!");
+            fileSelected.setStyle("-fx-text-fill: red");
+        }
     }
 
     public void goHomePage(ActionEvent actionEvent) {

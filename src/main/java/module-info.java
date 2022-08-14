@@ -11,6 +11,7 @@ module site.edu {
     requires com.google.gson;
     requires com.google.common;
     requires log4j;
+    requires org.apache.commons.io;
 
     opens site.edu to javafx.fxml;
     exports site.edu;

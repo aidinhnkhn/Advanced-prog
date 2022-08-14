@@ -13,6 +13,6 @@
   "degree": "Bachelor",
   "departmentId": "Chemical Eng",
   "role": "Student",
-  "lastEnter": "14::Aug::2022 20::07::45",
+  "lastEnter": "14::Aug::2022 22::12::50",
   "theme": true
 }
