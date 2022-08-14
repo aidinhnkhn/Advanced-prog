@@ -157,4 +157,11 @@ public class Chat {
         messages.sort(Comparator.comparing(Pm::getDate));
     }
 
+    public Pm getPmBYId(String id){
+        for (Pm pm:messages)
+            if (pm.getId().equals(id))
+                return pm;
+        return null;
+    }
+
 }

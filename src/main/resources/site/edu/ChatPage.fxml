@@ -20,7 +20,7 @@
       </Label>
       <TextField fx:id="pmId" layoutX="14.0" layoutY="486.0" promptText="show Pm" />
       <Button fx:id="pmShowButton" layoutX="170.0" layoutY="486.0" mnemonicParsing="false" onAction="#showPm" prefHeight="25.0" prefWidth="62.0" text="show" />
-      <Label fx:id="usernameLabel" layoutX="251.0" layoutY="14.0" prefHeight="25.0" prefWidth="118.0" text="Chat:">
+      <Label fx:id="usernameLabel" layoutX="251.0" layoutY="14.0" prefHeight="28.0" prefWidth="343.0" text="Chat:">
          <font>
             <Font name="Comic Sans MS" size="20.0" />
          </font>
@@ -31,18 +31,19 @@
       <Button fx:id="recordButton" layoutX="525.0" layoutY="561.0" mnemonicParsing="false" onAction="#record" prefHeight="25.0" prefWidth="69.0" text="record" />
       <Button fx:id="imageButton" layoutX="334.0" layoutY="561.0" mnemonicParsing="false" onAction="#sendImage" prefHeight="25.0" prefWidth="76.0" text="Image" />
       <Button fx:id="fileButton" layoutX="430.0" layoutY="561.0" mnemonicParsing="false" onAction="#sendFile" prefHeight="25.0" prefWidth="76.0" text="File" />
-      <ImageView fx:id="chatImage" fitHeight="200.0" fitWidth="280.0" layoutX="606.0" layoutY="42.0" pickOnBounds="true" />
+      <ImageView fx:id="chatImage" fitHeight="200.0" fitWidth="280.0" layoutX="606.0" layoutY="353.0" pickOnBounds="true" />
       <ImageView fx:id="microphoneImage" fitHeight="25.0" fitWidth="23.0" layoutX="606.0" layoutY="561.0" pickOnBounds="true">
          <image>
             <Image url="@../../eData/chatImage/microphone.png" />
          </image>
       </ImageView>
       <Button fx:id="homePage" layoutX="788.0" layoutY="561.0" mnemonicParsing="false" onAction="#goHomePage" prefHeight="25.0" prefWidth="104.0" text="Home Page" />
-      <TableView fx:id="tableView" layoutX="14.0" layoutY="42.0" prefHeight="425.0" prefWidth="218.0">
+      <TableView fx:id="tableView" layoutX="14.0" layoutY="42.0" onMouseClicked="#showChat" prefHeight="425.0" prefWidth="218.0">
         <columns>
           <TableColumn fx:id="nameColumn" text="username" />
           <TableColumn fx:id="lastPmColumn" prefWidth="137.0" text="last message" />
         </columns>
       </TableView>
+      <ImageView fx:id="userImage" fitHeight="161.0" fitWidth="111.0" layoutX="606.0" layoutY="42.0" pickOnBounds="true" />
    </children>
 </AnchorPane>

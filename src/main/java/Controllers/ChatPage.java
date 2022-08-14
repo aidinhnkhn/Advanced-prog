@@ -1,6 +1,7 @@
 package Controllers;
 
 import elements.chat.Chat;
+import elements.chat.pm.Pm;
 import elements.people.Student;
 
 import javafx.application.Platform;
@@ -11,13 +12,17 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import shared.util.ImageSender;
 import site.edu.Main;
 
 
+import java.io.ByteArrayInputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -69,6 +74,9 @@ public class ChatPage implements Initializable {
     @FXML
     public TableView<Chat> tableView;
 
+    @FXML
+    public ImageView userImage;
+    private Chat chat;
     private boolean running;
     private static Logger log = LogManager.getLogger(ChatPage.class);
     @Override
@@ -78,7 +86,7 @@ public class ChatPage implements Initializable {
                 while (running) {
                     setupTable();
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(1500);
                     } catch (InterruptedException e) {
                         log.debug("chat page thread stopped!");
                     }
@@ -98,7 +106,6 @@ public class ChatPage implements Initializable {
     private void setupTable(){
         ObservableList<Chat> chats= FXCollections.observableArrayList();
         chats.addAll(Main.mainClient.getChats());
-        System.out.println(Main.mainClient.getChats());
         tableView.setItems(chats);
         lastPmColumn.setCellValueFactory(new PropertyValueFactory<Chat, String>("lastPm"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<Chat, String>("name"));
@@ -124,5 +131,30 @@ public class ChatPage implements Initializable {
             SceneLoader.getInstance().changeScene("StudentHomePage.fxml",actionEvent);
         else
             SceneLoader.getInstance().changeScene("ProfessorHomePage.fxml",actionEvent);
+    }
+
+    public void showChat(MouseEvent event) {
+        if (event.getClickCount() <= 1) return;
+        chat = tableView.getSelectionModel().getSelectedItem();
+        chatText.clear();
+        if (chat == null) return;
+        //chat.sortArrayList();
+        setLabelAndImage();
+        for (Pm pm : chat.getMessages()){
+            chatText.appendText(pm.getMessage()+'\n');
+        }
+    }
+
+    private void setLabelAndImage() {
+        if (Main.mainClient.getUser().getId().equals(chat.getStudentId1()))
+            loadILabelAndImage(chat.getImage2(),chat.getStudentName2());
+        else
+            loadILabelAndImage(chat.getImage1(),chat.getStudentName1());
+    }
+    private void loadILabelAndImage(String img,String username){
+        byte[] bytes = ImageSender.decode(img);
+        Image image = new Image(new ByteArrayInputStream(bytes));
+        userImage.setImage(image);
+        usernameLabel.setText("Chat: "+username);
     }
 }

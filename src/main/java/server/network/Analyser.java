@@ -103,5 +103,7 @@ public class Analyser {
             Handler.getInstance().checkUser(message);
         else if (message.getStatus() == MessageStatus.CreateChat)
             Handler.getInstance().createChat(message);
+        else if (message.getStatus() == MessageStatus.AddPm)
+            Handler.getInstance().addPm(message);
     }
 }

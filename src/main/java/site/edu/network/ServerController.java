@@ -1,5 +1,6 @@
 package site.edu.network;
 
+import elements.chat.pm.Pm;
 import elements.courses.Course;
 import elements.people.Professor;
 import elements.people.Role;
@@ -448,6 +449,12 @@ public class ServerController {
         message.addData("chat",JsonCaster.objectToJson(sending));
         message.addData("text",text);
         message.addData("id",Main.mainClient.getUser().getId());
+        sendMessage(Message.toJson(message));
+    }
+    public void sendPm(Pm pm,String chatId){
+        Message message = new Message(MessageStatus.AddPm,client.getAuthToken());
+        message.addData("id",chatId);
+        message.addData("pm",JsonCaster.objectToJson(pm));
         sendMessage(Message.toJson(message));
     }
 }
