@@ -1,6 +1,7 @@
 package site.edu.network;
 
 import elements.chat.Chat;
+import elements.chat.pm.Pm;
 import elements.people.Professor;
 import elements.people.Student;
 import org.apache.log4j.LogManager;
@@ -19,6 +20,7 @@ import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -49,13 +51,12 @@ public class Updater implements Runnable {
 
                 Response response = Response.fromJson(input);
 
-                System.out.println("Updater : " + input);
                 analyse(response);
                 while (Main.mainClient.getUser() == null) {
                     System.out.println("updater is sleeping");
                     Thread.sleep(2000);
                 }
-                Thread.sleep(2000);
+                Thread.sleep(500);
                 sendUpdateRequest();
             } catch (NoSuchElementException e) {
                 try {
@@ -107,6 +108,13 @@ public class Updater implements Runnable {
             setStudent(response);
         else
             setProfessor(response);
+        chats.sort(Comparator.comparing(Chat::getDate));
+        for (Chat chat : chats){
+            if (Main.mainClient.getUser().getId().equals(chat.getStudentId1()))
+                chat.setName(chat.getStudentName2());
+            else
+                chat.setName(chat.getStudentName2());
+        }
         Main.mainClient.setChats(chats);
         log.info("information Updated");
     }

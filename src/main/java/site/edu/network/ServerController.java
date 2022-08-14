@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
@@ -433,6 +432,22 @@ public class ServerController {
         Message message = new Message(MessageStatus.FreedomAccept,client.getAuthToken());
         message.addData("id",id);
         message.addData("accept",accept);
+        sendMessage(Message.toJson(message));
+    }
+
+    public boolean UserExist(String id) {
+        Message message = new Message(MessageStatus.checkUser,client.getAuthToken());
+        message.addData("id",id);
+        sendMessage(Message.toJson(message));
+        Response response = Response.fromJson(receiveMessage());
+        return (Boolean)response.getData("check");
+    }
+
+    public void createChat(ArrayList<String> sending, String text) {
+        Message message = new Message(MessageStatus.CreateChat,client.getAuthToken());
+        message.addData("chat",JsonCaster.objectToJson(sending));
+        message.addData("text",text);
+        message.addData("id",Main.mainClient.getUser().getId());
         sendMessage(Message.toJson(message));
     }
 }

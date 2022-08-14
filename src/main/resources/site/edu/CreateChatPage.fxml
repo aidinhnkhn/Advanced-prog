@@ -1,11 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 
 <AnchorPane fx:id="anchorPane" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: CORNFLOWERBLUE;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.CreateChatPage">
    <children>
       <Button fx:id="homePageButton" layoutX="773.0" layoutY="561.0" mnemonicParsing="false" onAction="#goHomePage" prefHeight="25.0" prefWidth="113.0" text="Home Page" />
+      <TableView fx:id="tableView" layoutX="14.0" layoutY="14.0" onMouseClicked="#pickUser" prefHeight="496.0" prefWidth="297.0">
+        <columns>
+          <TableColumn fx:id="idColumn" prefWidth="133.0" text="ID" />
+          <TableColumn fx:id="nameColumn" prefWidth="163.0" text="Name" />
+        </columns>
+      </TableView>
+      <TextField fx:id="idField" layoutX="328.0" layoutY="262.0" prefHeight="25.0" prefWidth="165.0" promptText="enter Id" />
+      <Button fx:id="addButton" layoutX="500.0" layoutY="262.0" mnemonicParsing="false" onAction="#add" prefHeight="25.0" prefWidth="43.0" text="add" />
+      <TextArea fx:id="IdText" editable="false" layoutX="328.0" layoutY="45.0" prefHeight="200.0" prefWidth="215.0" promptText="Ids:">
+         <font>
+            <Font name="Comic Sans MS" size="12.0" />
+         </font>
+      </TextArea>
+      <Label layoutX="328.0" layoutY="14.0" prefHeight="23.0" prefWidth="165.0" text="sending message to:">
+         <font>
+            <Font name="Comic Sans MS" size="16.0" />
+         </font>
+      </Label>
+      <TextArea fx:id="messageText" layoutX="563.0" layoutY="45.0" prefHeight="200.0" prefWidth="286.0" promptText="your message:">
+         <font>
+            <Font name="Comic Sans MS" size="12.0" />
+         </font>
+      </TextArea>
+      <Button fx:id="sendButton" layoutX="563.0" layoutY="262.0" mnemonicParsing="false" onAction="#send" prefHeight="25.0" prefWidth="286.0" text="send" />
+      <Label layoutX="563.0" layoutY="14.0" prefHeight="23.0" prefWidth="165.0" text="message:">
+         <font>
+            <Font name="Comic Sans MS" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="statusLabel" layoutX="328.0" layoutY="300.0" prefHeight="14.0" prefWidth="215.0" text="Status:">
+         <font>
+            <Font name="Comic Sans MS" size="13.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

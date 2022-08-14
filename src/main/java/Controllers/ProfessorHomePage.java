@@ -161,8 +161,7 @@ public class ProfessorHomePage implements Initializable {
     }
 
     public void openChatPage(ActionEvent actionEvent) {
-        if (Main.mainClient.getServerController().isServerOnline())
-            SceneLoader.getInstance().ChangeSceneByNode("ChatPage.fxml",dateTime);
+        SceneLoader.getInstance().ChangeSceneByNode("ChatPage.fxml",dateTime);
     }
 
     public void openCreateChatPage(ActionEvent actionEvent) {

@@ -19,7 +19,6 @@ public class Pm implements Serializable {
     private String id;
     private PmType type;
 
-
     public Pm(PmType type,String username){
         this.type = type;
         this.username = username;
@@ -27,15 +26,26 @@ public class Pm implements Serializable {
         this.date=LocalDateTime.now();
     }
 
-    public String getContent() {
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getMessage() {
         StringBuilder pmContent = new StringBuilder();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         pmContent.append(date.format(dateTimeFormatter)+ username + ": ");
         if (type == PmType.Text) pmContent.append(content);
-        else pmContent.append(id);
+        else pmContent.append(type+ ": "+id);
         return pmContent.toString();
     }
 
+    public String getContent(){
+        if (type == PmType.Audio) return "audio";
+        if (type == PmType.Image) return "image";
+        if (type == PmType.Pdf) return "pdf";
+        int min = Math.min(content.length(),10);
+        return this.content.substring(0,min)+(min == content.length()?"":"...");
+    }
     public PmType getType() {
         return type;
     }

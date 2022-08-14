@@ -23,6 +23,6 @@ module site.edu {
     opens elements.request to com.google.gson, javafx.base;
     opens shared.messages.message to com.google.gson;
     opens shared.messages.response to com.google.gson;
-    opens elements.chat to com.google.gson;
-    opens elements.chat.pm to com.google.gson;
+    opens elements.chat to com.google.gson, javafx.base;
+    opens elements.chat.pm to com.google.gson, javafx.base;
 }

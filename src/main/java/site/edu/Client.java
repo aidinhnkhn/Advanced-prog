@@ -38,6 +38,7 @@ public class Client implements Runnable{
 
     public void setChats(ArrayList<Chat> chats) {
         this.chats = chats;
+
     }
 
     public ServerController getServerController() {

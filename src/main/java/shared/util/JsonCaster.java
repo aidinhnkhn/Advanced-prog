@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import elements.chat.Chat;
+import elements.chat.pm.Pm;
 import elements.courses.Course;
 import elements.people.Professor;
 import elements.people.Student;
@@ -192,11 +193,11 @@ public class JsonCaster {
         return gson.fromJson(data,new TypeToken<ArrayList<Chat>>(){}.getType());
     }
 
-    public static Chat chatCaster(String data) {
+    public static Pm pmCaster(String data) {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();
         gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
         Gson gson = gsonBuilder.create();
-        return gson.fromJson(data, Chat.class);
+        return gson.fromJson(data, Pm.class);
     }
 }

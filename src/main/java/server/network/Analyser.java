@@ -99,5 +99,9 @@ public class Analyser {
             Handler.getInstance().acceptFreedom(message);
         else if (message.getStatus() == MessageStatus.Update)
             Handler.getInstance().sendUpdate(message);
+        else if (message.getStatus() == MessageStatus.checkUser)
+            Handler.getInstance().checkUser(message);
+        else if (message.getStatus() == MessageStatus.CreateChat)
+            Handler.getInstance().createChat(message);
     }
 }

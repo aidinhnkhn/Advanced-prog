@@ -179,6 +179,14 @@ public class University {
         return null;
     }
 
+    public String getUsername(String id){
+        String username;
+        Student student = getStudentById(id);
+        if (student != null) return student.getUsername();
+        Professor professor = getProfessorById(id);
+        if (professor != null) return professor.getUsername();
+        return "doesn't exist";
+    }
     public String getUserChats(String id) {
         ArrayList<Chat> sendChat = new ArrayList<>();
         for (Chat chat:this.chats)

@@ -33,6 +33,9 @@ public class Student extends User {
         return enrollHour;
     }
 
+    public String getEnterYear(){
+        return this.id.substring(1,3);
+    }
     public void setEnrollHour(String enrollHour) {
         this.enrollHour = enrollHour;
     }

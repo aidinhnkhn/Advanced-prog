@@ -207,7 +207,7 @@ public class Saver implements Runnable {
     }
     private void saveChat(Chat chat) {
         File file = new File(System.getProperty("user.dir") +
-                Config.getConfig().getProperty(String.class,"chatPath") + chat.getId() + ".txt");
+                Config.getConfig().getProperty(String.class,"chatPath")+ "\\" + chat.getId() + ".txt");
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();
         gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());

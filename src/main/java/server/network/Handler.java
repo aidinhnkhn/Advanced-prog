@@ -1,5 +1,8 @@
 package server.network;
 
+import elements.chat.Chat;
+import elements.chat.pm.Pm;
+import elements.chat.pm.PmType;
 import elements.courses.Course;
 import elements.courses.Grade;
 import elements.people.Professor;
@@ -514,5 +517,31 @@ public class Handler {
         response.addData("chats",University.getInstance().getUserChats(id));
 
         Server.getServer().sendMessageToClient(message.getAuthToken(), Response.toJson(response));
+    }
+
+    public void checkUser(Message message) {
+        Response response = new Response(ResponseStatus.checkUser);
+        boolean check = false;
+        String id = (String)message.getData("id");
+        for (Student student : University.getInstance().getStudents())
+            if (student.getId().equals(id))
+                check = true;
+        for (Professor professor :University.getInstance().getProfessors())
+            if (professor.getId().equals(id))
+                check = true;
+        response.addData("check",check);
+        Server.getServer().sendMessageToClient(message.getAuthToken(), Response.toJson(response));
+    }
+
+    public void createChat(Message message) {
+        ArrayList<String> chatIds = JsonCaster.StringArrayListCaster((String)message.getData("chat"));
+        String id = (String)message.getData("id");
+        String text = (String)message.getData("text");
+        for (String id2 : chatIds){
+            Chat chat = new Chat(id,University.getInstance().getUsername(id),id2,University.getInstance().getUsername(id2));
+            Pm pm = new Pm(PmType.Text,University.getInstance().getUsername(id));
+            pm.setContent(text);
+            chat.addPm(pm);
+        }
     }
 }
