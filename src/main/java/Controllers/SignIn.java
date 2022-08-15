@@ -1,5 +1,8 @@
 package Controllers;
 
+import elements.people.Manager;
+import elements.people.Professor;
+import elements.people.Role;
 import server.Savers.Loader;
 import elements.people.Student;
 import javafx.event.ActionEvent;
@@ -77,7 +80,7 @@ public class SignIn implements Initializable {
         if (successful) {
             LocalDateTime nowTime = LocalDateTime.now().minusHours(3);
             alert.setContentText("successful!");
-            if (Main.mainClient.getUser().getLastEnter().isBefore(nowTime))
+            if (Main.mainClient.getUser().getLastEnter().isBefore(nowTime) && !(Main.mainClient.getUser() instanceof Manager))
                 SceneLoader.getInstance().changeScene("ChangePasswordPage.fxml", actionEvent);
             else
                 goToHomePage(actionEvent);
@@ -91,7 +94,11 @@ public class SignIn implements Initializable {
     private void goToHomePage(ActionEvent actionEvent) {
         if (Main.mainClient.getUser() instanceof Student)
             SceneLoader.getInstance().changeScene("StudentHomePage.fxml", actionEvent);
-        else
+        else if (Main.mainClient.getUser() instanceof Professor)
             SceneLoader.getInstance().changeScene("ProfessorHomePage.fxml", actionEvent);
+        else if (Main.mainClient.getUser().getRole() == Role.Admin)
+            SceneLoader.getInstance().changeScene("ChatPage.fxml",actionEvent);
+        else if (Main.mainClient.getUser().getRole() == Role.Mohseni)
+            SceneLoader.getInstance().changeScene("CreateChatPage.fxml",actionEvent);
     }
 }

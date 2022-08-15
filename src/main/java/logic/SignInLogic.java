@@ -1,6 +1,7 @@
 package logic;
 
 import com.google.common.hash.Hashing;
+import elements.people.Manager;
 import elements.people.Professor;
 import elements.people.Student;
 import javafx.scene.image.Image;
@@ -33,8 +34,27 @@ public class SignInLogic {
         if (!checkCaptcha(captcha,image)) return false;
         if (id.charAt(0)=='s')
             return checkStudent(id, password);
-        else
+        else if (id.charAt(0)=='p')
             return checkProfessor(id,password);
+        else
+            return checkManager(id,password);
+    }
+
+    private boolean checkManager(String id, String password) {
+        String sha256hex = Hashing.sha256()
+                .hashString(password, StandardCharsets.UTF_8)
+                .toString();
+        //sent the login request to the server, get the result
+        Response response = Main.mainClient.getServerController().sendLoginRequest(id,sha256hex);
+        if ((Boolean) response.getData("login")){
+
+           Manager manager = JsonCaster.managerCaster((String)response.getData("user"));
+
+            Main.mainClient.setUser(manager);
+
+            return true;
+        }
+        return false;
     }
 
     public boolean checkCaptcha(String captcha, String image) {

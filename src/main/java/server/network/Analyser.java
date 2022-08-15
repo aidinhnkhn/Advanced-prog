@@ -105,5 +105,7 @@ public class Analyser {
             Handler.getInstance().createChat(message);
         else if (message.getStatus() == MessageStatus.AddPm)
             Handler.getInstance().addPm(message);
+        else if (message.getStatus() == MessageStatus.GetAdmin)
+            Handler.getInstance().sendAdmin(message);
     }
 }

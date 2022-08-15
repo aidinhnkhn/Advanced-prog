@@ -5,6 +5,8 @@ import Controllers.voice.VoiceRecorder;
 import elements.chat.Chat;
 import elements.chat.pm.Pm;
 import elements.chat.pm.PmType;
+import elements.people.Professor;
+import elements.people.Role;
 import elements.people.Student;
 
 import javafx.application.Platform;
@@ -95,9 +97,8 @@ public class ChatPage implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        microphoneActiveImage.setVisible(false);
-        running = true;
-        chat = null;
+        setBooleans();
+
         new Thread( ()-> {
 
                 while (running) {
@@ -111,7 +112,7 @@ public class ChatPage implements Initializable {
                         setupChatText();
                     }
                     try {
-                        Thread.sleep(1500);
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         log.debug("chat page thread stopped!");
                     }
@@ -126,6 +127,14 @@ public class ChatPage implements Initializable {
         }
         else
             anchorPane.setStyle("-fx-background-color: CORNFLOWERBLUE");
+    }
+
+    private void setBooleans() {
+        microphoneActiveImage.setVisible(false);
+        running = true;
+        chat = null;
+        if (Main.mainClient.getUser().getRole() == Role.Admin)
+            homePage.setVisible(false);
     }
 
     private void setupTable(){
@@ -186,6 +195,8 @@ public class ChatPage implements Initializable {
 
     public void send(ActionEvent actionEvent) {
         if (chat == null) return;
+        if (chat.getStudentId1().equals("mohseni") || chat.getStudentId2().equals("mohseni"))
+            return;
         Pm pm = new Pm(PmType.Text,Main.mainClient.getUser().getUsername());
         pm.setContent(pmText.getText());
         Main.mainClient.getServerController().sendPm(pm,chat.getId());
@@ -194,6 +205,8 @@ public class ChatPage implements Initializable {
 
     public void record(ActionEvent actionEvent) {
         if (chat == null) return;
+        if (chat.getStudentId1().equals("mohseni") || chat.getStudentId2().equals("mohseni"))
+            return;
         if (VoiceUtil.isRecording()) {
             Platform.runLater(() -> {
                         microphoneImage.setVisible(true);
@@ -213,6 +226,8 @@ public class ChatPage implements Initializable {
 
     public void sendImage(ActionEvent actionEvent)  {
         if (chat == null) return;
+        if (chat.getStudentId1().equals("mohseni") || chat.getStudentId2().equals("mohseni"))
+            return;
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select Image File");
         fileChooser.getExtensionFilters().addAll(
@@ -239,6 +254,8 @@ public class ChatPage implements Initializable {
 
     public void sendFile(ActionEvent actionEvent) {
         if (chat == null) return;
+        if (chat.getStudentId1().equals("mohseni") || chat.getStudentId2().equals("mohseni"))
+            return;
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select Image File");
         File selectedFile = fileChooser.showOpenDialog(usernameLabel.getScene().getWindow());
@@ -267,8 +284,10 @@ public class ChatPage implements Initializable {
         running = false;
         if (Main.mainClient.getUser() instanceof Student)
             SceneLoader.getInstance().changeScene("StudentHomePage.fxml",actionEvent);
-        else
+        else if (Main.mainClient.getUser() instanceof Professor)
             SceneLoader.getInstance().changeScene("ProfessorHomePage.fxml",actionEvent);
+        else
+            SceneLoader.getInstance().changeScene("CreateChatPage.fxml",actionEvent);
     }
 
     public void showChat(MouseEvent event) {

@@ -50,7 +50,6 @@ public class Updater implements Runnable {
 
                 analyse(response);
                 while (Main.mainClient.getUser() == null) {
-                    System.out.println("updater is sleeping");
                     Thread.sleep(2000);
                 }
                 Thread.sleep(500);
@@ -103,7 +102,7 @@ public class Updater implements Runnable {
         ArrayList<Chat> chats = JsonCaster.chatArrayListCaster((String) response.getData("chats"));
         if (Main.mainClient.getUser().getId().charAt(0) == 's')
             setStudent(response);
-        else
+        else if (Main.mainClient.getUser().getId().charAt(0) == 'p')
             setProfessor(response);
         chats.sort(Comparator.comparing(Chat::getDate));
         Collections.reverse(chats);

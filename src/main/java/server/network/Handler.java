@@ -5,10 +5,7 @@ import elements.chat.pm.Pm;
 import elements.chat.pm.PmType;
 import elements.courses.Course;
 import elements.courses.Grade;
-import elements.people.Professor;
-import elements.people.Role;
-import elements.people.Student;
-import elements.people.User;
+import elements.people.*;
 import elements.request.*;
 import elements.university.Department;
 import javafx.embed.swing.SwingFXUtils;
@@ -79,8 +76,29 @@ public class Handler {
         String password = (String) message.getData("password");
         if (id.charAt(0) == 's')
             checkStudentLogin(authToken, id, password);
-        else
+        else if (id.charAt(0) == 'p')
             checkProfessorLogin(authToken, id, password);
+        else
+            checkManagerLogin(authToken,id,password);
+    }
+
+    private void checkManagerLogin(String authToken, String id, String password) {
+        Response response = new Response(ResponseStatus.Login);
+        Manager manager = University.getInstance().getManagerById(id);
+        if (manager == null) {
+            response.addData("login", false);
+            Server.getServer().sendMessageToClient(authToken, Response.toJson(response));
+            return;
+        }
+        if (manager.getPassword().equals(password)) {
+            response.addData("login", true);
+            System.out.println(JsonCaster.objectToJson(manager));
+            response.addData("user", JsonCaster.objectToJson(manager));
+            Server.getServer().getClientHandler(authToken).setUser(manager);
+            log.info(manager.getId() + " logged in.");
+        } else
+            response.addData("login", false);
+        Server.getServer().sendMessageToClient(authToken, Response.toJson(response));
     }
 
     private void checkProfessorLogin(String authToken, String id, String password) {
@@ -511,7 +529,8 @@ public class Handler {
         if (id.charAt(0) == 's') {
             Student student = University.getInstance().getStudentById(id);
             response.addData("student", JsonCaster.objectToJson(student));
-        } else {
+        }
+        else if (id.charAt(0) == 'p'){
             Professor professor = University.getInstance().getProfessorById(id);
             response.addData("professor", JsonCaster.objectToJson(professor));
         }
@@ -552,5 +571,12 @@ public class Handler {
         String chatId = (String) message.getData("id");
         University.getInstance().getChatById(chatId).addPm(pm);
         log.info("added a Pm to "+chatId);
+    }
+
+    public void sendAdmin(Message message) {
+        String admin = JsonCaster.objectToJson(University.getInstance().getAdmin());
+        Response response = new Response(ResponseStatus.SendAdmin);
+        response.addData("user",admin);
+        Server.getServer().sendMessageToClient(message.getAuthToken(), Response.toJson(response));
     }
 }

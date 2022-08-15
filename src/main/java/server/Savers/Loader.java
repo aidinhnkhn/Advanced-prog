@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import elements.chat.Chat;
 import elements.courses.Course;
+import elements.people.Manager;
 import elements.people.Professor;
 import elements.people.Student;
 import elements.request.*;
@@ -48,6 +49,7 @@ public class Loader {
         University.getInstance().setCertificateStudentRequests(loadCertificates());
         University.getInstance().setThesisDefenseRequests(loadThesisDefenseRequests());
         University.getInstance().setChats(loadChats());
+        University.getInstance().setManagers(loadManagers());
         log.info("edu Initialized");
     }
 
@@ -78,9 +80,30 @@ public class Loader {
         return null;
     }
 
-    public void deleteFile(File file){
-        file.delete();
-        log.info(file.getName()+" has been deleted");
+    private ArrayList<Manager> loadManagers() {
+        File chatDirectory = new File(System.getProperty("user.dir") +
+                Config.getConfig().getProperty(String.class,"managerPath"));
+        ArrayList<Manager> managers = new ArrayList<>();
+        for (File file:chatDirectory.listFiles())
+            managers.add(loadManager(file));
+        log.info("managers loaded");
+        return managers;
+    }
+    private Manager loadManager(File file) {
+        try {
+            Scanner scanner = new Scanner(file);
+            String userJson = "";
+            while (scanner.hasNext())
+                userJson += scanner.nextLine();
+            GsonBuilder gsonBuilder = new GsonBuilder();
+            gsonBuilder.setPrettyPrinting();
+            gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
+            Gson gson = gsonBuilder.create();
+            return gson.fromJson(userJson, Manager.class);
+        } catch (FileNotFoundException e) {
+            log.error("file not Found!");
+        }
+        return null;
     }
     public Student loadStudent(File file) {
         try {

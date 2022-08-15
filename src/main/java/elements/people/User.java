@@ -1,9 +1,8 @@
 package elements.people;
 
-import javafx.scene.image.Image;
+
 import java.time.*;
-import java.time.DayOfWeek;
-import java.time.Year;
+
 import java.time.format.DateTimeFormatter;
 
 public class User {

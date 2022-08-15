@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import elements.chat.Chat;
 import elements.courses.Course;
+import elements.people.Manager;
 import elements.people.Professor;
 import elements.people.Student;
 import elements.request.*;
@@ -221,6 +222,24 @@ public class Saver implements Runnable {
             log.error("couldn't save the file!");
         }
     }
+
+    private void saveManager(Manager manager) {
+        File file = new File(System.getProperty("user.dir") +
+                Config.getConfig().getProperty(String.class,"managerPath")+ "\\" + manager.getId() + ".txt");
+        log.info(file.getPath());
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
+        Gson gson = gsonBuilder.create();
+        String courseJson = gson.toJson(manager);
+        try {
+            FileWriter writer = new FileWriter(file, false);
+            writer.write(courseJson);
+            writer.close();
+        } catch (IOException e) {
+            log.error("couldn't save the file!");
+        }
+    }
     public void saveChanges() {
         for (Department department : University.getInstance().getDepartments())
             Saver.getInstance().saveDepartment(department);
@@ -254,6 +273,10 @@ public class Saver implements Runnable {
 
         for (Chat chat : University.getInstance().getChats())
             Saver.getInstance().saveChat(chat);
+
+        for (Manager manager:University.getInstance().getManagers())
+            Saver.getInstance().saveManager(manager);
+
     }
 
 

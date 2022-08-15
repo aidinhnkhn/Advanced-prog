@@ -144,6 +144,14 @@ public class ServerController {
         return response;
     }
 
+    public Response getUserImage(String id){
+        Message message = new Message(MessageStatus.UserImage, client.getAuthToken());
+        message.addData("id", id);
+        sendMessage(Message.toJson(message));
+        Response response = Response.fromJson(receiveMessage());
+        log.info("received user Image");
+        return response;
+    }
     public Professor getProfessor(String supervisorId) {
         Message message = new Message(MessageStatus.getProfessor, client.getAuthToken());
         message.addData("id", supervisorId);
@@ -456,5 +464,12 @@ public class ServerController {
         message.addData("id",chatId);
         message.addData("pm",JsonCaster.objectToJson(pm));
         sendMessage(Message.toJson(message));
+    }
+
+    public User getAdmin() {
+        Message message = new Message(MessageStatus.GetAdmin,client.getAuthToken());
+        sendMessage(Message.toJson(message));
+        Response response = Response.fromJson(receiveMessage());
+        return JsonCaster.managerCaster((String)response.getData("user"));
     }
 }

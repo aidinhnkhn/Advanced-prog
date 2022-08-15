@@ -6,6 +6,7 @@ import com.google.gson.reflect.TypeToken;
 import elements.chat.Chat;
 import elements.chat.pm.Pm;
 import elements.courses.Course;
+import elements.people.Manager;
 import elements.people.Professor;
 import elements.people.Student;
 import elements.request.*;
@@ -33,7 +34,13 @@ public class JsonCaster {
         Gson gson = gsonBuilder.create();
         return gson.fromJson(studentString, Student.class);
     }
-
+    public static Manager managerCaster(String studentString){
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
+        Gson gson = gsonBuilder.create();
+        return gson.fromJson(studentString, Manager.class);
+    }
     public static LocalDateTime dateCaster(String date){
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();

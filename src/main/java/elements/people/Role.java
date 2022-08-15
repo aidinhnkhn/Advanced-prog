@@ -4,5 +4,7 @@ public enum Role {
     Professor,
     Student,
     EducationalAssistant,
-    HeadDepartment
+    HeadDepartment,
+    Mohseni,
+    Admin
 }

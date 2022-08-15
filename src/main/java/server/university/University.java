@@ -2,6 +2,7 @@ package server.university;
 
 import elements.chat.Chat;
 import elements.courses.Course;
+import elements.people.Manager;
 import elements.people.Professor;
 import elements.people.Student;
 import elements.request.*;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 public class University {
     private static University university;
 
+    private ArrayList<Manager> managers=new ArrayList<>();
     private ArrayList<Department> departments=new ArrayList<>();
     private ArrayList<Student> students = new ArrayList<>();
     private ArrayList<Professor> professors = new ArrayList<>();
@@ -27,6 +29,14 @@ public class University {
     private ArrayList<Chat> chats = new ArrayList<>();
     private University(){
 
+    }
+
+    public ArrayList<Manager> getManagers() {
+        return managers;
+    }
+
+    public void setManagers(ArrayList<Manager> managers) {
+        this.managers = managers;
     }
 
     public ArrayList<Department> getDepartments() {
@@ -185,7 +195,7 @@ public class University {
         if (student != null) return student.getUsername();
         Professor professor = getProfessorById(id);
         if (professor != null) return professor.getUsername();
-        return "doesn't exist";
+        return getAdmin().getUsername();
     }
     public String getUserChats(String id) {
         ArrayList<Chat> sendChat = new ArrayList<>();
@@ -193,5 +203,25 @@ public class University {
             if (chat.getStudentId1().equals(id) || chat.getStudentId2().equals(id))
                 sendChat.add(chat);
         return JsonCaster.objectToJson(sendChat);
+    }
+
+    public Manager getManagerById(String id){
+        for (Manager manager:managers)
+            if (manager.getId().equals(id))
+                return manager;
+        return null;
+    }
+    public Manager getAdmin(){
+        for (Manager manager:managers)
+            if (manager.getId().equals("admin"))
+                return manager;
+        return null;
+    }
+
+    public Manager getMohseni(){
+        for (Manager manager:managers)
+            if (manager.getId().equals("mohseni"))
+                return manager;
+        return null;
     }
 }

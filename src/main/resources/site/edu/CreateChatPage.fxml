@@ -6,9 +6,9 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
-
 
 <AnchorPane fx:id="anchorPane" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: CORNFLOWERBLUE;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.CreateChatPage">
    <children>
@@ -47,5 +47,8 @@
             <Font name="Comic Sans MS" size="13.0" />
          </font>
       </Label>
+      <TextField fx:id="studentIdField" layoutX="14.0" layoutY="519.0" onKeyReleased="#editTable" prefHeight="25.0" prefWidth="148.0" promptText="enter student Id:" visible="false" />
+      <ImageView fx:id="imageView" fitHeight="219.0" fitWidth="200.0" layoutX="673.0" layoutY="332.0" pickOnBounds="true" visible="false" />
+      <TextArea fx:id="profileText" editable="false" layoutX="328.0" layoutY="332.0" prefHeight="245.0" prefWidth="321.0" promptText="student Profile:" visible="false" />
    </children>
 </AnchorPane>
