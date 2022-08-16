@@ -38,87 +38,105 @@ public class StudentHomePage implements Initializable {
     @FXML
     public MenuItem createChatPage;
     @FXML
-    Label dateTime,lastEnter,email,name;
+    Label dateTime, lastEnter, email, name;
     @FXML
-    Label education,supervisor,permission,enrollTime;
+    Label education, supervisor, permission, enrollTime;
     @FXML
     ImageView imageView;
     @FXML
-    MenuItem minor,thesisDefense,signOut;
+    MenuItem minor, thesisDefense, signOut;
     @FXML
-    MenuItem courseList,professorList,Dorm,scheduleItem;
+    MenuItem courseList, professorList, Dorm, scheduleItem;
     @FXML
-    MenuItem certificateStudent,freedom,Recommendation,examlistItem;
+    MenuItem certificateStudent, freedom, Recommendation, examlistItem;
     @FXML
-    MenuItem provisional,educationalStatus;
+    MenuItem provisional, educationalStatus;
     @FXML
     MenuItem profileItem;
-
+    @FXML
+    Label serverLabel;
     static Logger log = LogManager.getLogger(StudentHomePage.class);
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Main.mainClient.getServerController().sendLastEnter();
+        if (Main.mainClient.getServerController().isServerOnline())
+            Main.mainClient.getServerController().sendLastEnter();
         Main.mainClient.getUser().setLastEnter(LocalDateTime.now());
         initClock();
         initUser(Main.mainClient.getUser());
-        initStudent((Student)(Main.mainClient.getUser()));
+        initStudent((Student) (Main.mainClient.getUser()));
+        initServerLabel();
         if (Main.mainClient.getUser().isTheme()) {
             anchorPane.setStyle("    -fx-background-color:\n" +
                     "            linear-gradient(#4568DC, #B06AB3),\n" +
                     "            repeating-image-pattern(\"Stars_128.png\"),\n" +
                     "            radial-gradient(center 50% 50%, radius 50%, #FFFFFF33, #00000033);\n");
-        }
-        else
+        } else
             anchorPane.setStyle("-fx-background-color: CORNFLOWERBLUE");
 
 
     }
-    public void initStudent(Student student){
-        education.setText(student.isEducating()?"undergraduate":"educating");
+
+    private void initServerLabel() {
+        if (Main.mainClient.getServerController().isServerOnline()){
+            serverLabel.setText("server is Online");
+            serverLabel.setStyle("-fx-text-fill: green");
+
+        } else {
+            serverLabel.setText("server is Offline");
+            serverLabel.setStyle("-fx-text-fill: red");
+        }
+    }
+
+    public void initStudent(Student student) {
+        education.setText(student.isEducating() ? "undergraduate" : "educating");
         try {
             Professor professor;
-            if(Main.mainClient.getServerController().isServerOnline()) {
+            if (Main.mainClient.getServerController().isServerOnline()) {
                 professor = Main.mainClient.getServerController().getProfessor(student.getSupervisorId());
                 Main.mainClient.setProfessor(professor);
-            }
-            else
+            } else
                 professor = Main.mainClient.getProfessor();
             supervisor.setText("you supervisor is Dr." + professor.getUsername());
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             log.error("user name is null");
         }
-        permission.setText("you "+(student.isEnrollPermission()?"have":"don't have")+" permission to enroll");
-        enrollTime.setText("enroll time: "+(student.isEnrollPermission()?student.getEnrollHour():"not set"));
+        permission.setText("you " + (student.isEnrollPermission() ? "have" : "don't have") + " permission to enroll");
+        enrollTime.setText("enroll time: " + (student.isEnrollPermission() ? student.getEnrollHour() : "not set"));
         setVisiblity(student);
         Saver.getInstance().saveStudent(student);
         log.info("student info loaded!");
     }
-    private void setVisiblity(Student student){
+
+    private void setVisiblity(Student student) {
         if (student.getDegree().equals("Bachelor"))
             minor.setVisible(true);
         if (student.getDegree().equals("PHD"))
             thesisDefense.setVisible(true);
     }
-    public void initUser(User user){
-        lastEnter.setText("last enter: "+user.getDateString());
-        name.setText("name: "+user.getUsername());
-        email.setText("email: "+user.getEmail());
+
+    public void initUser(User user) {
+        lastEnter.setText("last enter: " + user.getDateString());
+        name.setText("name: " + user.getUsername());
+        email.setText("email: " + user.getEmail());
         log.info("user info loaded!");
         initImage(user);
     }
-    public void initImage(User user){
 
-        if(Main.mainClient.getServerController().isServerOnline()) {
+    public void initImage(User user) {
+
+        if (Main.mainClient.getServerController().isServerOnline()) {
             Response response = Main.mainClient.getServerController().getUserImage();
             byte[] bytes = ImageSender.decode((String) response.getData("image"));
             Image image = new Image(new ByteArrayInputStream(bytes));
             Main.mainClient.setImage(image);
             imageView.setImage(image);
-        }else{
+        } else {
             imageView.setImage(Main.mainClient.getImage());
         }
         log.info("user image loaded!");
     }
+
     private void initClock() {
 
         Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e ->
@@ -131,73 +149,77 @@ public class StudentHomePage implements Initializable {
     }
 
     public void exit(ActionEvent actionEvent) {
-       StudentHomePageLogic.getInstance().exit(education);
+        StudentHomePageLogic.getInstance().exit(education);
     }
 
     public void GoCourseList(ActionEvent actionEvent) {
-
-        SceneLoader.getInstance().ChangeSceneByNode("CourseList.fxml",dateTime);
+        if (Main.mainClient.getServerController().isServerOnline())
+            SceneLoader.getInstance().ChangeSceneByNode("CourseList.fxml", dateTime);
     }
 
     public void openProfessorList(ActionEvent actionEvent) {
-
-        SceneLoader.getInstance().ChangeSceneByNode("ProfessorList.fxml",dateTime);
+        if (Main.mainClient.getServerController().isServerOnline())
+            SceneLoader.getInstance().ChangeSceneByNode("ProfessorList.fxml", dateTime);
     }
 
     public void openCertificateStudent(ActionEvent actionEvent) {
-
-        SceneLoader.getInstance().ChangeSceneByNode("CertificateStudentPage.fxml",dateTime);
+        if (Main.mainClient.getServerController().isServerOnline())
+            SceneLoader.getInstance().ChangeSceneByNode("CertificateStudentPage.fxml", dateTime);
     }
 
     public void openMinorPage(ActionEvent actionEvent) {
-
-        SceneLoader.getInstance().ChangeSceneByNode("MinorRequestPage.fxml",dateTime);
+        if (Main.mainClient.getServerController().isServerOnline())
+            SceneLoader.getInstance().ChangeSceneByNode("MinorRequestPage.fxml", dateTime);
     }
 
 
     public void OpenFreedomRequest(ActionEvent actionEvent) {
-
-        SceneLoader.getInstance().ChangeSceneByNode("FreedomRequestPage.fxml",dateTime);
+        if (Main.mainClient.getServerController().isServerOnline())
+            SceneLoader.getInstance().ChangeSceneByNode("FreedomRequestPage.fxml", dateTime);
     }
 
     public void OpenRecomPage(ActionEvent actionEvent) {
-        SceneLoader.getInstance().ChangeSceneByNode("RecomPage.fxml",dateTime);
+        if (Main.mainClient.getServerController().isServerOnline())
+            SceneLoader.getInstance().ChangeSceneByNode("RecomPage.fxml", dateTime);
     }
 
     public void openDormPage(ActionEvent actionEvent) {
-        SceneLoader.getInstance().ChangeSceneByNode("DormRequestPage.fxml",dateTime);
+        if (Main.mainClient.getServerController().isServerOnline())
+            SceneLoader.getInstance().ChangeSceneByNode("DormRequestPage.fxml", dateTime);
     }
 
     public void openThesisDefensePage(ActionEvent actionEvent) {
-        SceneLoader.getInstance().ChangeSceneByNode("ThesisDefensePage.fxml",dateTime);
+        if (Main.mainClient.getServerController().isServerOnline())
+            SceneLoader.getInstance().ChangeSceneByNode("ThesisDefensePage.fxml", dateTime);
     }
 
     public void openExamList(ActionEvent actionEvent) {
-        SceneLoader.getInstance().ChangeSceneByNode("examList.fxml",dateTime);
+        SceneLoader.getInstance().ChangeSceneByNode("examList.fxml", dateTime);
     }
 
     public void openSchedulePage(ActionEvent actionEvent) {
-        SceneLoader.getInstance().ChangeSceneByNode("SchedulePage.fxml",dateTime);
+        SceneLoader.getInstance().ChangeSceneByNode("SchedulePage.fxml", dateTime);
     }
 
     public void openStudentProvisional(ActionEvent actionEvent) {
-        SceneLoader.getInstance().ChangeSceneByNode("StudentProvisional.fxml",dateTime);
+        if (Main.mainClient.getServerController().isServerOnline())
+            SceneLoader.getInstance().ChangeSceneByNode("StudentProvisional.fxml", dateTime);
     }
 
     public void openEducationalStatusPage(ActionEvent actionEvent) {
-        SceneLoader.getInstance().ChangeSceneByNode("EducationalStatusPage.fxml",dateTime);
+        SceneLoader.getInstance().ChangeSceneByNode("EducationalStatusPage.fxml", dateTime);
     }
 
     public void openProfilePage(ActionEvent actionEvent) {
-        SceneLoader.getInstance().ChangeSceneByNode("ProfilePage.fxml",dateTime);
+        SceneLoader.getInstance().ChangeSceneByNode("ProfilePage.fxml", dateTime);
     }
 
     public void openChatPage(ActionEvent actionEvent) {
-        SceneLoader.getInstance().ChangeSceneByNode("ChatPage.fxml",dateTime);
+        SceneLoader.getInstance().ChangeSceneByNode("ChatPage.fxml", dateTime);
     }
 
     public void openCreateChatPage(ActionEvent actionEvent) {
         if (Main.mainClient.getServerController().isServerOnline())
-            SceneLoader.getInstance().ChangeSceneByNode("CreateChatPage.fxml",dateTime);
+            SceneLoader.getInstance().ChangeSceneByNode("CreateChatPage.fxml", dateTime);
     }
 }

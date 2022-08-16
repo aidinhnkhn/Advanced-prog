@@ -9,6 +9,7 @@ import elements.courses.Course;
 import elements.people.Manager;
 import elements.people.Professor;
 import elements.people.Student;
+import elements.people.User;
 import elements.request.*;
 import elements.university.Department;
 import shared.gsonSerializers.LocalDateTimeDeserializer;
@@ -40,6 +41,14 @@ public class JsonCaster {
         gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
         Gson gson = gsonBuilder.create();
         return gson.fromJson(studentString, Manager.class);
+    }
+
+    public static User userCaster(String studentString){
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
+        Gson gson = gsonBuilder.create();
+        return gson.fromJson(studentString, User.class);
     }
     public static LocalDateTime dateCaster(String date){
         GsonBuilder gsonBuilder = new GsonBuilder();

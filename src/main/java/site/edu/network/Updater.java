@@ -4,6 +4,10 @@ import elements.chat.Chat;
 import elements.chat.pm.Pm;
 import elements.people.Professor;
 import elements.people.Student;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import shared.messages.message.Message;
@@ -63,13 +67,37 @@ public class Updater implements Runnable {
                     Main.mainClient.getServerController().setServerOnline(true);
 
                 } catch (ConnectException e2) {
-                    Main.mainClient.getServerController().setServerOnline(false);
+                    if (Main.mainClient.getServerController().isServerOnline()) {
+                        System.out.println("here");
+                        Main.mainClient.getServerController().setServerOnline(false);
+                        changeStage();
+                    }
                     System.out.println("disconnected");
                 }
             } catch (InterruptedException e) {
                 log.info("updater thread interrupted");
             }
         }
+    }
+
+    private void changeStage() {
+        Platform.runLater(() -> {
+            try {
+                FXMLLoader loader;
+                if (Main.mainClient.getUser() instanceof Student)
+                    loader = new FXMLLoader(Main.class.getResource("StudentHomePage.fxml"));
+                else if (Main.mainClient.getUser() instanceof Professor)
+                    loader = new FXMLLoader(Main.class.getResource("ProfessorHomePage.fxml"));
+                else
+                    loader = new FXMLLoader(Main.class.getResource("ChatPage.fxml"));
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
+                Main.mainStage.setScene(scene);
+            } catch (IOException e) {
+                log.error("changing stage failed! can not get offline");
+                e.printStackTrace();
+            }
+        });
     }
 
     private void sendUpdateRequest() {
@@ -100,13 +128,14 @@ public class Updater implements Runnable {
 
     private void update(Response response) {
         ArrayList<Chat> chats = JsonCaster.chatArrayListCaster((String) response.getData("chats"));
+        Main.mainClient.setCourses(JsonCaster.courseArrayListCaster((String)response.getData("courses")));
         if (Main.mainClient.getUser().getId().charAt(0) == 's')
             setStudent(response);
         else if (Main.mainClient.getUser().getId().charAt(0) == 'p')
             setProfessor(response);
         chats.sort(Comparator.comparing(Chat::getDate));
         Collections.reverse(chats);
-        for (Chat chat : chats){
+        for (Chat chat : chats) {
             if (Main.mainClient.getUser().getId().equals(chat.getStudentId1()))
                 chat.setName(chat.getStudentName2());
             else

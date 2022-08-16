@@ -56,13 +56,7 @@ public class EducationalStatusPage implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if (Main.mainClient.getUser() instanceof Student) {
-            student = (Student) Main.mainClient.getUser();
-            studentBox.setVisible(false);
-            nameField.setVisible(false);
-            nameSearchButton.setVisible(false);
-            idSearchButton.setVisible(false);
-            idField.setVisible(false);
-            setupTable();
+            setupStudent();
         }
         if (Main.mainClient.getUser().isTheme()) {
             anchorPane.setStyle("    -fx-background-color:\n" +
@@ -72,6 +66,16 @@ public class EducationalStatusPage implements Initializable {
         }
         else
             anchorPane.setStyle("-fx-background-color: CORNFLOWERBLUE");
+    }
+
+    private void setupStudent(){
+        student = (Student) Main.mainClient.getUser();
+        studentBox.setVisible(false);
+        nameField.setVisible(false);
+        nameSearchButton.setVisible(false);
+        idSearchButton.setVisible(false);
+        idField.setVisible(false);
+        setupTable();
     }
     public void setupTable(){
         ObservableList<Grade> grades= FXCollections.observableArrayList();
@@ -116,6 +120,7 @@ public class EducationalStatusPage implements Initializable {
     public void pickStudent(ActionEvent actionEvent) {
         this.student=studentBox.getValue();
         log.info(Main.mainClient.getUser().getId()+" picked a student.");
+        if (student == null) return;
         setupTable();
     }
 

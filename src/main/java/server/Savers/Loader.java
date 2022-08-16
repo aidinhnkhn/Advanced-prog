@@ -50,7 +50,45 @@ public class Loader {
         University.getInstance().setThesisDefenseRequests(loadThesisDefenseRequests());
         University.getInstance().setChats(loadChats());
         University.getInstance().setManagers(loadManagers());
+        //loadStartDate();
+        //loadEndDate();
         log.info("edu Initialized");
+    }
+
+    private void loadEndDate() {
+        try {
+            File file = new File(System.getProperty("user.dir") +
+                    Config.getConfig().getProperty(String.class, "endPickingPath"));
+            Scanner scanner = new Scanner(file);
+            String userJson = "";
+            while (scanner.hasNext())
+                userJson += scanner.nextLine();
+            GsonBuilder gsonBuilder = new GsonBuilder();
+            gsonBuilder.setPrettyPrinting();
+            gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
+            Gson gson = gsonBuilder.create();
+            University.getInstance().setStartPicking(gson.fromJson(userJson, LocalDateTime.class));
+        }catch (FileNotFoundException e){
+            log.error("couldn't load the file");
+        }
+    }
+
+    private void loadStartDate() {
+        try {
+            File file = new File(System.getProperty("user.dir") +
+                    Config.getConfig().getProperty(String.class, "startPickingPath"));
+            Scanner scanner = new Scanner(file);
+            String userJson = "";
+            while (scanner.hasNext())
+                userJson += scanner.nextLine();
+            GsonBuilder gsonBuilder = new GsonBuilder();
+            gsonBuilder.setPrettyPrinting();
+            gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
+            Gson gson = gsonBuilder.create();
+            University.getInstance().setStartPicking(gson.fromJson(userJson, LocalDateTime.class));
+        }catch (FileNotFoundException e){
+            log.error("couldn't load the file");
+        }
     }
 
     private ArrayList<Chat> loadChats() {

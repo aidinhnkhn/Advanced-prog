@@ -23,6 +23,8 @@ import java.net.Socket;
 public class Main extends Application {
 
     public static Client mainClient;
+
+    public static Stage mainStage;
     @Override
     public void start(Stage stage) throws IOException {
         try {
@@ -38,6 +40,7 @@ public class Main extends Application {
             ClientThread.start();
             updaterThread.start();
             mainClient= client;
+            mainStage = stage;
             //init the fxml:
             FXMLLoader loader=new FXMLLoader(Main.class.getResource("SignIn.fxml"));
             Parent root=loader.load();

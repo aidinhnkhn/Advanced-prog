@@ -55,5 +55,10 @@
             <Image url="@../../eData/chatImage/microphone-active.png" />
          </image>
       </ImageView>
+      <Label fx:id="serverLabel" layoutX="606.0" layoutY="17.0" prefHeight="17.0" prefWidth="137.0" text="Label">
+         <font>
+            <Font name="Comic Sans MS" size="16.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

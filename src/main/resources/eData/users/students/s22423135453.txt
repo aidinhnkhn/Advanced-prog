@@ -58,6 +58,6 @@
   "degree": "Bachelor",
   "departmentId": "Computer Eng",
   "role": "Student",
-  "lastEnter": "15::Aug::2022 15::44::31",
+  "lastEnter": "16::Aug::2022 12::31::39",
   "theme": true
 }

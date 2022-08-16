@@ -15,6 +15,6 @@
   "degree": "Associate Professor",
   "departmentId": "Chemical Eng",
   "role": "EducationalAssistant",
-  "lastEnter": "15::Aug::2022 16::01::14",
+  "lastEnter": "16::Aug::2022 11::15::06",
   "theme": true
 }

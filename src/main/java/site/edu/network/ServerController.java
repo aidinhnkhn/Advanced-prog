@@ -47,7 +47,8 @@ public class ServerController {
         if (serverOnline){
             try {
                 this.socket = new Socket(InetAddress.getLocalHost(), Config.getConfig().getProperty(Integer.class,"serverPort"));
-                //TODO: send the user id to server for offline mode
+                connectToServer();
+                getBackOnline();
             } catch (IOException e) {
                 log.fatal("server controller could not reconnect");
             }
@@ -185,12 +186,23 @@ public class ServerController {
     }
 
     public Course getCourseById(String courseId) {
+        if (Main.mainClient.getServerController().isServerOnline()){
         Message message = new Message(MessageStatus.Course, client.getAuthToken());
         message.addData("id", courseId);
         sendMessage(Message.toJson(message));
         Response response = Response.fromJson(receiveMessage());
         Course course = JsonCaster.courseCaster((String) response.getData("course"));
         return course;
+        }
+        else
+            return offlineCourse(courseId);
+    }
+
+    private Course offlineCourse(String courseId) {
+        for (Course course : Main.mainClient.getCourses())
+            if (course.getId().equals(courseId))
+                return course;
+        return null;
     }
 
     public Student getStudentById(String id) {
@@ -471,5 +483,11 @@ public class ServerController {
         sendMessage(Message.toJson(message));
         Response response = Response.fromJson(receiveMessage());
         return JsonCaster.managerCaster((String)response.getData("user"));
+    }
+
+    public void getBackOnline(){
+        Message message = new Message(MessageStatus.OnlineAgain,client.getAuthToken());
+        message.addData("user",JsonCaster.objectToJson(client.getUser()));
+        sendMessage(Message.toJson(message));
     }
 }

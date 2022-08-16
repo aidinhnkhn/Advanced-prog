@@ -107,5 +107,7 @@ public class Analyser {
             Handler.getInstance().addPm(message);
         else if (message.getStatus() == MessageStatus.GetAdmin)
             Handler.getInstance().sendAdmin(message);
+        else if (message.getStatus() == MessageStatus.OnlineAgain)
+            Handler.getInstance().setClientHandlerUser(message);
     }
 }

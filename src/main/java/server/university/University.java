@@ -9,6 +9,7 @@ import elements.request.*;
 import elements.university.Department;
 import shared.util.JsonCaster;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class University {
@@ -26,9 +27,27 @@ public class University {
     private ArrayList<CertificateStudentRequest> certificateStudentRequests=new ArrayList<>();
     private ArrayList<ThesisDefenseRequest> thesisDefenseRequests=new ArrayList<>();
 
+    private LocalDateTime startPicking;
+    private LocalDateTime endPicking;
     private ArrayList<Chat> chats = new ArrayList<>();
     private University(){
 
+    }
+
+    public LocalDateTime getStartPicking() {
+        return startPicking;
+    }
+
+    public void setStartPicking(LocalDateTime startPicking) {
+        this.startPicking = startPicking;
+    }
+
+    public LocalDateTime getEndPicking() {
+        return endPicking;
+    }
+
+    public void setEndPicking(LocalDateTime endPicking) {
+        this.endPicking = endPicking;
     }
 
     public ArrayList<Manager> getManagers() {

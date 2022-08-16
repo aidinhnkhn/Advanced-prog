@@ -535,7 +535,7 @@ public class Handler {
             response.addData("professor", JsonCaster.objectToJson(professor));
         }
         response.addData("chats", University.getInstance().getUserChats(id));
-
+        response.addData("courses",JsonCaster.objectToJson(University.getInstance().getCourses()));
         Server.getServer().sendMessageToClient(message.getAuthToken(), Response.toJson(response));
     }
 
@@ -551,6 +551,7 @@ public class Handler {
                 check = true;
         response.addData("check", check);
         Server.getServer().sendMessageToClient(message.getAuthToken(), Response.toJson(response));
+        log.info("user checked");
     }
 
     public void createChat(Message message) {
@@ -578,5 +579,12 @@ public class Handler {
         Response response = new Response(ResponseStatus.SendAdmin);
         response.addData("user",admin);
         Server.getServer().sendMessageToClient(message.getAuthToken(), Response.toJson(response));
+        log.info("admin sent");
+    }
+
+    public void setClientHandlerUser(Message message) {
+        User user = JsonCaster.userCaster((String)message.getData("user"));
+        Server.getServer().getClientHandler(message.getAuthToken()).setUser(user);
+        log.info("client handler is back Online");
     }
 }

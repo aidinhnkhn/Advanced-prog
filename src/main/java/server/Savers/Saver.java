@@ -223,10 +223,35 @@ public class Saver implements Runnable {
         }
     }
 
+    private void saveDates(){
+        File file = new File(System.getProperty("user.dir") +
+                Config.getConfig().getProperty(String.class,"startPickingPath"));
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
+        Gson gson = gsonBuilder.create();
+        String courseJson = gson.toJson(University.getInstance().getStartPicking());
+        try {
+            FileWriter writer = new FileWriter(file, false);
+            writer.write(courseJson);
+            writer.close();
+        } catch (IOException e) {
+            log.error("couldn't save the file!");
+        }
+        file = new File(System.getProperty("user.dir") +
+                Config.getConfig().getProperty(String.class,"endPickingPath"));
+        courseJson = gson.toJson(University.getInstance().getEndPicking());
+        try {
+            FileWriter writer = new FileWriter(file, false);
+            writer.write(courseJson);
+            writer.close();
+        } catch (IOException e) {
+            log.error("couldn't save the file!");
+        }
+    }
     private void saveManager(Manager manager) {
         File file = new File(System.getProperty("user.dir") +
                 Config.getConfig().getProperty(String.class,"managerPath")+ "\\" + manager.getId() + ".txt");
-        log.info(file.getPath());
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();
         gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
@@ -277,6 +302,7 @@ public class Saver implements Runnable {
         for (Manager manager:University.getInstance().getManagers())
             Saver.getInstance().saveManager(manager);
 
+        saveDates();
     }
 
 

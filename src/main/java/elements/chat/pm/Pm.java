@@ -10,10 +10,8 @@ import java.util.Comparator;
 
 public class Pm implements Serializable {
 
-    public static String path =
-            System.getProperty("user.dir")+Config.getConfig().getProperty(String.class,"cachePath");
     private String content;
-
+    private String fileName;
     private String username;
     private LocalDateTime date;
     private String id;
@@ -39,10 +37,18 @@ public class Pm implements Serializable {
         return pmContent.toString();
     }
 
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
     public String getContent(){
         if (type == PmType.Audio) return "audio";
         if (type == PmType.Image) return "image";
-        if (type == PmType.Pdf) return "pdf";
+        if (type == PmType.File) return "pdf";
         int min = Math.min(content.length(),10);
         return this.content.substring(0,min)+(min == content.length()?"":"...");
     }

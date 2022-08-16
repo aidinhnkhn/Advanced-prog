@@ -2,6 +2,7 @@ package site.edu;
 
 
 import elements.chat.Chat;
+import elements.courses.Course;
 import elements.people.Professor;
 import elements.people.User;
 import javafx.scene.image.Image;
@@ -21,15 +22,24 @@ public class Client implements Runnable{
     private String authToken;
 
     private ArrayList<Chat> chats;
-
+    private ArrayList<Course> courses;
     public Client(Socket socket){
         chats = new ArrayList<>();
+        courses = new ArrayList<>();
         this.socket = socket;
     }
 
     public void init(){
         serverController = new ServerController(socket,this);
         serverController.connectToServer();
+    }
+
+    public ArrayList<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(ArrayList<Course> courses) {
+        this.courses = courses;
     }
 
     public ArrayList<Chat> getChats() {

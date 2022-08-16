@@ -38,7 +38,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ChatPage implements Initializable {
-    
+
     @FXML
     public AnchorPane anchorPane;
     @FXML
@@ -93,30 +93,33 @@ public class ChatPage implements Initializable {
     public Label fileSelected;
     private Chat chat;
     private boolean running;
+
+    @FXML
+    Label serverLabel;
     private static Logger log = LogManager.getLogger(ChatPage.class);
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setBooleans();
+        initServerLabel();
+        new Thread(() -> {
 
-        new Thread( ()-> {
-
-                while (running) {
-                    setupTable();
-                    if (chat!= null){
-                        for (Chat setChat:Main.mainClient.getChats())
-                            if (setChat.getId().equals(chat.getId())){
-                                chat = setChat;
-                                break;
-                            }
-                        setupChatText();
-                    }
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        log.debug("chat page thread stopped!");
-                    }
+            while (running) {
+                setupTable();
+                if (chat != null) {
+                    for (Chat setChat : Main.mainClient.getChats())
+                        if (setChat.getId().equals(chat.getId())) {
+                            chat = setChat;
+                            break;
+                        }
+                    setupChatText();
                 }
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    log.debug("chat page thread stopped!");
+                }
+            }
         }).start();
 
         if (Main.mainClient.getUser().isTheme()) {
@@ -124,9 +127,19 @@ public class ChatPage implements Initializable {
                     "            linear-gradient(#4568DC, #B06AB3),\n" +
                     "            repeating-image-pattern(\"Stars_128.png\"),\n" +
                     "            radial-gradient(center 50% 50%, radius 50%, #FFFFFF33, #00000033);\n");
-        }
-        else
+        } else
             anchorPane.setStyle("-fx-background-color: CORNFLOWERBLUE");
+    }
+
+    private void initServerLabel() {
+        if (Main.mainClient.getServerController().isServerOnline()) {
+            serverLabel.setText("server is Online");
+            serverLabel.setStyle("-fx-text-fill: green");
+
+        } else {
+            serverLabel.setText("server is Offline");
+            serverLabel.setStyle("-fx-text-fill: red");
+        }
     }
 
     private void setBooleans() {
@@ -137,8 +150,8 @@ public class ChatPage implements Initializable {
             homePage.setVisible(false);
     }
 
-    private void setupTable(){
-        Platform.runLater( ()-> {
+    private void setupTable() {
+        Platform.runLater(() -> {
             ObservableList<Chat> chats = FXCollections.observableArrayList();
             chats.addAll(Main.mainClient.getChats());
             tableView.setItems(chats);
@@ -146,30 +159,31 @@ public class ChatPage implements Initializable {
             nameColumn.setCellValueFactory(new PropertyValueFactory<Chat, String>("name"));
         });
     }
+
     public void showPm(ActionEvent actionEvent) {
         if (chat == null) return;
         String id = pmId.getText();
-        for (Pm pm : chat.getMessages()){
+        for (Pm pm : chat.getMessages()) {
             if (pm.getId().equals(id)) {
                 if (pm.getType() == PmType.Image)
                     setupPmImage(pm);
                 else if (pm.getType() == PmType.Audio)
                     playAudio(pm);
-                else if (pm.getType() == PmType.Pdf)
-                    savePdf(pm);
+                else if (pm.getType() == PmType.File)
+                    saveFile(pm);
                 break;
             }
         }
     }
 
-    private void savePdf(Pm pm) {
+    private void saveFile(Pm pm) {
         byte[] bytes = ImageSender.decode(pm.getFile());
         DirectoryChooser directoryChooser = new DirectoryChooser();
         File selectedDirectory = directoryChooser.showDialog(usernameLabel.getScene().getWindow());
 
-        if(selectedDirectory != null){
+        if (selectedDirectory != null) {
             try {
-                FileUtils.writeByteArrayToFile(new File(selectedDirectory.getPath()+"\\download.pdf"), bytes);
+                FileUtils.writeByteArrayToFile(new File(selectedDirectory.getPath() + "\\" + pm.getFileName()), bytes);
             } catch (IOException e) {
                 log.info("file saved");
             }
@@ -194,17 +208,17 @@ public class ChatPage implements Initializable {
     }
 
     public void send(ActionEvent actionEvent) {
-        if (chat == null) return;
+        if (chat == null || !Main.mainClient.getServerController().isServerOnline()) return;
         if (chat.getStudentId1().equals("mohseni") || chat.getStudentId2().equals("mohseni"))
             return;
-        Pm pm = new Pm(PmType.Text,Main.mainClient.getUser().getUsername());
+        Pm pm = new Pm(PmType.Text, Main.mainClient.getUser().getUsername());
         pm.setContent(pmText.getText());
-        Main.mainClient.getServerController().sendPm(pm,chat.getId());
+        Main.mainClient.getServerController().sendPm(pm, chat.getId());
         pmText.clear();
     }
 
     public void record(ActionEvent actionEvent) {
-        if (chat == null) return;
+        if (chat == null || !Main.mainClient.getServerController().isServerOnline()) return;
         if (chat.getStudentId1().equals("mohseni") || chat.getStudentId2().equals("mohseni"))
             return;
         if (VoiceUtil.isRecording()) {
@@ -224,8 +238,8 @@ public class ChatPage implements Initializable {
         }
     }
 
-    public void sendImage(ActionEvent actionEvent)  {
-        if (chat == null) return;
+    public void sendImage(ActionEvent actionEvent) {
+        if (chat == null || !Main.mainClient.getServerController().isServerOnline()) return;
         if (chat.getStudentId1().equals("mohseni") || chat.getStudentId2().equals("mohseni"))
             return;
         FileChooser fileChooser = new FileChooser();
@@ -239,9 +253,9 @@ public class ChatPage implements Initializable {
 
 
             String encoded = ImageSender.encode(selectedFile.getPath());
-            Pm pm = new Pm(PmType.Image,Main.mainClient.getUser().getUsername());
+            Pm pm = new Pm(PmType.Image, Main.mainClient.getUser().getUsername());
             pm.setContent(encoded);
-            Main.mainClient.getServerController().sendPm(pm,chat.getId());
+            Main.mainClient.getServerController().sendPm(pm, chat.getId());
 
             fileSelected.setText("file status: Image selected");
             fileSelected.setStyle("-fx-text-fill: green");
@@ -253,7 +267,7 @@ public class ChatPage implements Initializable {
     }
 
     public void sendFile(ActionEvent actionEvent) {
-        if (chat == null) return;
+        if (chat == null || !Main.mainClient.getServerController().isServerOnline()) return;
         if (chat.getStudentId1().equals("mohseni") || chat.getStudentId2().equals("mohseni"))
             return;
         FileChooser fileChooser = new FileChooser();
@@ -261,15 +275,16 @@ public class ChatPage implements Initializable {
         File selectedFile = fileChooser.showOpenDialog(usernameLabel.getScene().getWindow());
 
         if (selectedFile != null) {
-            if ((double) selectedFile.length() / (1024 * 1024) > 10.0){
+            if ((double) selectedFile.length() / (1024 * 1024) > 10.0) {
                 fileSelected.setText("file size limit exceeded!");
                 fileSelected.setStyle("-fx-text-fill: red");
                 return;
             }
             String encoded = ImageSender.encode(selectedFile.getPath());
-            Pm pm = new Pm(PmType.Pdf,Main.mainClient.getUser().getUsername());
+            Pm pm = new Pm(PmType.File, Main.mainClient.getUser().getUsername());
             pm.setContent(encoded);
-            Main.mainClient.getServerController().sendPm(pm,chat.getId());
+            pm.setFileName(selectedFile.getName());
+            Main.mainClient.getServerController().sendPm(pm, chat.getId());
 
             fileSelected.setText("file status: Image selected");
             fileSelected.setStyle("-fx-text-fill: green");
@@ -283,11 +298,11 @@ public class ChatPage implements Initializable {
     public void goHomePage(ActionEvent actionEvent) {
         running = false;
         if (Main.mainClient.getUser() instanceof Student)
-            SceneLoader.getInstance().changeScene("StudentHomePage.fxml",actionEvent);
+            SceneLoader.getInstance().changeScene("StudentHomePage.fxml", actionEvent);
         else if (Main.mainClient.getUser() instanceof Professor)
-            SceneLoader.getInstance().changeScene("ProfessorHomePage.fxml",actionEvent);
+            SceneLoader.getInstance().changeScene("ProfessorHomePage.fxml", actionEvent);
         else
-            SceneLoader.getInstance().changeScene("CreateChatPage.fxml",actionEvent);
+            SceneLoader.getInstance().changeScene("CreateChatPage.fxml", actionEvent);
     }
 
     public void showChat(MouseEvent event) {
@@ -299,23 +314,25 @@ public class ChatPage implements Initializable {
         setupChatText();
     }
 
-    private void setupChatText(){
-        Platform.runLater( ()-> {
+    private void setupChatText() {
+        Platform.runLater(() -> {
             chatText.clear();
             for (Pm pm : chat.getMessages())
                 chatText.appendText(pm.getMessage() + '\n');
         });
     }
+
     private void setLabelAndImage() {
         if (Main.mainClient.getUser().getId().equals(chat.getStudentId1()))
-            loadILabelAndImage(chat.getImage2(),chat.getStudentName2());
+            loadILabelAndImage(chat.getImage2(), chat.getStudentName2());
         else
-            loadILabelAndImage(chat.getImage1(),chat.getStudentName1());
+            loadILabelAndImage(chat.getImage1(), chat.getStudentName1());
     }
-    private void loadILabelAndImage(String img,String username){
+
+    private void loadILabelAndImage(String img, String username) {
         byte[] bytes = ImageSender.decode(img);
         Image image = new Image(new ByteArrayInputStream(bytes));
         userImage.setImage(image);
-        usernameLabel.setText("Chat: "+username);
+        usernameLabel.setText("Chat: " + username);
     }
 }

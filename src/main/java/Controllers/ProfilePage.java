@@ -135,12 +135,13 @@ public class ProfilePage implements Initializable {
         else
             professor = Main.mainClient.getProfessor();
         supervisor.setText("supervisor: "+ professor.getUsername());
-        enterYear.setText(new StringBuilder("enter year: "+student.getId().charAt(1)+student.getId().charAt(2)).toString());
+        enterYear.setText("enter year: "+student.getEnterYear());
         isEducating.setText((student.isEducating()?"undergraduate":"graduated"));
         average.setText("average: "+Double.toString(student.getَAverage()));
     }
 
     public void saveChanges(ActionEvent actionEvent) {
+        if (!Main.mainClient.getServerController().isServerOnline()) return;
         User user=Main.mainClient.getUser();
         if (!user.getEmail().equals(email.getText()))
             log.info(user.getId()+" changed his email.");
@@ -151,7 +152,7 @@ public class ProfilePage implements Initializable {
         user.setEmail(email.getText());
         user.setPhoneNumber(phoneNumber.getText());
         user.setTheme(themeBox.isSelected());
-        //TODO: send the user changes to server
+
         Main.mainClient.getServerController().sendNewUserInfo(user);
         if (Main.mainClient.getUser().isTheme()) {
             anchorPane.setStyle("    -fx-background-color:\n" +

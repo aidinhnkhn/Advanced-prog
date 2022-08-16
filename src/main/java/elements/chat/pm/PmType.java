@@ -1,9 +1,9 @@
 package elements.chat.pm;
 
 public enum PmType {
-    Pdf,
+    File,
     Audio,
     Image,
-    Video,
-    Text
+    Text,
+    Pdf
 }
