@@ -102,7 +102,7 @@ public class StudentHomePage implements Initializable {
             log.error("user name is null");
         }
         permission.setText("you " + (student.isEnrollPermission() ? "have" : "don't have") + " permission to enroll");
-        enrollTime.setText("enroll time: " + (student.isEnrollPermission() ? student.getEnrollHour() : "not set"));
+        enrollTime.setText("enroll time: " + (student.isEnrollPermission() ? student.getEnrollDate().toString() : "not set"));
         setVisiblity(student);
         Saver.getInstance().saveStudent(student);
         log.info("student info loaded!");

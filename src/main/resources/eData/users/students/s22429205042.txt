@@ -26,7 +26,6 @@
       "professorId": "p22423203756"
     }
   ],
-  "enrollHour": "8:00",
   "enrollPermission": true,
   "educating": true,
   "username": "asd",

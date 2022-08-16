@@ -1,7 +1,7 @@
 {
   "supervisorId": "p22423203549",
   "grades": [],
-  "enrollHour": "8:00",
+  "enrollDate": "17::Aug::2022 12::00::00",
   "enrollPermission": true,
   "educating": true,
   "username": "parsa khosravi",

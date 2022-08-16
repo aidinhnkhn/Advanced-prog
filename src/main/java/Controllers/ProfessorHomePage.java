@@ -1,5 +1,6 @@
 package Controllers;
 
+import javafx.scene.control.Menu;
 import server.Savers.Saver;
 import elements.people.Professor;
 import elements.people.User;
@@ -36,6 +37,10 @@ public class ProfessorHomePage implements Initializable {
     public AnchorPane anchorPane;
     @FXML
     public MenuItem signOut;
+    @FXML
+    public Menu enrolmentDate;
+    @FXML
+    public MenuItem pickDate;
     @FXML
     ImageView imageView;
     @FXML
@@ -189,5 +194,10 @@ public class ProfessorHomePage implements Initializable {
     public void openCreateChatPage(ActionEvent actionEvent) {
         if (Main.mainClient.getServerController().isServerOnline())
             SceneLoader.getInstance().ChangeSceneByNode("CreateChatPage.fxml", dateTime);
+    }
+
+    public void openEnrolmentDate(ActionEvent actionEvent) {
+        if (Main.mainClient.getServerController().isServerOnline())
+            SceneLoader.getInstance().ChangeSceneByNode("EnrollHour.fxml", dateTime);
     }
 }

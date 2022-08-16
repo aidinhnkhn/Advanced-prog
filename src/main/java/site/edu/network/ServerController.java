@@ -490,4 +490,29 @@ public class ServerController {
         message.addData("user",JsonCaster.objectToJson(client.getUser()));
         sendMessage(Message.toJson(message));
     }
+
+    public void sendStartingDate(LocalDateTime date) {
+        Message message = new Message(MessageStatus.StartingDate,client.getAuthToken());
+        message.addData("date",JsonCaster.objectToJson(date));
+        sendMessage(Message.toJson(message));
+    }
+
+    public void sendEndingDate(LocalDateTime date){
+        Message message = new Message(MessageStatus.EndingDate,client.getAuthToken());
+        message.addData("date",JsonCaster.objectToJson(date));
+        sendMessage(Message.toJson(message));
+    }
+
+    public void sendStudentDate(String id, LocalDateTime date) {
+        Message message = new Message(MessageStatus.StudentDate,client.getAuthToken());
+        message.addData("date",JsonCaster.objectToJson(date));
+        message.addData("id",id);
+        sendMessage(Message.toJson(message));
+    }
+
+    public void sendNotRegister(String id) {
+        Message message = new Message(MessageStatus.StudentNoRegister,client.getAuthToken());
+        message.addData("id",id);
+        sendMessage(Message.toJson(message));
+    }
 }

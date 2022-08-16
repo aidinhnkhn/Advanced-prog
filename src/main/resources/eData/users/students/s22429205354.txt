@@ -1,7 +1,6 @@
 {
   "supervisorId": "p22423203833",
   "grades": [],
-  "enrollHour": "8:00",
   "enrollPermission": true,
   "educating": true,
   "username": "sqe",

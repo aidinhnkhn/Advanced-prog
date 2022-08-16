@@ -587,4 +587,27 @@ public class Handler {
         Server.getServer().getClientHandler(message.getAuthToken()).setUser(user);
         log.info("client handler is back Online");
     }
+
+    public void setStartingDate(Message message) {
+        LocalDateTime dateTime = JsonCaster.dateCaster((String)message.getData("date"));
+        University.getInstance().setStartPicking(dateTime);
+        log.warn("starting date changed into"+dateTime.toString());
+    }
+    public void setEndingDate(Message message) {
+        LocalDateTime dateTime = JsonCaster.dateCaster((String)message.getData("date"));
+        University.getInstance().setStartPicking(dateTime);
+        log.warn("ending date changed into"+dateTime.toString());
+    }
+
+    public void setStudentDate(Message message) {
+        LocalDateTime dateTime = JsonCaster.dateCaster((String)message.getData("date"));
+        Student student = University.getInstance().getStudentById((String)message.getData("id"));
+        student.setEnrollDate(dateTime);
+        student.setEnrollPermission(true);
+    }
+
+    public void setStudentRegister(Message message) {
+        Student student = University.getInstance().getStudentById((String)message.getData("id"));
+        student.setEnrollPermission(false);
+    }
 }

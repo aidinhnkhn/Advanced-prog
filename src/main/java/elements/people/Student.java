@@ -5,6 +5,7 @@ import elements.courses.Grade;
 import elements.university.Department;
 import server.university.University;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Student extends User {
@@ -12,7 +13,7 @@ public class Student extends User {
     private String minorDepartment;
     private String secondDepartment;
     private ArrayList<Grade> grades;
-    private String enrollHour;
+    private LocalDateTime enrollDate;
     private boolean enrollPermission;
     private static ArrayList<Student> students = new ArrayList<>();
     private boolean educating;
@@ -22,23 +23,24 @@ public class Student extends User {
         this.grades = new ArrayList<>();
         this.educating=true;
         this.supervisorId=supervisorId;
-        this.enrollHour="8:00";
         this.enrollPermission=true;
 
         University.getInstance().getDepartmentById(this.departmentId).getStudents().add(this.id);
         University.getInstance().getStudents().add(this);
     }
 
-    public String getEnrollHour() {
-        return enrollHour;
+    public LocalDateTime getEnrollDate() {
+        return enrollDate;
+    }
+
+    public void setEnrollDate(LocalDateTime enrollDate) {
+        this.enrollDate = enrollDate;
     }
 
     public String getEnterYear(){
         return this.id.substring(1,3);
     }
-    public void setEnrollHour(String enrollHour) {
-        this.enrollHour = enrollHour;
-    }
+
 
     public boolean isEnrollPermission() {
         return enrollPermission;

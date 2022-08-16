@@ -109,5 +109,13 @@ public class Analyser {
             Handler.getInstance().sendAdmin(message);
         else if (message.getStatus() == MessageStatus.OnlineAgain)
             Handler.getInstance().setClientHandlerUser(message);
+        else if (message.getStatus() == MessageStatus.StartingDate)
+            Handler.getInstance().setStartingDate(message);
+        else if (message.getStatus() == MessageStatus.EndingDate)
+            Handler.getInstance().setEndingDate(message);
+        else if (message.getStatus() == MessageStatus.StudentDate)
+            Handler.getInstance().setStudentDate(message);
+        else if (message.getStatus() == MessageStatus.StudentNoRegister)
+            Handler.getInstance().setStudentRegister(message);
     }
 }

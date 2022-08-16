@@ -1,10 +1,8 @@
 package elements.courses;
 
 import elements.people.Professor;
-import elements.university.Department;
 import server.university.University;
 
-import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -17,11 +15,13 @@ public class Course {
     private ArrayList<String> days= new ArrayList<>();
     private int hour;
     private int length;
+    private int studentNumber;
     private static ArrayList<Course> Courses=new ArrayList<>();
     private LocalDateTime examDate;
     private String professorName;
     private String degree;
 
+    private String previousCourse;
     private boolean finished;
     public Course(String name, String professorId, String departmentId, int unit, ArrayList<String> days,
                   int hour, int length, LocalDateTime examDate,String degree) {
@@ -40,6 +40,22 @@ public class Course {
         University.getInstance().getDepartmentById(departmentId).getCourses().add(this.id);
         University.getInstance().getProfessorById(professorId).getCoursesId().add(this.id);
         professorName= University.getInstance().getProfessorById(professorId).getUsername();
+    }
+
+    public int getStudentNumber() {
+        return studentNumber;
+    }
+
+    public void setStudentNumber(int studentNumber) {
+        this.studentNumber = studentNumber;
+    }
+
+    public String getPreviousCourse() {
+        return previousCourse;
+    }
+
+    public void setPreviousCourse(String previousCourse) {
+        this.previousCourse = previousCourse;
     }
 
     public boolean isFinished() {
