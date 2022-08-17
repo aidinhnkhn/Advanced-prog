@@ -1,16 +1,10 @@
 package logic;
 
-import server.Savers.Saver;
 import elements.courses.Course;
-import elements.courses.Grade;
-import elements.people.Professor;
-import elements.people.Student;
-import elements.university.Department;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import site.edu.Main;
 
-import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -29,14 +23,16 @@ public class EditCourseLogic {
     }
 
     public boolean createCourse(String name, String professorId, String departmentId, String unit, String length,
-                                String hour, ArrayList<String> days,LocalDate localDate,String examHour,String degree) {
+                                String hour, ArrayList<String> days, LocalDate localDate, String examHour,
+                                String degree, ArrayList<String> taIds, String courseId,
+                                String previousCourse, String nowCourse, String studentNumber) {
         if (!checkCourse(name, professorId, departmentId, unit, length, hour, days,localDate,examHour,degree))
             return false;
 
         LocalDateTime localDateTime = localDate.atTime(Integer.parseInt(examHour),0);
 
         Main.mainClient.getServerController().createCourse(name, professorId, departmentId, unit, days,
-                hour, length,localDateTime,degree);
+                hour, length,localDateTime,degree,taIds,courseId,previousCourse,nowCourse,studentNumber);
 
         //log.info(Main.mainClient.getUser().getId()+" created: "+course.getId());
         return true;
@@ -72,7 +68,7 @@ public class EditCourseLogic {
     }
 
     public boolean checkCourse(String name, String professorId, String departmentId, String unit, String length, String hour,
-                               ArrayList<String> days, LocalDate localdate,String examHour,String degree) {
+                               ArrayList<String> days, LocalDate localdate, String examHour, String degree) {
         if (name.equals("")) return false;
         if (professorId.equals("")) return false;
         if (departmentId.equals("")) return false;

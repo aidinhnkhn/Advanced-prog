@@ -320,7 +320,8 @@ public class ServerController {
     }
 
     public void createCourse(String name, String professorId, String departmentId, String unit, ArrayList<String> days,
-                             String hour, String length, LocalDateTime localDateTime, String degree) {
+                             String hour, String length, LocalDateTime localDateTime, String degree, ArrayList<String> taIds,
+                             String courseId, String previousCourse, String nowCourse, String studentNumber) {
 
         Message message = new Message(MessageStatus.CreateCourse,client.getAuthToken());
         message.addData("name",name);
@@ -332,6 +333,11 @@ public class ServerController {
         message.addData("localDateTime",JsonCaster.objectToJson(localDateTime));
         message.addData("degree",degree);
         message.addData("unit",unit);
+        message.addData("taIds",JsonCaster.objectToJson(taIds));
+        message.addData("courseId",courseId);
+        message.addData("previousCourse",previousCourse);
+        message.addData("nowCourse",nowCourse);
+        message.addData("studentNumber",studentNumber);
         sendMessage(Message.toJson(message));
     }
 
@@ -514,5 +520,18 @@ public class ServerController {
         Message message = new Message(MessageStatus.StudentNoRegister,client.getAuthToken());
         message.addData("id",id);
         sendMessage(Message.toJson(message));
+    }
+
+    public LocalDateTime getStartingDate() {
+        Message message = new Message(MessageStatus.GetStartingDate,client.getAuthToken());
+        sendMessage(Message.toJson(message));
+        Response response = Response.fromJson(receiveMessage());
+        return JsonCaster.dateCaster((String)response.getData("date"));
+    }
+    public LocalDateTime getEndingDate() {
+        Message message = new Message(MessageStatus.GetEndingDate,client.getAuthToken());
+        sendMessage(Message.toJson(message));
+        Response response = Response.fromJson(receiveMessage());
+        return JsonCaster.dateCaster((String)response.getData("date"));
     }
 }

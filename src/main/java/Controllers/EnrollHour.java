@@ -119,7 +119,7 @@ public class EnrollHour implements Initializable {
             int hour = Integer.parseInt(hourField.getText());
             LocalDateTime date = universityDate.getValue().atTime(hour,0,0);
             alert.setContentText("date submitted");
-            if (universityDateBox.equals("starting date"))
+            if (universityDateBox.getValue().equals("starting date"))
                 Main.mainClient.getServerController().sendStartingDate(date);
             else
                 Main.mainClient.getServerController().sendEndingDate(date);

@@ -14,6 +14,7 @@
   ],
   "hour": 17,
   "length": 2,
+  "studentNumber": 50,
   "examDate": "7::Jul::2022 02::00::00",
   "professorName": "awh",
   "degree": "Bachelor",

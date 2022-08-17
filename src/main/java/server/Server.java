@@ -1,10 +1,12 @@
 package server;
 
 
+import elements.courses.Course;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import server.Savers.Loader;
 import server.Savers.Saver;
+import server.university.University;
 import shared.util.AuthenticationToken;
 import server.network.ClientHandler;
 

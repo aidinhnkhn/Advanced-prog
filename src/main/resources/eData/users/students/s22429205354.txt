@@ -1,6 +1,7 @@
 {
   "supervisorId": "p22423203833",
   "grades": [],
+  "enrollDate": "17::Aug::2022 01::00::00",
   "enrollPermission": true,
   "educating": true,
   "username": "sqe",

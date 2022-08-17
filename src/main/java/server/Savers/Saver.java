@@ -238,9 +238,16 @@ public class Saver implements Runnable {
         } catch (IOException e) {
             log.error("couldn't save the file!");
         }
-        file = new File(System.getProperty("user.dir") +
+    }
+
+    private void saveDates2(){
+        File file = new File(System.getProperty("user.dir") +
                 Config.getConfig().getProperty(String.class,"endPickingPath"));
-        courseJson = gson.toJson(University.getInstance().getEndPicking());
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
+        Gson gson = gsonBuilder.create();
+        String courseJson = gson.toJson(University.getInstance().getEndPicking());
         try {
             FileWriter writer = new FileWriter(file, false);
             writer.write(courseJson);
@@ -303,6 +310,7 @@ public class Saver implements Runnable {
             Saver.getInstance().saveManager(manager);
 
         saveDates();
+        saveDates2();
     }
 
 
@@ -313,7 +321,7 @@ public class Saver implements Runnable {
         while (running) {
             saveChanges();
             try {
-                Thread.sleep(1000);
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
                 log.fatal("Saver class can't save the changes");
                 e.printStackTrace();

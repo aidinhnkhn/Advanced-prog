@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<AnchorPane fx:id="anchorPane" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: CORNFLOWERBLUE;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.PickCourse">
+   <children>
+      <Button fx:id="homePageButton" layoutX="796.0" layoutY="561.0" mnemonicParsing="false" onAction="#homePage" prefHeight="25.0" prefWidth="90.0" text="Home Page" />
+      <VBox alignment="TOP_CENTER" layoutX="694.0" layoutY="14.0" prefHeight="200.0" prefWidth="192.0" spacing="15.0">
+         <children>
+            <ComboBox fx:id="departmentBox" prefWidth="150.0" promptText="select department" />
+            <ComboBox fx:id="sortBox" prefWidth="150.0" promptText="select Sort" />
+            <Button fx:id="sortButton" mnemonicParsing="false" onAction="#sort" prefHeight="25.0" prefWidth="150.0" text="sort" />
+            <Button fx:id="suggestionButton" mnemonicParsing="false" onAction="#suggest" prefHeight="25.0" prefWidth="150.0" text="suggest" />
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </VBox>
+      <TableView fx:id="tableView" layoutX="8.0" layoutY="14.0" prefHeight="400.0" prefWidth="703.0">
+         <columns>
+            <TableColumn fx:id="courseId" prefWidth="88.0" text="Course Id" />
+            <TableColumn fx:id="name" prefWidth="69.0" text="Name" />
+            <TableColumn fx:id="professorName" prefWidth="77.0" text="Professor" />
+            <TableColumn fx:id="department" prefWidth="106.0" text="department" />
+            <TableColumn fx:id="unit" prefWidth="35.0" text="unit" />
+            <TableColumn fx:id="days" prefWidth="173.0" text="days" />
+            <TableColumn fx:id="degree" prefWidth="77.0" text="degree" />
+            <TableColumn fx:id="examDate" prefWidth="92.0" text="exam date" />
+            <TableColumn fx:id="capacity" prefWidth="76.0" text="capacity" />
+            <TableColumn fx:id="previous" prefWidth="95.0" text="previous" />
+            <TableColumn fx:id="now" prefWidth="92.0" text="now" />
+         </columns>
+      </TableView>
+   </children>
+</AnchorPane>

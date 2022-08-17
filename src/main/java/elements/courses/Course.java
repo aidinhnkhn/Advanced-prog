@@ -10,36 +10,63 @@ import java.util.ArrayList;
 public class Course {
     private String id, name;
     private String professorId,departmentId;
+
+    private ArrayList<String> taIds=new ArrayList<>();
     private ArrayList<String> studentId=new ArrayList<>();
     private int unit;
     private ArrayList<String> days= new ArrayList<>();
     private int hour;
     private int length;
     private int studentNumber;
-    private static ArrayList<Course> Courses=new ArrayList<>();
     private LocalDateTime examDate;
     private String professorName;
     private String degree;
 
+    private String nowCourse;
     private String previousCourse;
     private boolean finished;
     public Course(String name, String professorId, String departmentId, int unit, ArrayList<String> days,
-                  int hour, int length, LocalDateTime examDate,String degree) {
+                  int hour, int length, LocalDateTime examDate, String degree, ArrayList<String> taIds,
+                  String courseId, String previousCourse, String nowCourse, int studentNumber) {
         this.name = name;
         this.professorId = professorId;
         this.departmentId=departmentId;
         this.unit = unit;
-        this.id = createId();
+        if (courseId.equals(""))
+            this.id = createId();
+        else
+            this.id = 'C'+courseId;
         this.days=days;
         this.hour=hour;
         this.length=length;
         this.examDate=examDate;
         this.degree=degree;
-
+        this.finished=false;
+        this.taIds = taIds;
+        this.previousCourse = previousCourse;
+        this.nowCourse = nowCourse;
+        this.studentNumber = studentNumber;
         University.getInstance().getCourses().add(this);
         University.getInstance().getDepartmentById(departmentId).getCourses().add(this.id);
         University.getInstance().getProfessorById(professorId).getCoursesId().add(this.id);
         professorName= University.getInstance().getProfessorById(professorId).getUsername();
+    }
+
+    public ArrayList<String> getTaIds() {
+        if (this.taIds == null) taIds = new ArrayList<>();
+        return taIds;
+    }
+
+    public void setTaIds(ArrayList<String> taIds) {
+        this.taIds = taIds;
+    }
+
+    public String getNowCourse() {
+        return nowCourse;
+    }
+
+    public void setNowCourse(String nowCourse) {
+        this.nowCourse = nowCourse;
     }
 
     public int getStudentNumber() {
@@ -181,19 +208,6 @@ public class Course {
         this.unit = unit;
     }
 
-    public static ArrayList<Course> getCourses() {
-        return Courses;
-    }
-
-    public static void setCourses(ArrayList<Course> courses) {
-        Courses = courses;
-    }
-    public static Course getCourse(String id){
-        for (Course course:Courses)
-            if (course.id.equals(id))
-                return course;
-        return null;
-    }
 
     public void setProfessorIdInClient(String professorId) {
         this.professorId = professorId;

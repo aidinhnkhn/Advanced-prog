@@ -50,8 +50,9 @@ public class Loader {
         University.getInstance().setThesisDefenseRequests(loadThesisDefenseRequests());
         University.getInstance().setChats(loadChats());
         University.getInstance().setManagers(loadManagers());
-        //loadStartDate();
-        //loadEndDate();
+        loadStartDate();
+        loadEndDate();
+        System.out.println();
         log.info("edu Initialized");
     }
 
@@ -67,7 +68,7 @@ public class Loader {
             gsonBuilder.setPrettyPrinting();
             gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
             Gson gson = gsonBuilder.create();
-            University.getInstance().setStartPicking(gson.fromJson(userJson, LocalDateTime.class));
+            University.getInstance().setEndPicking(gson.fromJson(userJson, LocalDateTime.class));
         }catch (FileNotFoundException e){
             log.error("couldn't load the file");
         }

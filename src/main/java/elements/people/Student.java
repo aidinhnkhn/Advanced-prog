@@ -13,6 +13,7 @@ public class Student extends User {
     private String minorDepartment;
     private String secondDepartment;
     private ArrayList<Grade> grades;
+    private ArrayList<String> favoriteCourse;
     private LocalDateTime enrollDate;
     private boolean enrollPermission;
     private static ArrayList<Student> students = new ArrayList<>();
@@ -24,9 +25,18 @@ public class Student extends User {
         this.educating=true;
         this.supervisorId=supervisorId;
         this.enrollPermission=true;
-
+        favoriteCourse = new ArrayList<>();
         University.getInstance().getDepartmentById(this.departmentId).getStudents().add(this.id);
         University.getInstance().getStudents().add(this);
+    }
+
+    public ArrayList<String> getFavoriteCourse() {
+        if (favoriteCourse == null) this.favoriteCourse = new ArrayList<>();
+        return favoriteCourse;
+    }
+
+    public void setFavoriteCourse(ArrayList<String> favoriteCourse) {
+        this.favoriteCourse = favoriteCourse;
     }
 
     public LocalDateTime getEnrollDate() {

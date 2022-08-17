@@ -22,6 +22,14 @@ public class EditCourse implements Initializable {
     @FXML
     public AnchorPane anchorPane;
     @FXML
+    public TextField taId;
+    @FXML
+    public TextField previousCourse;
+    @FXML
+    public TextField nowCourse;
+    @FXML
+    public TextField studentNumber;
+    @FXML
     DatePicker datePicker;
     @FXML
     Button homePageButton;
@@ -36,6 +44,8 @@ public class EditCourse implements Initializable {
 
     @FXML
     ComboBox<String> degreeBox;
+
+    private ArrayList<String> taIds=new ArrayList<>();
     public void goBack(ActionEvent actionEvent) {
         if (Main.mainClient.getUser() instanceof Student)
             SceneLoader.getInstance().changeScene("StudentHomePage.fxml", actionEvent);
@@ -60,12 +70,14 @@ public class EditCourse implements Initializable {
         Wednesday.setSelected(false);
         Thursday.setSelected(false);
         Friday.setSelected(false);
+        taIds.clear();
     }
 
     public void createCourse(ActionEvent actionEvent) {
         boolean successful = EditCourseLogic.getInstance().createCourse(name.getText(), professorId.getText(),
                 departmentId.getText(), unit.getText(), length.getText(), hour.getText()
-                , getDays(), datePicker.getValue(), examHour.getText(),degreeBox.getValue());
+                ,getDays(), datePicker.getValue(), examHour.getText(),degreeBox.getValue(),taIds,courseId.getText(),
+                previousCourse.getText(),nowCourse.getText(),studentNumber.getText());
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Create Course status");
         alert.setTitle("Create Course");
@@ -116,5 +128,9 @@ public class EditCourse implements Initializable {
         }
         else
             anchorPane.setStyle("-fx-background-color: CORNFLOWERBLUE");
+    }
+
+    public void addTa(ActionEvent actionEvent) {
+        taIds.add(taId.getText());
     }
 }

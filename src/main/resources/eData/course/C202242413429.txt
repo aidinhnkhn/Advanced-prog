@@ -13,6 +13,7 @@
   ],
   "hour": 8,
   "length": 1,
+  "studentNumber": 50,
   "examDate": "1::Jun::2022 12::00::00",
   "professorName": "hamzeh",
   "degree": "Bachelor",

@@ -9,7 +9,8 @@
   ],
   "courses": [
     "C2022429203859",
-    "C2022429203931"
+    "C2022429203931",
+    "C9832214"
   ],
   "headDepartmentId": "p22423203120",
   "educationalAssistantId": "p22423203716"

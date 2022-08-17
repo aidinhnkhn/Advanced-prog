@@ -1,7 +1,7 @@
 {
   "supervisorId": "p22423203549",
   "grades": [],
-  "enrollDate": "17::Aug::2022 12::00::00",
+  "enrollDate": "17::Aug::2022 01::00::00",
   "enrollPermission": true,
   "educating": true,
   "username": "parsa khosravi",
@@ -13,6 +13,6 @@
   "degree": "Bachelor",
   "departmentId": "Chemical Eng",
   "role": "Student",
-  "lastEnter": "16::Aug::2022 12::22::14",
+  "lastEnter": "17::Aug::2022 12::38::35",
   "theme": true
 }

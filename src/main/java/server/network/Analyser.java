@@ -117,5 +117,9 @@ public class Analyser {
             Handler.getInstance().setStudentDate(message);
         else if (message.getStatus() == MessageStatus.StudentNoRegister)
             Handler.getInstance().setStudentRegister(message);
+        else if (message.getStatus() == MessageStatus.GetStartingDate)
+            Handler.getInstance().sendStartingDate(message);
+        else if (message.getStatus() == MessageStatus.GetEndingDate)
+            Handler.getInstance().sendEndingDate(message);
     }
 }

@@ -78,6 +78,11 @@
                   <MenuItem fx:id="createChatPage" mnemonicParsing="false" onAction="#openCreateChatPage" text="Create a chat" />
               </items>
             </Menu>
+            <Menu fx:id="enrollment" mnemonicParsing="false" text="Enrollment" visible="false">
+              <items>
+                <MenuItem fx:id="pickCourse" mnemonicParsing="false" onAction="#openPickCourse" text="Pick Course" />
+              </items>
+            </Menu>
         </menus>
       </MenuBar>
       <Label fx:id="serverLabel" layoutX="14.0" layoutY="261.0" prefHeight="17.0" prefWidth="137.0" text="Label">

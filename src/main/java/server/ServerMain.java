@@ -1,6 +1,7 @@
 package server;
 
 
+import elements.courses.Course;
 import shared.util.Config;
 
 

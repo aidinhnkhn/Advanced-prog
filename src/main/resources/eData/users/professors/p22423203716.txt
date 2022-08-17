@@ -4,10 +4,11 @@
   "supervisor": false,
   "coursesId": [
     "C2022429203859",
-    "C2022429203931"
+    "C2022429203931",
+    "C9832214"
   ],
   "username": "fgfg",
-  "password": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+  "password": "961b6dd3ede3cb8ecbaacbd68de040cd78eb2ed5889130cceb4c49268ea4d506",
   "id": "p22423203716",
   "melicode": "dawd",
   "phoneNumber": "dawwda",
@@ -15,6 +16,6 @@
   "degree": "Associate Professor",
   "departmentId": "Physics",
   "role": "EducationalAssistant",
-  "lastEnter": "29::Apr::2022 20::39::44",
+  "lastEnter": "17::Aug::2022 12::46::51",
   "theme": false
 }

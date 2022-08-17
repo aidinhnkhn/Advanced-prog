@@ -1,5 +1,6 @@
 package Controllers;
 
+import javafx.scene.control.Menu;
 import server.Savers.Saver;
 import elements.people.Professor;
 import elements.people.Student;
@@ -22,6 +23,7 @@ import org.apache.log4j.Logger;
 import shared.messages.response.Response;
 import shared.util.ImageSender;
 import site.edu.Main;
+import site.edu.network.ServerController;
 
 import java.io.*;
 import java.net.URL;
@@ -37,6 +39,8 @@ public class StudentHomePage implements Initializable {
     public MenuItem chatsItem;
     @FXML
     public MenuItem createChatPage;
+    @FXML
+    public Menu enrollment;
     @FXML
     Label dateTime, lastEnter, email, name;
     @FXML
@@ -103,9 +107,18 @@ public class StudentHomePage implements Initializable {
         }
         permission.setText("you " + (student.isEnrollPermission() ? "have" : "don't have") + " permission to enroll");
         enrollTime.setText("enroll time: " + (student.isEnrollPermission() ? student.getEnrollDate().toString() : "not set"));
+        setEnrollment(student);
         setVisiblity(student);
         Saver.getInstance().saveStudent(student);
         log.info("student info loaded!");
+    }
+
+    private void setEnrollment(Student student) {
+        LocalDateTime startingDate = Main.mainClient.getServerController().getStartingDate();
+        LocalDateTime endingDate = Main.mainClient.getServerController().getEndingDate();
+        if (startingDate.isBefore(LocalDateTime.now()) && endingDate.isAfter(LocalDateTime.now()))
+            if (student.getEnrollDate().isBefore(LocalDateTime.now()) && student.isEnrollPermission())
+            enrollment.setVisible(true);
     }
 
     private void setVisiblity(Student student) {
@@ -120,6 +133,8 @@ public class StudentHomePage implements Initializable {
         name.setText("name: " + user.getUsername());
         email.setText("email: " + user.getEmail());
         log.info("user info loaded!");
+
+
         initImage(user);
     }
 
@@ -221,5 +236,10 @@ public class StudentHomePage implements Initializable {
     public void openCreateChatPage(ActionEvent actionEvent) {
         if (Main.mainClient.getServerController().isServerOnline())
             SceneLoader.getInstance().ChangeSceneByNode("CreateChatPage.fxml", dateTime);
+    }
+
+    public void openPickCourse(ActionEvent actionEvent) {
+        if (Main.mainClient.getServerController().isServerOnline())
+            SceneLoader.getInstance().ChangeSceneByNode("PickCourse.fxml", dateTime);
     }
 }

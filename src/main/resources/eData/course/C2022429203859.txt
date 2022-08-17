@@ -10,6 +10,7 @@
   ],
   "hour": 13,
   "length": 2,
+  "studentNumber": 50,
   "examDate": "20::May::2022 12::00::00",
   "professorName": "fgfg",
   "degree": "Bachelor",

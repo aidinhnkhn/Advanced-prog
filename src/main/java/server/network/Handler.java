@@ -364,8 +364,14 @@ public class Handler {
         LocalDateTime localDateTime = JsonCaster.dateCaster((String) message.getData("localDateTime"));
         String degree = (String) message.getData("degree");
         String unit = (String) message.getData("unit");
+        ArrayList<String> taIds=JsonCaster.StringArrayListCaster((String)message.getData("taIds"));
+        String courseId = (String)message.getData("courseId");
+        String previousCourse=(String)message.getData("previousCourse");
+        String nowCourse=(String)message.getData("nowCourse");
+        String studentNumber = (String)message.getData("studentNumber");
         Course course = new Course(name, professorId, departmentId, Integer.parseInt(unit), days,
-                Integer.parseInt(hour), Integer.parseInt(length), localDateTime, degree);
+                Integer.parseInt(hour), Integer.parseInt(length), localDateTime, degree,taIds,
+                courseId,previousCourse,nowCourse,Integer.parseInt(studentNumber));
 
         log.warn(course.getId() + " was added to courses.");
     }
@@ -595,7 +601,7 @@ public class Handler {
     }
     public void setEndingDate(Message message) {
         LocalDateTime dateTime = JsonCaster.dateCaster((String)message.getData("date"));
-        University.getInstance().setStartPicking(dateTime);
+        University.getInstance().setEndPicking(dateTime);
         log.warn("ending date changed into"+dateTime.toString());
     }
 
@@ -609,5 +615,17 @@ public class Handler {
     public void setStudentRegister(Message message) {
         Student student = University.getInstance().getStudentById((String)message.getData("id"));
         student.setEnrollPermission(false);
+    }
+
+    public void sendStartingDate(Message message) {
+        Response response = new Response(ResponseStatus.StartingDate);
+        response.addData("date",JsonCaster.objectToJson(University.getInstance().getStartPicking()));
+        Server.getServer().sendMessageToClient(message.getAuthToken(), Response.toJson(response));
+    }
+
+    public void sendEndingDate(Message message) {
+        Response response = new Response(ResponseStatus.StartingDate);
+        response.addData("date",JsonCaster.objectToJson(University.getInstance().getEndPicking()));
+        Server.getServer().sendMessageToClient(message.getAuthToken(), Response.toJson(response));
     }
 }
