@@ -1,11 +1,19 @@
 package Controllers;
 
 
+import elements.chat.Chat;
+import elements.courses.Course;
 import elements.people.Student;
+import elements.request.PickCourseRequest;
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -60,8 +68,17 @@ public class EnrollHour implements Initializable {
     private static Logger log = LogManager.getLogger(EnrollHour.class);
     @FXML
     public CheckBox register;
+    @FXML
+    public TableView<PickCourseRequest> tableView;
+    @FXML
+    public TableColumn<PickCourseRequest,String> courseIdColumn;
+    @FXML
+    public TableColumn<PickCourseRequest,String> studentIdColumn;
 
+    PickCourseRequest pickedRequest;
+    boolean running;
     public void goHomePage(ActionEvent actionEvent) {
+        running = false;
         if (Main.mainClient.getUser() instanceof Student)
             SceneLoader.getInstance().changeScene("StudentHomePage.fxml", actionEvent);
         else
@@ -70,8 +87,22 @@ public class EnrollHour implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+       running = true;
+        new Thread(() -> {
+
+            while (running) {
+                setupTable();
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    log.debug("chat page thread stopped!");
+                }
+            }
+        }).start();
+        //setupTable();
         setupUniversityBox();
         setupStudentBox();
+        pickedRequest = null;
         if (Main.mainClient.getUser().isTheme()) {
             anchorPane.setStyle("    -fx-background-color:\n" +
                     "            linear-gradient(#4568DC, #B06AB3),\n" +
@@ -165,5 +196,38 @@ public class EnrollHour implements Initializable {
     public void filter(ActionEvent actionEvent) {
         setupStudentBox();
         log.info("students were filtered");
+    }
+
+    public void setupTable(){
+        Platform.runLater(()->{
+            ObservableList<PickCourseRequest> requests = FXCollections.observableArrayList();
+            for (PickCourseRequest pickCourseRequest:getPickCourses()){
+                Student student = Main.mainClient.getServerController().getStudentById(pickCourseRequest.getStudentId());
+                if (student.getDepartmentId().equals(Main.mainClient.getUser().getDepartmentId()) && pickCourseRequest.isPending())
+                    requests.add(pickCourseRequest);
+            }
+            tableView.setItems(requests);
+            studentIdColumn.setCellValueFactory(new PropertyValueFactory<PickCourseRequest, String>("studentId"));
+            courseIdColumn.setCellValueFactory(new PropertyValueFactory<PickCourseRequest, String>("departmentId"));
+        });
+    }
+
+    private ArrayList<PickCourseRequest> getPickCourses() {
+        Response response = Main.mainClient.getServerController().getPickCourses();
+        String listString = (String) response.getData("list");
+        return JsonCaster.pickCourseArrayListCaster(listString);
+    }
+    public void accept(ActionEvent actionEvent) {
+        if (pickedRequest == null) return;
+        Main.mainClient.getServerController().acceptPickCourse(pickedRequest.getId());
+    }
+
+    public void reject(ActionEvent actionEvent) {
+        if (pickedRequest == null) return;
+        Main.mainClient.getServerController().rejectPickCourse(pickedRequest.getId());
+    }
+
+    public void setRequest(MouseEvent event) {
+        pickedRequest = tableView.getSelectionModel().getSelectedItem();
     }
 }

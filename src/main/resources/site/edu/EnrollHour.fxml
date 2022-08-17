@@ -6,16 +6,17 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane fx:id="anchorPane" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: CORNFLOWERBLUE;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.EnrollHour">
    <children>
       <Button fx:id="homePageButton" layoutX="786.0" layoutY="561.0" mnemonicParsing="false" onAction="#goHomePage" prefHeight="25.0" prefWidth="100.0" text="Home Page" />
-      <VBox alignment="TOP_CENTER" layoutX="14.0" layoutY="14.0" prefHeight="438.0" prefWidth="188.0" spacing="15.0">
+      <VBox alignment="TOP_CENTER" layoutX="14.0" layoutY="14.0" prefHeight="213.0" prefWidth="188.0" spacing="15.0">
          <children>
             <Label prefHeight="23.0" prefWidth="174.0" text="start and ending dates">
                <font>
@@ -34,7 +35,7 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
       </VBox>
-      <VBox alignment="TOP_CENTER" layoutX="333.0" layoutY="14.0" prefHeight="264.0" prefWidth="235.0" spacing="15.0">
+      <VBox alignment="TOP_CENTER" layoutX="333.0" layoutY="14.0" prefHeight="242.0" prefWidth="235.0" spacing="15.0">
          <children>
             <Label prefHeight="23.0" prefWidth="250.0" text="pick student Enrollment Date">
                <font>
@@ -75,5 +76,18 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
       </VBox>
+      <Label layoutX="20.0" layoutY="289.0" prefHeight="23.0" prefWidth="174.0" text="enroll requests">
+         <font>
+            <Font name="Comic Sans MS" size="16.0" />
+         </font>
+      </Label>
+      <TableView fx:id="tableView" layoutX="21.0" layoutY="323.0" onMouseClicked="#setRequest" prefHeight="200.0" prefWidth="280.0">
+        <columns>
+          <TableColumn fx:id="courseIdColumn" prefWidth="138.0" text="Course Id" />
+          <TableColumn fx:id="studentIdColumn" prefWidth="141.0" text="student ID" />
+        </columns>
+      </TableView>
+      <Button fx:id="acceptButton" layoutX="56.0" layoutY="549.0" mnemonicParsing="false" onAction="#accept" text="accept" />
+      <Button fx:id="rejectButton" layoutX="202.0" layoutY="549.0" mnemonicParsing="false" onAction="#reject" prefHeight="25.0" prefWidth="51.0" text="reject" />
    </children>
 </AnchorPane>

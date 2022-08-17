@@ -1,6 +1,19 @@
 {
   "supervisorId": "p22423203716",
-  "grades": [],
+  "grades": [
+    {
+      "courseId": "C2022429203859",
+      "grade": 0.0,
+      "W": false,
+      "finished": false,
+      "finalGrade": false,
+      "objection": false,
+      "answered": false,
+      "unit": 3,
+      "name": "phys1",
+      "professorId": "p22423203716"
+    }
+  ],
   "enrollDate": "17::Aug::2022 01::00::00",
   "enrollPermission": true,
   "educating": true,

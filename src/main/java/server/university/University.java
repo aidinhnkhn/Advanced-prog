@@ -253,4 +253,11 @@ public class University {
                 return manager;
         return null;
     }
+
+    public PickCourseRequest getPickCourseById(String id){
+        for (PickCourseRequest request:pickCourseRequests)
+            if (request.getId().equals(id))
+                return request;
+        return null;
+    }
 }

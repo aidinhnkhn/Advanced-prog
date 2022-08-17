@@ -678,4 +678,27 @@ public class Handler {
         course.setStudentNumber(course.getStudentNumber()-1);
         student.addGrade(new Grade(course.getId(), 0));
     }
+
+    public void sendPickCourseList(Message message) {
+        Response response = new Response(ResponseStatus.PickCourseList);
+        String list = JsonCaster.objectToJson(University.getInstance().getPickCourseRequests());
+        response.addData("list", list);
+        Server.getServer().sendMessageToClient(message.getAuthToken(), Response.toJson(response));
+        log.info("send the pick Course list");
+    }
+
+    public void acceptPickCourse(Message message) {
+        PickCourseRequest request = University.getInstance().getPickCourseById((String)message.getData("id"));
+        request.setAccepted(true);
+        Course course = University.getInstance().getCourseById(request.getDepartmentId());
+        Student student = University.getInstance().getStudentById(request.getStudentId());
+        course.getStudentId().add(student.getId());
+        course.setStudentNumber(course.getStudentNumber()-1);
+        student.addGrade(new Grade(course.getId(), 0));
+    }
+
+    public void rejectPickCourse(Message message) {
+        PickCourseRequest request = University.getInstance().getPickCourseById((String)message.getData("id"));
+        request.setAccepted(false);
+    }
 }

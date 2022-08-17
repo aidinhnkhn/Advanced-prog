@@ -73,7 +73,13 @@ public class JsonCaster {
         Gson gson = gsonBuilder.create();
         return gson.fromJson(data,new TypeToken<ArrayList<Course>>(){}.getType());
     }
-
+    public static ArrayList<PickCourseRequest> pickCourseArrayListCaster(String data){
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
+        Gson gson = gsonBuilder.create();
+        return gson.fromJson(data,new TypeToken<ArrayList<PickCourseRequest>>(){}.getType());
+    }
     public static ArrayList<Professor> professorArrayListCaster(String data) {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();

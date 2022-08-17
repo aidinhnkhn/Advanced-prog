@@ -131,5 +131,11 @@ public class Analyser {
             Handler.getInstance().deleteGrade(message);
         else if (message.getStatus() == MessageStatus.ChangeGrade)
             Handler.getInstance().changeGrade(message);
+        else if (message.getStatus() == MessageStatus.PickCoursesList)
+            Handler.getInstance().sendPickCourseList(message);
+        else if (message.getStatus() == MessageStatus.PickCourseAccept)
+            Handler.getInstance().acceptPickCourse(message);
+        else if (message.getStatus() == MessageStatus.PickCourseReject)
+            Handler.getInstance().rejectPickCourse(message);
     }
 }

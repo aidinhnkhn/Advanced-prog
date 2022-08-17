@@ -17,5 +17,5 @@ public enum MessageStatus {
     CourseList,
     ProfessorList,
     PickCourse,
-    DepartmentList, Department, SendUserImage, CreateStudent, CreateProfessor, CreateCourse, EditCourse, DeleteCourse, RecommendationList, Recommendation, Certificate, FreedomList, Freedom, DormList, Dorm, MinorList, Minor, ThesisList, Thesis, Minor1stAccept, Minor2ndAccept, RecommendationAccept, FreedomAccept, Update, checkUser, CreateChat, AddPm, GetAdmin, OnlineAgain, StartingDate, EndingDate, StudentDate, StudentNoRegister, GetStartingDate, GetEndingDate, StarCourse, UnStarCourse, CourseRequest, DeleteGrade, ChangeGrade, Captcha
+    DepartmentList, Department, SendUserImage, CreateStudent, CreateProfessor, CreateCourse, EditCourse, DeleteCourse, RecommendationList, Recommendation, Certificate, FreedomList, Freedom, DormList, Dorm, MinorList, Minor, ThesisList, Thesis, Minor1stAccept, Minor2ndAccept, RecommendationAccept, FreedomAccept, Update, checkUser, CreateChat, AddPm, GetAdmin, OnlineAgain, StartingDate, EndingDate, StudentDate, StudentNoRegister, GetStartingDate, GetEndingDate, StarCourse, UnStarCourse, CourseRequest, DeleteGrade, ChangeGrade, PickCoursesList, PickCourseAccept, PickCourseReject, Captcha
 }

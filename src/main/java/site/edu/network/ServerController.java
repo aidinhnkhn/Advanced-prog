@@ -570,4 +570,22 @@ public class ServerController {
         message.addData("mainCourseId",mainCourseId);
         sendMessage(Message.toJson(message));
     }
+    public Response getPickCourses() {
+        Message message = new Message(MessageStatus.PickCoursesList, client.getAuthToken());
+        sendMessage(Message.toJson(message));
+        Response response = Response.fromJson(receiveMessage());
+        return response;
+    }
+
+    public void acceptPickCourse(String id) {
+        Message message = new Message(MessageStatus.PickCourseAccept,client.getAuthToken());
+        message.addData("id",id);
+        sendMessage(Message.toJson(message));
+    }
+
+    public void rejectPickCourse(String id) {
+        Message message = new Message(MessageStatus.PickCourseReject,client.getAuthToken());
+        message.addData("id",id);
+        sendMessage(Message.toJson(message));
+    }
 }
