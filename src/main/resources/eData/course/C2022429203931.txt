@@ -1,9 +1,11 @@
 {
   "id": "C2022429203931",
-  "name": "phys12",
+  "name": "phys1",
   "professorId": "p22423203716",
   "departmentId": "Physics",
-  "studentId": [],
+  "studentId": [
+    "s22429205354"
+  ],
   "unit": 4,
   "days": [
     "Monday",
@@ -12,9 +14,12 @@
   ],
   "hour": 15,
   "length": 1,
-  "studentNumber": 50,
+  "studentNumber": 49,
   "examDate": "9::Jun::2022 12::00::00",
   "professorName": "fgfg",
   "degree": "Bachelor",
-  "finished": false
+  "nowCourse": "",
+  "previousCourse": "",
+  "finished": false,
+  "stared": false
 }

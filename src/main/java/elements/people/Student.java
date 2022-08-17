@@ -117,6 +117,12 @@ public class Student extends User {
         return null;
     }
 
+    public Grade getAnyGrade(String id) {
+        for (Grade grade : this.grades)
+            if (grade.getCourseId().equals(id))
+                return grade;
+        return null;
+    }
     public static Student getStudent(String studentId) {
         for (Student student : Student.getStudents())
             if (student.getId().equals(studentId))
@@ -154,7 +160,12 @@ public class Student extends User {
                 return grade;
         return null;
     }
-
+    public boolean hasFavorite(String courseId){
+        for (String course:getFavoriteCourse())
+            if (course.equals(courseId))
+                return true;
+        return false;
+    }
     @Override
     public String toString() {
         return this.getUsername()+" "+this.getId();

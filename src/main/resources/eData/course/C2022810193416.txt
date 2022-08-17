@@ -14,5 +14,8 @@
   "examDate": "7::Aug::2024 09::00::00",
   "professorName": "hamzeh",
   "degree": "Bachelor",
-  "finished": false
+  "nowCourse": "",
+  "previousCourse": "",
+  "finished": false,
+  "stared": false
 }

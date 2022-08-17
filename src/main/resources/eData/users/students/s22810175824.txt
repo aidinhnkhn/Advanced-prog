@@ -1,6 +1,22 @@
 {
   "supervisorId": "p22423203549",
-  "grades": [],
+  "grades": [
+    {
+      "courseId": "C20224241358",
+      "grade": 0.0,
+      "W": false,
+      "finished": false,
+      "finalGrade": false,
+      "objection": false,
+      "answered": false,
+      "unit": 3,
+      "name": "Mat balance",
+      "professorId": "p22423131225"
+    }
+  ],
+  "favoriteCourse": [
+    "C2022429204211"
+  ],
   "enrollDate": "17::Aug::2022 01::00::00",
   "enrollPermission": true,
   "educating": true,
@@ -13,6 +29,6 @@
   "degree": "Bachelor",
   "departmentId": "Chemical Eng",
   "role": "Student",
-  "lastEnter": "17::Aug::2022 12::38::35",
+  "lastEnter": "17::Aug::2022 20::30::04",
   "theme": true
 }

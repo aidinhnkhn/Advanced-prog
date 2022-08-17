@@ -138,6 +138,11 @@ public class Grade {
         this.gradeStatus = showGrade();
     }
 
+    public boolean isPassed(){
+        if (this.W) return false;
+        if (this.grade<10) return false;
+        return true;
+    }
     public String showGrade() {
         if (this.W) return "W";
         if (!finished) return "N/A";

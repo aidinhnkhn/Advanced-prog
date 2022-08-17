@@ -5,7 +5,9 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
 
@@ -14,7 +16,7 @@
       <Button fx:id="homePageButton" layoutX="796.0" layoutY="561.0" mnemonicParsing="false" onAction="#homePage" prefHeight="25.0" prefWidth="90.0" text="Home Page" />
       <VBox alignment="TOP_CENTER" layoutX="694.0" layoutY="14.0" prefHeight="200.0" prefWidth="192.0" spacing="15.0">
          <children>
-            <ComboBox fx:id="departmentBox" prefWidth="150.0" promptText="select department" />
+            <ComboBox fx:id="departmentBox" onAction="#showDepartmentCourses" prefWidth="150.0" promptText="select department" />
             <ComboBox fx:id="sortBox" prefWidth="150.0" promptText="select Sort" />
             <Button fx:id="sortButton" mnemonicParsing="false" onAction="#sort" prefHeight="25.0" prefWidth="150.0" text="sort" />
             <Button fx:id="suggestionButton" mnemonicParsing="false" onAction="#suggest" prefHeight="25.0" prefWidth="150.0" text="suggest" />
@@ -23,20 +25,40 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
       </VBox>
-      <TableView fx:id="tableView" layoutX="8.0" layoutY="14.0" prefHeight="400.0" prefWidth="703.0">
+      <TableView fx:id="tableView" layoutX="8.0" layoutY="14.0" onMouseClicked="#showCourse" prefHeight="400.0" prefWidth="696.0">
          <columns>
-            <TableColumn fx:id="courseId" prefWidth="88.0" text="Course Id" />
-            <TableColumn fx:id="name" prefWidth="69.0" text="Name" />
-            <TableColumn fx:id="professorName" prefWidth="77.0" text="Professor" />
-            <TableColumn fx:id="department" prefWidth="106.0" text="department" />
-            <TableColumn fx:id="unit" prefWidth="35.0" text="unit" />
-            <TableColumn fx:id="days" prefWidth="173.0" text="days" />
-            <TableColumn fx:id="degree" prefWidth="77.0" text="degree" />
-            <TableColumn fx:id="examDate" prefWidth="92.0" text="exam date" />
-            <TableColumn fx:id="capacity" prefWidth="76.0" text="capacity" />
-            <TableColumn fx:id="previous" prefWidth="95.0" text="previous" />
-            <TableColumn fx:id="now" prefWidth="92.0" text="now" />
+            <TableColumn fx:id="courseId" prefWidth="118.0" text="Course Id" />
+            <TableColumn fx:id="name" prefWidth="133.0" text="Name" />
+            <TableColumn fx:id="professorName" prefWidth="147.0" text="Professor" />
+            <TableColumn fx:id="department" minWidth="0.0" prefWidth="85.0" text="department" />
+            <TableColumn fx:id="unit" minWidth="0.0" prefWidth="43.0" text="unit" />
+            <TableColumn fx:id="days" prefWidth="193.0" text="days" />
+            <TableColumn fx:id="degree" minWidth="0.0" prefWidth="66.0" text="degree" />
+            <TableColumn fx:id="examDate" minWidth="0.0" prefWidth="162.0" text="exam date" />
+            <TableColumn fx:id="capacity" minWidth="0.0" prefWidth="85.0" text="capacity" />
+            <TableColumn fx:id="previous" prefWidth="170.0" text="previous" />
+            <TableColumn fx:id="now" prefWidth="162.0" text="now" />
+            <TableColumn fx:id="stared" prefWidth="75.0" text="favorite" />
          </columns>
+      </TableView>
+      <HBox layoutX="29.0" layoutY="461.0" prefHeight="100.0" prefWidth="823.0" spacing="15.0">
+         <children>
+            <TextField fx:id="idField" editable="false" promptText="id Field" />
+            <Button fx:id="pickButton" mnemonicParsing="false" onAction="#pick" prefHeight="25.0" prefWidth="60.0" text="pick" />
+            <Button fx:id="starButton" mnemonicParsing="false" onAction="#star" prefHeight="25.0" prefWidth="59.0" text="star" />
+            <Button fx:id="requestButton" mnemonicParsing="false" onAction="#request" prefHeight="25.0" prefWidth="62.0" text="request" />
+            <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#delete" prefHeight="25.0" prefWidth="61.0" text="delete" />
+            <Button fx:id="groupButton" mnemonicParsing="false" onAction="#showGroups" prefHeight="25.0" prefWidth="59.0" text="groups" />
+            <Button fx:id="changeButton" mnemonicParsing="false" onAction="#change" prefHeight="25.0" prefWidth="61.0" text="change" />
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </HBox>
+      <TableView fx:id="tableView2" layoutX="738.0" layoutY="193.0" prefHeight="200.0" prefWidth="132.0">
+        <columns>
+          <TableColumn fx:id="courseId2" prefWidth="131.0" text="Course Id" />
+        </columns>
       </TableView>
    </children>
 </AnchorPane>

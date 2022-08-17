@@ -5,7 +5,8 @@
   "departmentId": "Chemical Eng",
   "studentId": [
     "s2242319255",
-    "s22423135453"
+    "s22423135453",
+    "s22810175824"
   ],
   "unit": 3,
   "days": [
@@ -18,5 +19,8 @@
   "examDate": "7::Jul::2022 02::00::00",
   "professorName": "Uncle Johny",
   "degree": "Bachelor",
-  "finished": false
+  "nowCourse": "",
+  "previousCourse": "",
+  "finished": false,
+  "stared": false
 }
