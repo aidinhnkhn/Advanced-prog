@@ -67,7 +67,7 @@
                   <MenuItem fx:id="createChatPage" mnemonicParsing="false" onAction="#openCreateChatPage" text="Create a chat" />
               </items>
             </Menu>
-            <Menu fx:id="enrolmentDate" mnemonicParsing="false" text="Enrolment Date">
+            <Menu fx:id="enrolmentDate" mnemonicParsing="false" text="Enrolment Date" visible="false">
               <items>
                 <MenuItem fx:id="pickDate" mnemonicParsing="false" onAction="#openEnrolmentDate" text="pick date" />
               </items>

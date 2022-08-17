@@ -55,6 +55,8 @@ public class ProfessorHomePage implements Initializable {
     public MenuItem createChatPage;
     @FXML
     MenuItem profileItem;
+
+
     @FXML
     Label serverLabel;
     private static Logger log = LogManager.getLogger(ProfessorHomePage.class);
@@ -95,6 +97,7 @@ public class ProfessorHomePage implements Initializable {
             signUp.setVisible(true);
             editCourse.setVisible(true);
             educationalAssistancePage.setVisible(true);
+            enrolmentDate.setVisible(true);
         }
         if (professor.isHeadDepartment())
             editProfessor.setVisible(true);

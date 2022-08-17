@@ -16,6 +16,6 @@
   "degree": "Associate Professor",
   "departmentId": "Physics",
   "role": "EducationalAssistant",
-  "lastEnter": "17::Aug::2022 12::46::51",
+  "lastEnter": "17::Aug::2022 21::51::48",
   "theme": false
 }

@@ -90,7 +90,6 @@ public class SchedulePage implements Initializable {
             // check if server is online if it isn't use another method
             for (String courseId : professor.getCoursesId()) {
                 Course course = Main.mainClient.getServerController().getCourseById(courseId);
-                if (!course.isFinished())
                     courses.add(new CourseSchedule(course));
             }
         }

@@ -1,5 +1,6 @@
 package server.Savers;
 
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import elements.chat.Chat;
@@ -50,6 +51,7 @@ public class Loader {
         University.getInstance().setThesisDefenseRequests(loadThesisDefenseRequests());
         University.getInstance().setChats(loadChats());
         University.getInstance().setManagers(loadManagers());
+        University.getInstance().setPickCourseRequests(loadCourseRequests());
         loadStartDate();
         loadEndDate();
         System.out.println();
@@ -113,6 +115,32 @@ public class Loader {
             gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
             Gson gson = gsonBuilder.create();
             return gson.fromJson(userJson, Chat.class);
+        } catch (FileNotFoundException e) {
+            log.error("file not Found!");
+        }
+        return null;
+    }
+    private ArrayList<PickCourseRequest> loadCourseRequests() {
+        File requestDirectory = new File(System.getProperty("user.dir") +
+                Config.getConfig().getProperty(String.class,"pickCoursePath"));
+        ArrayList<PickCourseRequest> requests = new ArrayList<>();
+        for (File file:requestDirectory.listFiles())
+            requests.add(loadRequestCourse(file));
+        log.info("chats loaded");
+        return requests;
+    }
+
+    private PickCourseRequest loadRequestCourse(File file) {
+        try {
+            Scanner scanner = new Scanner(file);
+            String userJson = "";
+            while (scanner.hasNext())
+                userJson += scanner.nextLine();
+            GsonBuilder gsonBuilder = new GsonBuilder();
+            gsonBuilder.setPrettyPrinting();
+            gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
+            Gson gson = gsonBuilder.create();
+            return gson.fromJson(userJson, PickCourseRequest.class);
         } catch (FileNotFoundException e) {
             log.error("file not Found!");
         }

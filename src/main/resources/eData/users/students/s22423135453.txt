@@ -33,17 +33,17 @@
     },
     {
       "courseId": "C2022424125625",
-      "grade": 0.0,
+      "grade": 20.0,
       "W": false,
-      "finished": false,
-      "finalGrade": false,
+      "finished": true,
+      "finalGrade": true,
       "objection": false,
       "answered": false,
       "answerText": "",
       "unit": 4,
       "name": "Advance Prog",
       "professorId": "p22423203628",
-      "gradeStatus": "N/A"
+      "gradeStatus": "20.0"
     }
   ],
   "enrollDate": "17::Aug::2022 01::00::00",
@@ -58,6 +58,6 @@
   "degree": "Bachelor",
   "departmentId": "Computer Eng",
   "role": "Student",
-  "lastEnter": "16::Aug::2022 12::31::39",
+  "lastEnter": "17::Aug::2022 15::29::41",
   "theme": true
 }

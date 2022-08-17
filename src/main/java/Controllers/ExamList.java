@@ -82,8 +82,7 @@ public class ExamList implements Initializable {
             Professor professor=(Professor) (Main.mainClient.getUser());
             for (String courseId:professor.getCoursesId()) {
                 Course course = Main.mainClient.getServerController().getCourseById(courseId);
-                if (!course.isFinished())
-                    courseList.add(course);
+                courseList.add(course);
             }
         }
         courseList.sort(Comparator.comparing(Course::getExamDate));

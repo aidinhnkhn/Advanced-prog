@@ -121,5 +121,15 @@ public class Analyser {
             Handler.getInstance().sendStartingDate(message);
         else if (message.getStatus() == MessageStatus.GetEndingDate)
             Handler.getInstance().sendEndingDate(message);
+        else if (message.getStatus() == MessageStatus.StarCourse)
+            Handler.getInstance().starCourse(message);
+        else if (message.getStatus() == MessageStatus.UnStarCourse)
+            Handler.getInstance().UnStarCourse(message);
+        else if (message.getStatus() == MessageStatus.CourseRequest)
+            Handler.getInstance().requestCourse(message);
+        else if (message.getStatus() == MessageStatus.DeleteGrade)
+            Handler.getInstance().deleteGrade(message);
+        else if (message.getStatus() == MessageStatus.ChangeGrade)
+            Handler.getInstance().changeGrade(message);
     }
 }

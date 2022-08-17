@@ -534,4 +534,40 @@ public class ServerController {
         Response response = Response.fromJson(receiveMessage());
         return JsonCaster.dateCaster((String)response.getData("date"));
     }
+
+    public void starCourse(String id, String courseId) {
+        Message message = new Message(MessageStatus.StarCourse,client.getAuthToken());
+        message.addData("id",id);
+        message.addData("courseId",courseId);
+        sendMessage(Message.toJson(message));
+    }
+
+    public void unStarCourse(String id, String courseId) {
+        Message message = new Message(MessageStatus.UnStarCourse,client.getAuthToken());
+        message.addData("id",id);
+        message.addData("courseId",courseId);
+        sendMessage(Message.toJson(message));
+    }
+
+    public void pickCourseRequest(String id, String courseId) {
+        Message message = new Message(MessageStatus.CourseRequest,client.getAuthToken());
+        message.addData("id",id);
+        message.addData("courseId",courseId);
+        sendMessage(Message.toJson(message));
+    }
+
+    public void deleteGrade(String id, String courseId) {
+        Message message = new Message(MessageStatus.DeleteGrade,client.getAuthToken());
+        message.addData("id",id);
+        message.addData("courseId",courseId);
+        sendMessage(Message.toJson(message));
+    }
+
+    public void changeGroup(String id, String courseId, String mainCourseId) {
+        Message message = new Message(MessageStatus.ChangeGrade,client.getAuthToken());
+        message.addData("id",id);
+        message.addData("courseId",courseId);
+        message.addData("mainCourseId",mainCourseId);
+        sendMessage(Message.toJson(message));
+    }
 }

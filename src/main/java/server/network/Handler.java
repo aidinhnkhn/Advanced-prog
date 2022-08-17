@@ -237,7 +237,6 @@ public class Handler {
                 grade.setFinalGrade(true);
             }
             log.info((String) message.getData("courseId") + " grades finalized.");
-            course.setFinished(true);
         }
         Response response = new Response(ResponseStatus.FinalGradeStatus);
         response.addData("check", check);
@@ -273,6 +272,7 @@ public class Handler {
         Course course = University.getInstance().getCourseById((String) message.getData("courseId"));
         Student student = University.getInstance().getStudentById((String) message.getData("studentId"));
         course.getStudentId().add(student.getId());
+        course.setStudentNumber(course.getStudentNumber()-1);
         student.addGrade(new Grade(course.getId(), 0));
         response.addData("student", JsonCaster.objectToJson(student));
         Server.getServer().sendMessageToClient(message.getAuthToken(), Response.toJson(response));
@@ -610,6 +610,7 @@ public class Handler {
         Student student = University.getInstance().getStudentById((String)message.getData("id"));
         student.setEnrollDate(dateTime);
         student.setEnrollPermission(true);
+        log.info(student.getId()+" date was set!");
     }
 
     public void setStudentRegister(Message message) {
@@ -627,5 +628,54 @@ public class Handler {
         Response response = new Response(ResponseStatus.StartingDate);
         response.addData("date",JsonCaster.objectToJson(University.getInstance().getEndPicking()));
         Server.getServer().sendMessageToClient(message.getAuthToken(), Response.toJson(response));
+    }
+
+    public void starCourse(Message message) {
+        String id = (String)message.getData("id");
+        String courseId = (String)message.getData("courseId");
+        University.getInstance().getStudentById(id).getFavoriteCourse().add(courseId);
+    }
+
+    public void UnStarCourse(Message message) {
+        String id = (String)message.getData("id");
+        String courseId = (String)message.getData("courseId");
+        University.getInstance().getStudentById(id).getFavoriteCourse().remove(courseId);
+    }
+
+    public void requestCourse(Message message) {
+        String id = (String)message.getData("id");
+        String courseId = (String)message.getData("courseId");
+        PickCourseRequest pickCourseRequest = new PickCourseRequest(id,courseId);
+        log.info(courseId+" was requested by "+id);
+    }
+
+    public void deleteGrade(Message message) {
+        String id = (String)message.getData("id");
+        String courseId = (String)message.getData("courseId");
+        Course course =  University.getInstance().getCourseById(courseId);
+        course.getStudentId().remove(id);
+        course.setStudentNumber(course.getStudentNumber()+1);
+        Grade grade = University.getInstance().getStudentById(id).getGrade(courseId);
+        University.getInstance().getStudentById(id).getGrades().remove(grade);
+
+    }
+
+    public void changeGrade(Message message) {
+        String id = (String)message.getData("id");
+        String courseId = (String)message.getData("mainCourseId");
+        Course course =  University.getInstance().getCourseById(courseId);
+        course.getStudentId().remove(id);
+        course.setStudentNumber(course.getStudentNumber()+1);
+        Grade grade = University.getInstance().getStudentById(id).getGrade(courseId);
+        University.getInstance().getStudentById(id).getGrades().remove(grade);
+        changeGroup(message);
+    }
+
+    private void changeGroup(Message message) {
+        Course course = University.getInstance().getCourseById((String) message.getData("courseId"));
+        Student student = University.getInstance().getStudentById((String) message.getData("id"));
+        course.getStudentId().add(student.getId());
+        course.setStudentNumber(course.getStudentNumber()-1);
+        student.addGrade(new Grade(course.getId(), 0));
     }
 }

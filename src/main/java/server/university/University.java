@@ -30,8 +30,18 @@ public class University {
     private LocalDateTime startPicking;
     private LocalDateTime endPicking;
     private ArrayList<Chat> chats = new ArrayList<>();
+
+    private ArrayList<PickCourseRequest> pickCourseRequests= new ArrayList<>();
     private University(){
 
+    }
+
+    public ArrayList<PickCourseRequest> getPickCourseRequests() {
+        return pickCourseRequests;
+    }
+
+    public void setPickCourseRequests(ArrayList<PickCourseRequest> pickCourseRequests) {
+        this.pickCourseRequests = pickCourseRequests;
     }
 
     public LocalDateTime getStartPicking() {

@@ -1,5 +1,6 @@
 package server.Savers;
 
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import elements.chat.Chat;
@@ -59,6 +60,24 @@ public class Saver implements Runnable {
         }
     }
 
+    public void savePickCourse(PickCourseRequest pickCourseRequest){
+        File file = new File(System.getProperty("user.dir") +
+                Config.getConfig().getProperty(String.class,"pickCoursePath")+"\\"
+                + pickCourseRequest.getId() + ".txt");
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
+        gsonBuilder.setPrettyPrinting();
+        Gson gson = gsonBuilder.create();
+        String userJson = gson.toJson(pickCourseRequest);
+        try {
+            FileWriter writer = new FileWriter(file, false);
+            writer.write(userJson);
+            writer.close();
+
+        } catch (IOException e) {
+            log.error("couldn't save the file!");
+        }
+    }
     public void saveProfessor(Professor professor) {
         File file = new File(System.getProperty("user.dir") +
                 "\\src\\main\\resources\\eData\\users\\professors\\" + professor.getId() + ".txt");
@@ -308,6 +327,9 @@ public class Saver implements Runnable {
 
         for (Manager manager:University.getInstance().getManagers())
             Saver.getInstance().saveManager(manager);
+
+        for (PickCourseRequest pickCourseRequest:University.getInstance().getPickCourseRequests())
+            savePickCourse(pickCourseRequest);
 
         saveDates();
         saveDates2();

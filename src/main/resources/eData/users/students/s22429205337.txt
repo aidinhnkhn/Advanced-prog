@@ -3,15 +3,16 @@
   "grades": [
     {
       "courseId": "C2022424125625",
-      "grade": 0.0,
+      "grade": 20.0,
       "W": false,
-      "finished": false,
-      "finalGrade": false,
+      "finished": true,
+      "finalGrade": true,
       "objection": false,
       "answered": false,
       "unit": 4,
       "name": "Advance Prog",
-      "professorId": "p22423203628"
+      "professorId": "p22423203628",
+      "gradeStatus": "20.0"
     }
   ],
   "enrollDate": "17::Aug::2022 01::00::00",

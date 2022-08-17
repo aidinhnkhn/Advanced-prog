@@ -1,6 +1,7 @@
 package elements.courses;
 
 import elements.people.Professor;
+import javafx.scene.paint.Color;
 import server.university.University;
 
 import java.time.LocalDate;
@@ -25,6 +26,7 @@ public class Course {
     private String nowCourse;
     private String previousCourse;
     private boolean finished;
+    private boolean stared;
     public Course(String name, String professorId, String departmentId, int unit, ArrayList<String> days,
                   int hour, int length, LocalDateTime examDate, String degree, ArrayList<String> taIds,
                   String courseId, String previousCourse, String nowCourse, int studentNumber) {
@@ -55,6 +57,14 @@ public class Course {
     public ArrayList<String> getTaIds() {
         if (this.taIds == null) taIds = new ArrayList<>();
         return taIds;
+    }
+
+    public boolean isStared() {
+        return stared;
+    }
+
+    public void setStared(boolean stared) {
+        this.stared = stared;
     }
 
     public void setTaIds(ArrayList<String> taIds) {
